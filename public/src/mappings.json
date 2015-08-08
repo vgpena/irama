@@ -1,0 +1,11 @@
+{
+  "type": {
+    "mapVal": "13A Tone",
+    "vals": {
+      "1 No tones": "lines",
+      "2 Simple tone system": "grid",
+      "3 Complex tone system": "free",
+      "": "lines"
+    }
+  }
+}

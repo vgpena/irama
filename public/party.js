@@ -7978,21 +7978,57 @@ module.exports=[
 ]
 
 },{}],2:[function(require,module,exports){
+module.exports={
+  "type": {
+    "mapVal": "13A Tone",
+    "vals": {
+      "1 No tones": "lines",
+      "2 Simple tone system": "grid",
+      "3 Complex tone system": "free",
+      "": "lines"
+    }
+  }
+}
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 const data = require('../../public/data/languages.json');
+const mappings = require('./mappings.json');
 
 const renderLimit = 1;
 
+
+
+
+const lang = class Language {
+  constructor(options) {
+    this.name = options.Name;
+    this.type = this.pickType(options);
+
+    return this;
+  }
+
+  pickType(data) {
+    const mapData = mappings.type;
+    const mapVal = mapData.mapVal;
+    const rawVal = data[mapVal];
+    const genVal = mapData.vals[rawVal];
+
+    return genVal;
+  }
+}
+
+
+
+
 for (let i = 0; i < renderLimit; i++){
-  console.log(data[i]);
-  render(i, data[i]);
+  generateLang(i, data[i]);
 }
 
-function render(index, language){
-  let nameElt = document.getElementsByClassName('lang-name')[0];
-
-  nameElt.innerHTML = String(index + 1) + ': ' + language.Name;
+function generateLang(index, language){
+  let foo = new lang(language);
+  console.log(foo);
 }
 
-},{"../../public/data/languages.json":1}]},{},[2]);
+},{"../../public/data/languages.json":1,"./mappings.json":2}]},{},[3]);
