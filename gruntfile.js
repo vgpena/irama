@@ -6,7 +6,7 @@ require('load-grunt-tasks')(grunt);
     pkg: grunt.file.readJSON('package.json'),
     watch: {
 		 	compass: {
-	    	files: ['public/sass/*.sass'],
+	    	files: ['./public/sass/*.sass'],
 	    	tasks: ['compass:dev']
 	    },
       babel: {
