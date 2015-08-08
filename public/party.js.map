@@ -1,0 +1,1 @@
+{"version":3,"sources":["public/src/party.js"],"names":[],"mappings":";;AAAA,OAAO,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC","file":"public/src/party.js","sourcesContent":["console.log('foo');\n"]}
