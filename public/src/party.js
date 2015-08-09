@@ -21,13 +21,7 @@ const lang = class Language {
     let mapData = mappings[field];
 
     if (mapData.iff) {
-      let conditions = mapData.iff;
-      if (conditions.tValue) {
-        if (this[conditions.key] !== conditions.value){
-          return null;
-        }
-      }
-      else if (this[conditions.key] === conditions.value){
+      if (!this.shouldHaveProp(mapData)){
         return null;
       }
     }
@@ -37,7 +31,22 @@ const lang = class Language {
     let genVal = mapData.vals[rawVal];
     return genVal;
   }
+
+  shouldHaveProp(data) {
+    let conditions = data.iff;
+    if (conditions.tValue) {
+      if (this[conditions.key] !== conditions.value){
+        return false;
+      }
+    }
+    else if (this[conditions.key] === conditions.value){
+      return false;
+    }
+    return true;
+  }
 }
+
+
 
 
 
