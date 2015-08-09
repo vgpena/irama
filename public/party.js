@@ -8056,6 +8056,7 @@ const lang = class Language {
     return genVal;
   }
 
+  // TODO: rewrite to allow multiple values/clauses
   shouldHaveProp(data) {
     let conditions = data.iff;
     if (conditions.tValue) {
