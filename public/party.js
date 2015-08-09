@@ -7987,6 +7987,24 @@ module.exports={
       "3 Complex tone system": "free",
       "": "lines"
     }
+  },
+  "direction": {
+    "mapVal": "3A Consonant-Vowel Ratio",
+    "vals": {
+      "": "right",
+      "1 Low": "right",
+      "2 Moderately low": "right",
+      "3 Average": "left",
+      "4 Moderately high": "left",
+      "5 High": "left",
+    },
+    "iff": [
+      {
+        "key": "type",
+        "value": "lines || grid",
+        "tValue": true
+      }
+    ]
   }
 }
 
@@ -8005,6 +8023,7 @@ const lang = class Language {
   constructor(options) {
     this.name = options.Name;
     this.type = this.pickType(options);
+    this.direction = this.pickDirection(options);
 
     return this;
   }
@@ -8016,6 +8035,29 @@ const lang = class Language {
     const genVal = mapData.vals[rawVal];
 
     return genVal;
+  }
+
+  pickDirection(data) {
+    const mapData = mappings.direction;
+
+    if (mapData.iff) {
+      const conditions = mapData.iff;
+      if (conditions.tValue) {
+        if (this[conditions.key] !== conditions.value){
+          return null;
+        }
+        else if (this[conditions.key] === conditions.value){
+          return null;
+        }
+      }
+    }
+
+    const mapVal = mapData.mapVal;
+    const rawVal = data[mapVal];
+    const genVal = mapData.vals[rawVal];
+
+    return genVal;
+
   }
 }
 

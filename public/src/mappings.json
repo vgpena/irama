@@ -7,5 +7,23 @@
       "3 Complex tone system": "free",
       "": "lines"
     }
+  },
+  "direction": {
+    "mapVal": "3A Consonant-Vowel Ratio",
+    "vals": {
+      "": "right",
+      "1 Low": "right",
+      "2 Moderately low": "right",
+      "3 Average": "left",
+      "4 Moderately high": "left",
+      "5 High": "left",
+    },
+    "iff": [
+      {
+        "key": "type",
+        "value": "lines || grid",
+        "tValue": true
+      }
+    ]
   }
 }

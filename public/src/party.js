@@ -12,6 +12,7 @@ const lang = class Language {
   constructor(options) {
     this.name = options.Name;
     this.type = this.pickType(options);
+    this.direction = this.pickDirection(options);
 
     return this;
   }
@@ -23,6 +24,29 @@ const lang = class Language {
     const genVal = mapData.vals[rawVal];
 
     return genVal;
+  }
+
+  pickDirection(data) {
+    const mapData = mappings.direction;
+
+    if (mapData.iff) {
+      const conditions = mapData.iff;
+      if (conditions.tValue) {
+        if (this[conditions.key] !== conditions.value){
+          return null;
+        }
+        else if (this[conditions.key] === conditions.value){
+          return null;
+        }
+      }
+    }
+
+    const mapVal = mapData.mapVal;
+    const rawVal = data[mapVal];
+    const genVal = mapData.vals[rawVal];
+
+    return genVal;
+
   }
 }
 
