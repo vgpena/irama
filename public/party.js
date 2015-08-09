@@ -7998,13 +7998,26 @@ module.exports={
       "4 Moderately high": "left",
       "5 High": "left",
     },
-    "iff": [
+    "iff":
       {
         "key": "type",
-        "value": "lines || grid",
+        "value": "lines",
         "tValue": true
       }
-    ]
+  },
+  "angle": {
+    "mapVal": "12A Syllable Structure",
+    "vals": {
+      "": 0,
+      "1 Simple": 90,
+      "2 Moderately complex": 30,
+      "3 Complex": 45,
+    },
+    "iff": {
+      "key": "type",
+      "value": "lines",
+      "tValue": true
+    }
   }
 }
 
@@ -8022,42 +8035,31 @@ const renderLimit = 1;
 const lang = class Language {
   constructor(options) {
     this.name = options.Name;
-    this.type = this.pickType(options);
-    this.direction = this.pickDirection(options);
+    this.type = this.genericGet(options, "type");
+    this.direction = this.genericGet(options, "direction");
 
     return this;
   }
 
-  pickType(data) {
-    const mapData = mappings.type;
-    const mapVal = mapData.mapVal;
-    const rawVal = data[mapVal];
-    const genVal = mapData.vals[rawVal];
-
-    return genVal;
-  }
-
-  pickDirection(data) {
-    const mapData = mappings.direction;
+  genericGet(data, field) {
+    let mapData = mappings[field];
 
     if (mapData.iff) {
-      const conditions = mapData.iff;
+      let conditions = mapData.iff;
       if (conditions.tValue) {
         if (this[conditions.key] !== conditions.value){
           return null;
         }
-        else if (this[conditions.key] === conditions.value){
-          return null;
-        }
+      }
+      else if (this[conditions.key] === conditions.value){
+        return null;
       }
     }
 
-    const mapVal = mapData.mapVal;
-    const rawVal = data[mapVal];
-    const genVal = mapData.vals[rawVal];
-
+    let name = mapData.mapVal;
+    let rawVal = data[name];
+    let genVal = mapData.vals[rawVal];
     return genVal;
-
   }
 }
 
