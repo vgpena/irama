@@ -18,12 +18,11 @@
       "4 Moderately high": "left",
       "5 High": "left",
     },
-    "iff":
-      {
-        "key": "type",
-        "value": "lines",
-        "tValue": true
-      }
+    "iff": {
+      "key": "type",
+      "value": "lines",
+      "tValue": true
+    }
   },
   "angle": {
     "mapVal": "12A Syllable Structure",
@@ -56,6 +55,11 @@
         "5 None": true
       },
     ],
-    "conjoiners": ["if"]
+    "conjoiners": ["if"],
+    "iff": {
+      "key": "type",
+      "value": "lines",
+      "tValue": true
+    }
   }
 }
