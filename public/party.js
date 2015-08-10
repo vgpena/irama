@@ -7987,6 +7987,7 @@ module.exports = class {
     this.name = options.Name;
     this.type = this.genericGet(options, "type");
     this.direction = this.genericGet(options, "direction");
+    this.angle = this.genericGet(options, "angle");
 
     return this;
   }
