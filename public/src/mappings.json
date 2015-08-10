@@ -38,5 +38,24 @@
       "value": "lines",
       "tValue": true
     }
+  },
+  "wavyLines": {
+    "mapVals": ["134A Green and Blue", "135A Red and Yellow"],
+    "vals": [
+      {
+        "": false,
+        "1 Green vs. blue": false,
+        "2 Green/blue": true,
+        "3 Black/green/blue": true,
+        "7 None": true
+      },
+      {
+        "": false,
+        "1 Red vs. yellow": false,
+        "2 Red/yellow": true,
+        "5 None": true
+      },
+    ],
+    "conjoiners": ["if"]
   }
 }
