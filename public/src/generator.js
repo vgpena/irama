@@ -13,6 +13,7 @@ module.exports = class {
     this.numColors = this.genericGet(options, "numColors");
     this.hasBorders = this.genericGet(options, "hasBorders");
     this.howManyBorders = this.genericGet(options, "howManyBorders");
+    this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
 
     return this;
   }

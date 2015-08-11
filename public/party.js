@@ -7993,6 +7993,7 @@ module.exports = class {
     this.numColors = this.genericGet(options, "numColors");
     this.hasBorders = this.genericGet(options, "hasBorders");
     this.howManyBorders = this.genericGet(options, "howManyBorders");
+    this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
 
     return this;
   }
@@ -8164,6 +8165,26 @@ module.exports={
       "4 Pharyngeals": 2,
       "5 'Th' sounds": 1,
       "7 Pharyngeals and \"th\"": 4
+    },
+    "iff": {
+      "key": "hasBorders",
+      "value": true,
+      "tValue": true
+    }
+  },
+  "whichSidesBorders": {
+    "mapVal": "49A Number of Cases",
+    "vals": {
+      "1 No morphological case-marking": "short",
+      "2 2 cases": "long",
+      "3 3 cases": "long",
+      "4 4 cases": "long",
+      "5 5 cases": "long",
+      "6 6-7 cases": "long",
+      "7 8-9 cases": "long",
+      "8 10 or more cases": "long",
+      "9 Exclusively borderline case-marking": "long",
+      "": "short"
     },
     "iff": {
       "key": "hasBorders",
