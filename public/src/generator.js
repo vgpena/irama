@@ -11,6 +11,7 @@ module.exports = class {
     this.wavyLines = this.genericGet(options, "wavyLines");
     this.saturationDelta = this.genericGet(options, "saturationDelta");
     this.numColors = this.genericGet(options, "numColors");
+    this.hasBorders = this.genericGet(options, "hasBorders");
 
     return this;
   }

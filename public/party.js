@@ -7991,6 +7991,7 @@ module.exports = class {
     this.wavyLines = this.genericGet(options, "wavyLines");
     this.saturationDelta = this.genericGet(options, "saturationDelta");
     this.numColors = this.genericGet(options, "numColors");
+    this.hasBorders = this.genericGet(options, "hasBorders");
 
     return this;
   }
@@ -8141,6 +8142,17 @@ module.exports={
       "5 OVS": 5,
       "7 No dominant order": 2
     }
+  },
+  "hasBorders": {
+    "mapVal": "19A Presence of Uncommon Consonants",
+    "vals": {
+      "1 None": false,
+      "2 Clicks": true,
+      "3 Labial-velars": true,
+      "4 Pharyngeals": true,
+      "5 'Th' sounds": true,
+      "7 Pharyngeals and \"th\"": true
+    }
   }
 }
 
@@ -8149,7 +8161,7 @@ module.exports={
 
 const data = require('../../public/data/languages.json');
 const Language = require("./generator.js");
-const renderLimit = 1;
+const renderLimit = 5;
 
 
 for (let i = 0; i < renderLimit; i++){

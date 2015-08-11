@@ -84,5 +84,16 @@
       "5 OVS": 5,
       "7 No dominant order": 2
     }
+  },
+  "hasBorders": {
+    "mapVal": "19A Presence of Uncommon Consonants",
+    "vals": {
+      "1 None": false,
+      "2 Clicks": true,
+      "3 Labial-velars": true,
+      "4 Pharyngeals": true,
+      "5 'Th' sounds": true,
+      "7 Pharyngeals and \"th\"": true
+    }
   }
 }

@@ -2,7 +2,7 @@
 
 const data = require('../../public/data/languages.json');
 const Language = require("./generator.js");
-const renderLimit = 1;
+const renderLimit = 5;
 
 
 for (let i = 0; i < renderLimit; i++){
