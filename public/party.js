@@ -7990,6 +7990,7 @@ module.exports = class {
     this.angle = this.genericGet(options, "angle");
     this.wavyLines = this.genericGet(options, "wavyLines");
     this.saturationDelta = this.genericGet(options, "saturationDelta");
+    this.numColors = this.genericGet(options, "numColors");
 
     return this;
   }
@@ -8128,6 +8129,17 @@ module.exports={
       "5 Weakly prefixing": -10,
       "6 Strong prefixing": -20,
       "": 0
+    }
+  },
+  "numColors": {
+    "mapVal": "81A Order of Subject, Object and Verb",
+    "vals": {
+      "1 SOV": 1,
+      "2 SVO": 2,
+      "3 VSO": 3,
+      "4 VOS": 4,
+      "5 OVS": 5,
+      "7 No dominant order": 2
     }
   }
 }

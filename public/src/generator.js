@@ -10,6 +10,7 @@ module.exports = class {
     this.angle = this.genericGet(options, "angle");
     this.wavyLines = this.genericGet(options, "wavyLines");
     this.saturationDelta = this.genericGet(options, "saturationDelta");
+    this.numColors = this.genericGet(options, "numColors");
 
     return this;
   }

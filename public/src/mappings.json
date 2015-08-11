@@ -73,5 +73,16 @@
       "6 Strong prefixing": -20,
       "": 0
     }
+  },
+  "numColors": {
+    "mapVal": "81A Order of Subject, Object and Verb",
+    "vals": {
+      "1 SOV": 1,
+      "2 SVO": 2,
+      "3 VSO": 3,
+      "4 VOS": 4,
+      "5 OVS": 5,
+      "7 No dominant order": 2
+    }
   }
 }
