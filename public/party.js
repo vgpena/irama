@@ -7989,6 +7989,7 @@ module.exports = class {
     this.direction = this.genericGet(options, "direction");
     this.angle = this.genericGet(options, "angle");
     this.wavyLines = this.genericGet(options, "wavyLines");
+    this.saturationDelta = this.genericGet(options, "saturationDelta");
 
     return this;
   }
@@ -8073,12 +8074,11 @@ module.exports={
       "4 Moderately high": "left",
       "5 High": "left",
     },
-    "iff":
-      {
-        "key": "type",
-        "value": "lines",
-        "tValue": true
-      }
+    "iff": {
+      "key": "type",
+      "value": "lines",
+      "tValue": true
+    }
   },
   "angle": {
     "mapVal": "12A Syllable Structure",
@@ -8111,7 +8111,24 @@ module.exports={
         "5 None": true
       },
     ],
-    "conjoiners": ["if"]
+    "conjoiners": ["if"],
+    "iff": {
+      "key": "type",
+      "value": "lines",
+      "tValue": true
+    }
+  },
+  "saturationDelta": {
+    "mapVal": "26A Prefixing vs. Suffixing in Inflectional Morphology",
+    "vals": {
+      "1 Little affixation": 0,
+      "2 Strongly suffixing": 20,
+      "3 Weakly suffixing": 10,
+      "4 Equal prefixing and suffixing": 0,
+      "5 Weakly prefixing": -10,
+      "6 Strong prefixing": -20,
+      "": 0
+    }
   }
 }
 

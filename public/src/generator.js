@@ -9,6 +9,7 @@ module.exports = class {
     this.direction = this.genericGet(options, "direction");
     this.angle = this.genericGet(options, "angle");
     this.wavyLines = this.genericGet(options, "wavyLines");
+    this.saturationDelta = this.genericGet(options, "saturationDelta");
 
     return this;
   }
