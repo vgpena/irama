@@ -12,6 +12,7 @@ module.exports = class {
     this.saturationDelta = this.genericGet(options, "saturationDelta");
     this.numColors = this.genericGet(options, "numColors");
     this.hasBorders = this.genericGet(options, "hasBorders");
+    this.howManyBorders = this.genericGet(options, "howManyBorders");
 
     return this;
   }

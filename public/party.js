@@ -7992,6 +7992,7 @@ module.exports = class {
     this.saturationDelta = this.genericGet(options, "saturationDelta");
     this.numColors = this.genericGet(options, "numColors");
     this.hasBorders = this.genericGet(options, "hasBorders");
+    this.howManyBorders = this.genericGet(options, "howManyBorders");
 
     return this;
   }
@@ -8152,6 +8153,22 @@ module.exports={
       "4 Pharyngeals": true,
       "5 'Th' sounds": true,
       "7 Pharyngeals and \"th\"": true
+    }
+  },
+  "howManyBorders": {
+    "mapVal": "19A Presence of Uncommon Consonants",
+    "vals": {
+      "1 None": 0,
+      "2 Clicks": 3,
+      "3 Labial-velars": 1,
+      "4 Pharyngeals": 2,
+      "5 'Th' sounds": 1,
+      "7 Pharyngeals and \"th\"": 4
+    },
+    "iff": {
+      "key": "hasBorders",
+      "value": true,
+      "tValue": true
     }
   }
 }

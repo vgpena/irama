@@ -95,5 +95,21 @@
       "5 'Th' sounds": true,
       "7 Pharyngeals and \"th\"": true
     }
+  },
+  "howManyBorders": {
+    "mapVal": "19A Presence of Uncommon Consonants",
+    "vals": {
+      "1 None": 0,
+      "2 Clicks": 3,
+      "3 Labial-velars": 1,
+      "4 Pharyngeals": 2,
+      "5 'Th' sounds": 1,
+      "7 Pharyngeals and \"th\"": 4
+    },
+    "iff": {
+      "key": "hasBorders",
+      "value": true,
+      "tValue": true
+    }
   }
 }
