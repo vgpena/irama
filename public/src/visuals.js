@@ -35,6 +35,38 @@ module.exports = class {
     return otherColors;
   }
 
+  /*
+  *
+  * Changes a color's lightness
+  */
+  colorshift(color) {
+    let r = parseInt(color.split('(')[1].split(',')[0]);
+    let g = parseInt(color.split(', ')[1]);
+    let b = parseInt(color.split(', ')[2]);
+
+    let delta = parseInt(this.lang.saturationDelta)*4;
+
+    let newR = Math.max(0, Math.min(255, r + delta));
+    let newG = Math.max(0, Math.min(255, g + delta));
+    let newB = Math.max(0, Math.min(255, b + delta));
+
+    return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";
+  }
+
+  /*
+  *
+  * Performs colorshifts on an array of colors.
+  *
+  */
+  colorshiftAll(colors) {
+    let newColors = [];
+
+    for (let i = 0; i < colors.length; i++) {
+      newColors.push(this.colorshift(colors[i]));
+    }
+
+    return newColors;
+  }
 
   /*
   *
@@ -56,9 +88,9 @@ module.exports = class {
     let chosenPalette = eligiblePalettes[randIndex];
 
     return ({
-      light: chosenPalette.light,
-      dark: chosenPalette.dark,
-      others: this.chooseAccents(chosenPalette)
+      light: this.colorshift(chosenPalette.light),
+      dark: this.colorshift(chosenPalette.dark),
+      others: this.colorshiftAll(this.chooseAccents(chosenPalette))
     });
   }
 }

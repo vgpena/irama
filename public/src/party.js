@@ -70,8 +70,6 @@ function genColorElt(rgba) {
 *
 */
 function genPaletteElt(paletteJSON) {
-  console.log(paletteJSON);
-
   let palette = document.createElement("div");
 
   // create light element
