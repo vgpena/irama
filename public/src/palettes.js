@@ -3,6 +3,7 @@
 module.exports = class {
   constructor(data) {
     this.palettesData = data;
+    this.numPalettes = data.palettes.length;
     this.allPalettes = this.generatePalettes(data);
   }
 
