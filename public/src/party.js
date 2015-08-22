@@ -7,6 +7,7 @@ const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
 const mode = "debug";
+const langMode = "rand";
 
 const palettesObj = new Palettes(palettes);
 const allPalettes = palettesObj.allPalettes;
@@ -211,10 +212,26 @@ function done() {
 *
 *
 */
+
+let chooseFrom = data;
+if (langMode === "rand") {
+  let chooseFromRand = [];
+  while (chooseFromRand.length < renderLimit) {
+    let newIndex = Math.floor(Math.random() * data.length)
+    if (chooseFromRand.indexOf(newIndex) === -1) {
+      chooseFromRand.push(newIndex);
+    }
+  }
+  chooseFrom = [];
+  for (let i = 0; i < chooseFromRand.length; i++) {
+    chooseFrom.push(data[chooseFromRand[i]]);
+  }
+}
+
 for (let i = 0; i <= renderLimit; i++){
   // for as many as we want, generate language from data
   if (i < renderLimit) {
-    generateLang(i, data[i]);
+    generateLang(i, chooseFrom[i]);
   } else {
     // once we've done that, start making things to actually render
     choosePalettes();
