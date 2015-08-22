@@ -8417,7 +8417,7 @@ function genColor(rgba) {
   return color;
 }
 
-function genPaletteElt(paletteJSON, numAccentColors) {
+function genPaletteElt(paletteJSON) {
   let palette = document.createElement("div");
 
   // create light element
@@ -8445,7 +8445,7 @@ function genPaletteElt(paletteJSON, numAccentColors) {
   palette.appendChild(dark);
 
   // create other colors (but only if they should be there)
-  if (numAccentColors > 0) {
+  if (paletteJSON.accents.length > 0) {
     let others = document.createElement("div");
     others.classList.add("palette-component");
     let othersTitle = document.createElement("h2");
@@ -8453,26 +8453,43 @@ function genPaletteElt(paletteJSON, numAccentColors) {
 
     others.appendChild(othersTitle);
 
-    // randomly pick accent colors from available accents
-    let otherColors = [];
+    // // randomly pick accent colors from available accents
+    // let otherColors = [];
+    //
+    // while (otherColors.length < numAccentColors) {
+    //   let newColorIndex = Math.floor(Math.random() * paletteJSON.accents.length)
+    //   let newColor = paletteJSON.accents[newColorIndex];
+    //
+    //   if (otherColors.indexOf(newColor) === -1) {
+    //     otherColors.push(newColor);
+    //   }
+    // }
 
-    while (otherColors.length < numAccentColors) {
-      let newColorIndex = Math.floor(Math.random() * paletteJSON.accents.length)
-      let newColor = paletteJSON.accents[newColorIndex];
-
-      if (otherColors.indexOf(newColor) === -1) {
-        otherColors.push(newColor);
-      }
-    }
-
-    for (let i = 0; i < otherColors.length; i++) {
-      others.appendChild(genColor(otherColors[i]));
+    for (let i = 0; i < paletteJSON.accents.length; i++) {
+      others.appendChild(genColor(paletteJSON.accents[i]));
     }
 
     palette.appendChild(others);
   }
 
+
   return palette;
+}
+
+function chooseAccents(palette, numAccentColors) {
+  // randomly pick accent colors from available accents
+  let otherColors = [];
+
+  while (otherColors.length < numAccentColors) {
+    let newColorIndex = Math.floor(Math.random() * palette.accents.length)
+    let newColor = palette.accents[newColorIndex];
+
+    if (otherColors.indexOf(newColor) === -1) {
+      otherColors.push(newColor);
+    }
+  }
+
+  return otherColors;
 }
 
 function printLangs() {
@@ -8486,7 +8503,7 @@ function printLangs() {
     let langTitle = document.createElement("h1");
     langTitle.appendChild(document.createTextNode(langsAndVisuals[i].name));
 
-    let langPalette = genPaletteElt(langsAndVisuals[i].visuals.palette, langsAndVisuals[i].data.numColors);
+    let langPalette = genPaletteElt(langsAndVisuals[i].visuals.palette);
 
     langElt.appendChild(langTitle);
     langElt.appendChild(langPalette);
@@ -8523,6 +8540,7 @@ function choosePalettes() {
       let chosenPalette = eligiblePalettes[randIndex];
 
       currLang.visuals.palette = chosenPalette;
+      currLang.visuals.palette.accents = chooseAccents(chosenPalette, currLang.data.numColors);
 
     } else {
       done();
