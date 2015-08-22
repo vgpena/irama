@@ -14,7 +14,7 @@ const Visuals = require('./visuals.js');
 /*
 * settings
 */
-const renderLimit = 5;
+const renderLimit = 3;
 const mode = "debug";
 // const mode = "render";
 // const langMode = "normal";

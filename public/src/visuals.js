@@ -2,9 +2,14 @@
 const palettesData = require('../../public/data/palettes.json');
 const Palettes = require('./palettes.js');
 
+const patternsData = require('../../public/data/patterns.json');
+const Patterns = require('./patterns.js');
+
 const palettesObj = new Palettes(palettesData);
 const allPalettes = palettesObj.allPalettes;
 const numPalettes = palettesObj.numPalettes;
+
+const patterns = new Patterns(patternsData);
 
 module.exports = class {
   constructor(data) {
@@ -12,7 +17,8 @@ module.exports = class {
     this.lang = data.data;
     this.visuals = {
       pattern: {
-        type: this.getPatternType()
+        type: this.getPatternType(),
+        components: this.getComponents()
       },
       palette: this.generatePalette()
     };
@@ -27,6 +33,19 @@ module.exports = class {
     return this.lang.type;
   }
 
+
+  /*
+  *
+  * Get components to use in pattern
+  *
+  */
+  getComponents() {
+    let components = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
+
+    console.log(components);
+
+    return components;
+  }
 
   /*
   *

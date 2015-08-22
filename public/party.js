@@ -8104,6 +8104,123 @@ module.exports={
 }
 
 },{}],3:[function(require,module,exports){
+module.exports={
+  "grid": [
+    {
+      "background": 1,
+      "components": [
+        {
+          "id": "grid0101",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0102",
+          "rule": "rotate90",
+          "colors": [2]
+        }
+      ]
+    },
+    {
+      "background": 1,
+      "components": [
+        {
+          "id": "grid0201",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0202",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0203",
+          "rule": "rotate90andMirror",
+          "colors": [2]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "subtype": "dagger",
+      "background": 2,
+      "components": [
+        {
+          "id": "lines0101",
+          "rule": "placeNext",
+          "colors": [0, 1]
+        },
+        {
+          "id": "lines0102",
+          "rule": "placeNext",
+          "colors": [1]
+        }
+      ]
+    },
+    {
+      "subtype": "dagger",
+      "background": 2,
+      "components": [
+        {
+          "id": "lines0301",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        },
+        {
+          "id": "lines0302",
+          "rule": "placeNext",
+          "colors": [2]
+        }
+      ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0201",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        },
+        {
+          "id": "lines0202",
+          "rule": "placeNext",
+          "colors": [0]
+        },
+        {
+          "id": "lines0203",
+          "rule": "placeNext",
+          "colors": [0]
+        },
+        {
+          "id": "lines0204",
+          "rule": "placeNext",
+          "colors": [0]
+        }
+      ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0401",
+          "rule": "placeNext",
+          "colors": [2]
+        },
+        {
+          "id": "lines0402",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        }
+      ]
+    }
+  ]
+}
+
+},{}],4:[function(require,module,exports){
 "use strict";
 
 const mappings = require('./mappings.json');
@@ -8183,7 +8300,7 @@ module.exports = class {
   }
 }
 
-},{"./mappings.json":4}],4:[function(require,module,exports){
+},{"./mappings.json":5}],5:[function(require,module,exports){
 module.exports={
   "type": {
     "mapVal": "13A Tone",
@@ -8320,7 +8437,7 @@ module.exports={
   }
 }
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 module.exports = class {
@@ -8375,7 +8492,7 @@ module.exports = class {
 
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 /*
@@ -8392,7 +8509,7 @@ const Visuals = require('./visuals.js');
 /*
 * settings
 */
-const renderLimit = 5;
+const renderLimit = 3;
 const mode = "debug";
 // const mode = "render";
 // const langMode = "normal";
@@ -8597,14 +8714,50 @@ for (let i = 0; i <= renderLimit; i++){
   }
 }
 
-},{"../../public/data/languages.json":1,"./generator.js":3,"./visuals.js":7}],7:[function(require,module,exports){
+},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){
+"use strict";
+
+module.exports = class {
+  constructor(data) {
+    this.grid = this.generatePatterns("grid", data);
+    this.lines = this.generatePatterns("lines", data);
+  }
+
+  generatePatterns(type, data) {
+    let patterns = [];
+
+    const category = data[type];
+
+    for (let i = 0; i < category.length; i++) {
+      let metaPattern = category[i];
+
+      for (let j = 0; j < metaPattern.components.length; j++) {
+        let newComponent = metaPattern.components[j];
+
+        newComponent.subtype = typeof metaPattern.subtype === "undefined" ? null : metaPattern.subtype;
+        newComponent.background = metaPattern.background;
+
+        patterns.push(newComponent);
+      }
+    }
+
+    return patterns;
+  }
+}
+
+},{}],9:[function(require,module,exports){
 "use strict";
 const palettesData = require('../../public/data/palettes.json');
 const Palettes = require('./palettes.js');
 
+const patternsData = require('../../public/data/patterns.json');
+const Patterns = require('./patterns.js');
+
 const palettesObj = new Palettes(palettesData);
 const allPalettes = palettesObj.allPalettes;
 const numPalettes = palettesObj.numPalettes;
+
+const patterns = new Patterns(patternsData);
 
 module.exports = class {
   constructor(data) {
@@ -8612,7 +8765,8 @@ module.exports = class {
     this.lang = data.data;
     this.visuals = {
       pattern: {
-        type: this.getPatternType()
+        type: this.getPatternType(),
+        components: this.getComponents()
       },
       palette: this.generatePalette()
     };
@@ -8627,6 +8781,19 @@ module.exports = class {
     return this.lang.type;
   }
 
+
+  /*
+  *
+  * Get components to use in pattern
+  *
+  */
+  getComponents() {
+    let components = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
+
+    console.log(components);
+
+    return components;
+  }
 
   /*
   *
@@ -8708,4 +8875,4 @@ module.exports = class {
   }
 }
 
-},{"../../public/data/palettes.json":2,"./palettes.js":5}]},{},[6]);
+},{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":6,"./patterns.js":8}]},{},[7]);
