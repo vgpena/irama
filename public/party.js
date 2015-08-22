@@ -7978,6 +7978,132 @@ module.exports=[
 ]
 
 },{}],2:[function(require,module,exports){
+module.exports={
+  "palettes": [
+    {
+      "numColors": 2,
+      "light": "f4c89e",
+      "dark": "2e363e",
+      "accents": []
+    },
+    {
+      "numColors": 3,
+      "light": "c4c5c3",
+      "dark": "1f1f1f",
+      "accents": ["93877d"]
+    },
+    {
+      "numColors": 3,
+      "light": "fbfdf9",
+      "dark": "080406",
+      "accents": ["b95d27"]
+    },
+    {
+      "numColors": 3,
+      "light": "a28440",
+      "dark": "1b150f",
+      "accents": ["6d2d13"]
+    },
+    {
+      "numColors": 3,
+      "light": "edd68a",
+      "dark": "25281f",
+      "accents": ["985831"]
+    },
+    {
+      "numColors": 3,
+      "light": "906627",
+      "dark": "181412",
+      "accents": ["77461c"]
+    },
+    {
+      "numColors": 3,
+      "light": "e4bb72",
+      "dark": "292113",
+      "accents": ["9a4922"]
+    },
+    {
+      "numColors": 3,
+      "light": "fae7c6",
+      "dark": "352420",
+      "accents": ["b45a27"]
+    },
+    {
+      "numColors": 3,
+      "light": "eae6e6",
+      "dark": "181824",
+      "accents": ["e1408a"]
+    },
+    {
+      "numColors": 4,
+      "light": "d7ac7c",
+      "dark": "302021",
+      "accents": ["a8633a", "954127"]
+    },
+    {
+      "numColors": 4,
+      "light": "f6f2de",
+      "dark": "040403",
+      "accents": ["ebcc81", "bc6c29"]
+    },
+    {
+      "numColors": 4,
+      "light": "fcfaf2",
+      "dark": "463a4b",
+      "accents": ["fccf82", "f16322"]
+    },
+    {
+      "numColors": 4,
+      "light": "eae6e3",
+      "dark": "120b15",
+      "accents": ["a15438", "863e32"]
+    },
+    {
+      "numColors": 4,
+      "light": "a68332",
+      "dark": "10100f",
+      "accents": ["906226", "271911"]
+    },
+    {
+      "numColors": 4,
+      "light": "d0d3cf",
+      "dark": "181816",
+      "accents": ["65332f", "222d3f"]
+    },
+    {
+      "numColors": 4,
+      "light": "fdd41d",
+      "dark": "201510",
+      "accents": ["ee2525", "914c28"]
+    },
+    {
+      "numColors": 4,
+      "light": "e6d8b3",
+      "dark": "2e231b",
+      "accents": ["717935", "bf5427"]
+    },
+    {
+      "numColors": 4,
+      "light": "dcc595",
+      "dark": "342c1f",
+      "accents": ["b48f2f", "f36f21"]
+    },
+    {
+      "numColors": 5,
+      "light": "e2ba61",
+      "dark": "302a21",
+      "accents": ["946627", "821f1b", "422d13"]
+    },
+    {
+      "numColors": 7,
+      "light": "d6c5b4",
+      "dark": "3d2c2a",
+      "accents": ["fad789", "d9782c", "b34934", "5e6e44", "ce495d"]
+    }
+  ]
+}
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 const mappings = require('./mappings.json');
@@ -8057,7 +8183,7 @@ module.exports = class {
   }
 }
 
-},{"./mappings.json":3}],3:[function(require,module,exports){
+},{"./mappings.json":4}],4:[function(require,module,exports){
 module.exports={
   "type": {
     "mapVal": "13A Tone",
@@ -8194,21 +8320,67 @@ module.exports={
   }
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+"use strict";
+
+module.exports = class {
+  constructor(data) {
+    this.palettesData = data;
+    this.allPalettes = this.generatePalettes(data);
+  }
+
+  generatePalettes(data) {
+    let all = {};
+
+    for (let i = 0; i < data.palettes.length; i++) {
+      let newPalette = this.generatePalette(data.palettes[i]);
+      let currNumColors = String(data.palettes[i].numColors);
+      if (all[currNumColors] === undefined || !all[currNumColors]) {
+        all[currNumColors] = [];
+      }
+      all[currNumColors].push(newPalette);
+    }
+
+    return all;
+  }
+
+  generatePalette(data) {
+    let palette = {
+      'light': '',
+      'dark': '',
+      'accents': []
+    };
+    palette.light = data.light;
+    palette.dark = data.dark;
+    palette.accents = data.accents;
+
+    return palette;
+
+  }
+
+}
+
+},{}],6:[function(require,module,exports){
 "use strict";
 
 const data = require('../../public/data/languages.json');
-const Language = require("./generator.js");
+const palettes = require('../../public/data/palettes.json');
+const Language = require('./generator.js');
+const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
+let allPalettes = new Palettes(palettes).allPalettes;
+console.log(allPalettes);
 
-for (let i = 0; i < renderLimit; i++){
-  generateLang(i, data[i]);
-}
+// console.log(Palettes.generatePalettes(palettes));
 
-function generateLang(index, language){
-  let foo = new Language(language);
-  console.log(foo);
-}
+// for (let i = 0; i < renderLimit; i++){
+//   generateLang(i, data[i]);
+// }
+//
+// function generateLang(index, language){
+//   let foo = new Language(language);
+//   console.log(foo);
+// }
 
-},{"../../public/data/languages.json":1,"./generator.js":2}]},{},[4]);
+},{"../../public/data/languages.json":1,"../../public/data/palettes.json":2,"./generator.js":3,"./palettes.js":5}]},{},[6]);
