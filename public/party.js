@@ -8479,7 +8479,7 @@ function genPaletteElt(paletteJSON) {
     others.appendChild(othersTitle);
 
     for (let i = 0; i < paletteJSON.others.length; i++) {
-      others.appendChild(genColorElt(paletteJSON.accents[i]));
+      others.appendChild(genColorElt(paletteJSON.others[i]));
     }
 
     palette.appendChild(others);
@@ -8651,6 +8651,21 @@ module.exports = class {
     };
   }
 
+  chooseAccents(palette) {
+    let otherColors = [];
+
+    while (otherColors.length < this.lang.numColors) {
+      let newColorIndex = Math.floor(Math.random() * palette.accents.length)
+      let newColor = palette.accents[newColorIndex];
+
+      if (otherColors.indexOf(newColor) === -1) {
+        otherColors.push(newColor);
+      }
+    }
+
+    return otherColors;
+  }
+
   generatePalette() {
     let eligiblePalettes = [];
     for (let paletteSet in allPalettes) {
@@ -8665,12 +8680,10 @@ module.exports = class {
 
     let chosenPalette = eligiblePalettes[randIndex];
 
-    // console.log(chosenPalette);
-
     return ({
       light: chosenPalette.light,
       dark: chosenPalette.dark,
-      others: []
+      others: this.chooseAccents(chosenPalette)
     });
     // return {
     //   light: chosenPalette.light,

@@ -101,7 +101,7 @@ function genPaletteElt(paletteJSON) {
     others.appendChild(othersTitle);
 
     for (let i = 0; i < paletteJSON.others.length; i++) {
-      others.appendChild(genColorElt(paletteJSON.accents[i]));
+      others.appendChild(genColorElt(paletteJSON.others[i]));
     }
 
     palette.appendChild(others);
