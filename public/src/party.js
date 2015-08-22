@@ -24,7 +24,7 @@ function printLangs(langs) {
     let langElt = document.createElement("li");
     langElt.classList.add("language");
     let langTitle = document.createElement("h1");
-    langTitle = document.createTextNode(langs[i].name);
+    langTitle.appendChild(document.createTextNode(langs[i].name));
 
     langElt.appendChild(langTitle);
     langsList.appendChild(langElt);
