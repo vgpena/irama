@@ -8378,19 +8378,30 @@ module.exports = class {
 },{}],6:[function(require,module,exports){
 "use strict";
 
+/*
+* data
+*/
 const data = require('../../public/data/languages.json');
 
-
+/*
+* modules
+*/
 const Language = require('./generator.js');
 const Visuals = require('./visuals.js');
 
-
+/*
+* settings
+*/
 const renderLimit = 5;
 const mode = "debug";
 // const mode = "render";
 // const langMode = "normal";
 const langMode = "rand";
 
+
+/*
+* keeping track of things
+*/
 let allLangs = [];
 let langsAndVisuals = [];
 
@@ -8592,6 +8603,11 @@ module.exports = class {
     };
   }
 
+  /*
+  *
+  * Randomly choose as many accent colors as we need
+  *
+  */
   chooseAccents(palette) {
     let otherColors = [];
 
@@ -8607,6 +8623,12 @@ module.exports = class {
     return otherColors;
   }
 
+
+  /*
+  *
+  * Based on available palettes, pick one
+  *
+  */
   generatePalette() {
     let eligiblePalettes = [];
     for (let paletteSet in allPalettes) {

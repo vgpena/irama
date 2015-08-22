@@ -1,18 +1,29 @@
 "use strict";
 
+/*
+* data
+*/
 const data = require('../../public/data/languages.json');
 
-
+/*
+* modules
+*/
 const Language = require('./generator.js');
 const Visuals = require('./visuals.js');
 
-
+/*
+* settings
+*/
 const renderLimit = 5;
 const mode = "debug";
 // const mode = "render";
 // const langMode = "normal";
 const langMode = "rand";
 
+
+/*
+* keeping track of things
+*/
 let allLangs = [];
 let langsAndVisuals = [];
 

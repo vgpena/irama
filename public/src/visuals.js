@@ -15,6 +15,11 @@ module.exports = class {
     };
   }
 
+  /*
+  *
+  * Randomly choose as many accent colors as we need
+  *
+  */
   chooseAccents(palette) {
     let otherColors = [];
 
@@ -30,6 +35,12 @@ module.exports = class {
     return otherColors;
   }
 
+
+  /*
+  *
+  * Based on available palettes, pick one
+  *
+  */
   generatePalette() {
     let eligiblePalettes = [];
     for (let paletteSet in allPalettes) {
