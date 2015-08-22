@@ -1,0 +1,115 @@
+{
+  "grid": [
+    {
+      "background": 1,
+      "components": [
+        {
+          "id": "grid0101",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0102",
+          "rule": "rotate90",
+          "colors": [2]
+        }
+      ]
+    },
+    {
+      "background": 1,
+      "components": [
+        {
+          "id": "grid0201",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0202",
+          "rule": "rotate90",
+          "colors": [0]
+        },
+        {
+          "id": "grid0203",
+          "rule": "rotate90andMirror",
+          "colors": [2]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "subtype": "dagger",
+      "background": 2,
+      "components": [
+        {
+          "id": "lines0101",
+          "rule": "placeNext",
+          "colors": [0, 1]
+        },
+        {
+          "id": "lines0102",
+          "rule": "placeNext",
+          "colors": [1]
+        }
+      ]
+    },
+    {
+      "subtype": "dagger",
+      "background": 2,
+      "components": [
+        {
+          "id": "lines0301",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        },
+        {
+          "id": "lines0302",
+          "rule": "placeNext",
+          "colors": [2]
+        }
+      ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0201",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        },
+        {
+          "id": "lines0202",
+          "rule": "placeNext",
+          "colors": [0]
+        },
+        {
+          "id": "lines0203",
+          "rule": "placeNext",
+          "colors": [0]
+        },
+        {
+          "id": "lines0204",
+          "rule": "placeNext",
+          "colors": [0]
+        }
+      ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0401",
+          "rule": "placeNext",
+          "colors": [2]
+        },
+        {
+          "id": "lines0402",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        }
+      ]
+    }
+  ]
+}
