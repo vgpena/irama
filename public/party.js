@@ -8379,9 +8379,10 @@ module.exports = class {
 "use strict";
 
 const data = require('../../public/data/languages.json');
-const palettes = require('../../public/data/palettes.json');
+// const palettes = require('../../public/data/palettes.json');
 const Language = require('./generator.js');
-const Palettes = require('./palettes.js');
+// const Palettes = require('./palettes.js');
+const Visuals = require('./visuals.js');
 const renderLimit = 5;
 
 const mode = "debug";
@@ -8389,9 +8390,9 @@ const mode = "debug";
 // const langMode = "normal";
 const langMode = "rand";
 
-const palettesObj = new Palettes(palettes);
-const allPalettes = palettesObj.allPalettes;
-const numPalettes = palettesObj.numPalettes;
+// const palettesObj = new Palettes(palettes);
+// const allPalettes = palettesObj.allPalettes;
+// const numPalettes = palettesObj.numPalettes;
 
 let allLangs = [];
 
@@ -8440,6 +8441,8 @@ function genColorElt(rgba) {
 *
 */
 function genPaletteElt(paletteJSON) {
+  console.log(paletteJSON);
+
   let palette = document.createElement("div");
 
   // create light element
@@ -8467,7 +8470,7 @@ function genPaletteElt(paletteJSON) {
   palette.appendChild(dark);
 
   // create other colors (but only if they should be there)
-  if (paletteJSON.accents.length > 0) {
+  if (paletteJSON.others.length > 0) {
     let others = document.createElement("div");
     others.classList.add("palette-component");
     let othersTitle = document.createElement("h2");
@@ -8475,7 +8478,7 @@ function genPaletteElt(paletteJSON) {
 
     others.appendChild(othersTitle);
 
-    for (let i = 0; i < paletteJSON.accents.length; i++) {
+    for (let i = 0; i < paletteJSON.others.length; i++) {
       others.appendChild(genColorElt(paletteJSON.accents[i]));
     }
 
@@ -8543,30 +8546,41 @@ function printLangs() {
 * and save that info as a prop in its "visuals" field
 *
 */
-function choosePalettes() {
+// function choosePalettes(currLang) {
+//   // create arr of eligible palettes for lang
+//   // (where numColors in palette >= numColors in lang)
+//
+//   let eligiblePalettes = [];
+//   for (let paletteSet in allPalettes) {
+//     if (parseInt(paletteSet) >= currLang.data.numColors + 2) {
+//       for (let j = 0; j < allPalettes[paletteSet].length; j++) {
+//         eligiblePalettes.push(allPalettes[paletteSet][j]);
+//       }
+//     }
+//   }
+//
+//   let randIndex = Math.floor(Math.random() * eligiblePalettes.length);
+//
+//   let chosenPalette = eligiblePalettes[randIndex];
+//
+//   return {
+//     light: chosenPalette.light,
+//     dark: chosenPalette.dark,
+//     accents: chooseAccents(chosenPalette, currLang.data.numColors)
+//   };
+// }
+
+/*
+*
+* Generate visual imformation for languages:
+* colors, patterns, borders, etc.
+*
+*/
+function generateVisualsForLangs() {
   for (let i = 0; i <= langsAndVisuals.length; i++) {
     if (i < langsAndVisuals.length) {
-      let currLang = langsAndVisuals[i];
-
-      // create arr of eligible palettes for lang
-      // (where numColors in palette >= numColors in lang)
-
-      let eligiblePalettes = [];
-      for (let paletteSet in allPalettes) {
-        if (parseInt(paletteSet) >= currLang.data.numColors + 2) {
-          for (let j = 0; j < allPalettes[paletteSet].length; j++) {
-            eligiblePalettes.push(allPalettes[paletteSet][j]);
-          }
-        }
-      }
-
-      let randIndex = Math.floor(Math.random() * eligiblePalettes.length);
-
-      let chosenPalette = eligiblePalettes[randIndex];
-
-      currLang.visuals.palette = chosenPalette;
-      currLang.visuals.palette.accents = chooseAccents(chosenPalette, currLang.data.numColors);
-
+      langsAndVisuals[i] = new Visuals(langsAndVisuals[i]);
+      // langsAndVisuals[i].visuals.palette = choosePalettes(langsAndVisuals[i]);
     } else {
       done();
     }
@@ -8615,8 +8629,56 @@ for (let i = 0; i <= renderLimit; i++){
     generateLang(i, chooseFrom[i]);
   } else {
     // once we've done that, start making things to actually render
-    choosePalettes();
+    generateVisualsForLangs();
   }
 }
 
-},{"../../public/data/languages.json":1,"../../public/data/palettes.json":2,"./generator.js":3,"./palettes.js":5}]},{},[6]);
+},{"../../public/data/languages.json":1,"./generator.js":3,"./visuals.js":7}],7:[function(require,module,exports){
+"use strict";
+const palettesData = require('../../public/data/palettes.json');
+const Palettes = require('./palettes.js');
+
+const palettesObj = new Palettes(palettesData);
+const allPalettes = palettesObj.allPalettes;
+const numPalettes = palettesObj.numPalettes;
+
+module.exports = class {
+  constructor(data) {
+    this.name = data.name;
+    this.lang = data.data;
+    this.visuals = {
+      palette: this.generatePalette()
+    };
+  }
+
+  generatePalette() {
+    let eligiblePalettes = [];
+    for (let paletteSet in allPalettes) {
+      if (parseInt(paletteSet) >= this.lang.numColors + 2) {
+        for (let j = 0; j < allPalettes[paletteSet].length; j++) {
+          eligiblePalettes.push(allPalettes[paletteSet][j]);
+        }
+      }
+    }
+
+    let randIndex = Math.floor(Math.random() * eligiblePalettes.length);
+
+    let chosenPalette = eligiblePalettes[randIndex];
+
+    // console.log(chosenPalette);
+
+    return ({
+      light: chosenPalette.light,
+      dark: chosenPalette.dark,
+      others: []
+    });
+    // return {
+    //   light: chosenPalette.light,
+    //   dark: chosenPalette.dark,
+    //   accents: []
+    //   // accents: chooseAccents(chosenPalette, currLang.data.numColors)
+    // };
+  }
+}
+
+},{"../../public/data/palettes.json":2,"./palettes.js":5}]},{},[6]);
