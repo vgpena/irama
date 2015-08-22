@@ -7,6 +7,8 @@ const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
 const mode = "debug";
+// const mode = "render";
+// const langMode = "normal";
 const langMode = "rand";
 
 const palettesObj = new Palettes(palettes);
@@ -209,7 +211,8 @@ function done() {
 /*
 *
 * Generate langs -- sets of properties based on languages' data
-*
+* set a const to determine whether the languages used
+* are the first n in the dataset or are randomly chosen
 *
 */
 
