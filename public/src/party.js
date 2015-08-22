@@ -6,9 +6,9 @@ const Language = require('./generator.js');
 const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
-let allPalettes = new Palettes(palettes).allPalettes;
+const mode = "debug";
 
-console.log(allPalettes);
+let allPalettes = new Palettes(palettes).allPalettes;
 
 let allLangs = [];
 
@@ -17,10 +17,28 @@ function generateLang(index, language){
   allLangs.push(foo);
 }
 
+function printLangs(langs) {
+  let langsList = document.getElementsByClassName('languages-list')[0];
+
+  for (let i = 0; i < langs.length; i++) {
+    let langElt = document.createElement("li");
+    langElt.classList.add("language");
+    let langTitle = document.createElement("h1");
+    langTitle = document.createTextNode(langs[i].name);
+
+    langElt.appendChild(langTitle);
+    langsList.appendChild(langElt);
+  }
+}
+
+
 for (let i = 0; i <= renderLimit; i++){
   if (i < renderLimit) {
     generateLang(i, data[i]);
   } else {
+    if (mode === "debug") {
+      printLangs(allLangs);
+    }
     console.log(allLangs);
   }
 }
