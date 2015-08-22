@@ -8417,7 +8417,7 @@ function genColor(rgba) {
   return color;
 }
 
-function genPaletteElt(paletteJSON) {
+function genPaletteElt(paletteJSON, numAccentColors) {
   let palette = document.createElement("div");
 
 // create light element
@@ -8444,6 +8444,25 @@ function genPaletteElt(paletteJSON) {
 
   palette.appendChild(dark);
 
+// create other colors (but only if they should be there)
+  if (numAccentColors > 0) {
+    let others = document.createElement("div");
+    others.classList.add("palette-component");
+    let othersTitle = document.createElement("h2");
+    othersTitle.appendChild(document.createTextNode("Others"));
+
+    others.appendChild(othersTitle);
+
+    // randomly pick accent colors
+
+    for (let i = 0; i < numAccentColors; i++) {
+      others.appendChild(genColor(paletteJSON.accents[i]));
+    }
+
+
+    palette.appendChild(others);
+  }
+
   return palette;
 }
 
@@ -8458,7 +8477,7 @@ function printLangs() {
     let langTitle = document.createElement("h1");
     langTitle.appendChild(document.createTextNode(langsAndVisuals[i].name));
 
-    let langPalette = genPaletteElt(langsAndVisuals[i].visuals.palette);
+    let langPalette = genPaletteElt(langsAndVisuals[i].visuals.palette, langsAndVisuals[i].data.numColors);
 
     langElt.appendChild(langTitle);
     langElt.appendChild(langPalette);
@@ -8483,7 +8502,7 @@ function choosePalettes() {
 
       let eligiblePalettes = [];
       for (let paletteSet in allPalettes) {
-        if (parseInt(paletteSet) >= currLang.data.numColors) {
+        if (parseInt(paletteSet) >= currLang.data.numColors + 2) {
           for (let j = 0; j < allPalettes[paletteSet].length; j++) {
             eligiblePalettes.push(allPalettes[paletteSet][j]);
           }
