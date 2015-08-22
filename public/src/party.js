@@ -7,15 +7,20 @@ const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
 let allPalettes = new Palettes(palettes).allPalettes;
+
 console.log(allPalettes);
 
-// console.log(Palettes.generatePalettes(palettes));
+let allLangs = [];
 
-// for (let i = 0; i < renderLimit; i++){
-//   generateLang(i, data[i]);
-// }
-//
-// function generateLang(index, language){
-//   let foo = new Language(language);
-//   console.log(foo);
-// }
+function generateLang(index, language){
+  let foo = new Language(language);
+  allLangs.push(foo);
+}
+
+for (let i = 0; i <= renderLimit; i++){
+  if (i < renderLimit) {
+    generateLang(i, data[i]);
+  } else {
+    console.log(allLangs);
+  }
+}

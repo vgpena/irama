@@ -8350,12 +8350,26 @@ module.exports = class {
       'dark': '',
       'accents': []
     };
-    palette.light = data.light;
-    palette.dark = data.dark;
-    palette.accents = data.accents;
+    palette.light = this.hexToRgba(data.light);
+    palette.dark = this.hexToRgba(data.dark);
+    let rgbaAccents = [];
+    for (let i = 0; i < data.accents.length; i++) {
+      rgbaAccents.push(this.hexToRgba(data.accents[i]));
+    }
+    palette.accents = rgbaAccents;
 
     return palette;
+  }
 
+  hexToRgba(hex) {
+    let rgba = "";
+    const r = parseInt(hex.substring(0,2), 16);
+    const g = parseInt(hex.substring(2,4), 16);
+    const b = parseInt(hex.substring(4,6), 16);
+
+    rgba = 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
+
+    return rgba;
   }
 
 }
@@ -8370,17 +8384,22 @@ const Palettes = require('./palettes.js');
 const renderLimit = 5;
 
 let allPalettes = new Palettes(palettes).allPalettes;
+
 console.log(allPalettes);
 
-// console.log(Palettes.generatePalettes(palettes));
+let allLangs = [];
 
-// for (let i = 0; i < renderLimit; i++){
-//   generateLang(i, data[i]);
-// }
-//
-// function generateLang(index, language){
-//   let foo = new Language(language);
-//   console.log(foo);
-// }
+function generateLang(index, language){
+  let foo = new Language(language);
+  allLangs.push(foo);
+}
+
+for (let i = 0; i <= renderLimit; i++){
+  if (i < renderLimit) {
+    generateLang(i, data[i]);
+  } else {
+    console.log(allLangs);
+  }
+}
 
 },{"../../public/data/languages.json":1,"../../public/data/palettes.json":2,"./generator.js":3,"./palettes.js":5}]},{},[6]);

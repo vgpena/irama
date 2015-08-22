@@ -27,12 +27,26 @@ module.exports = class {
       'dark': '',
       'accents': []
     };
-    palette.light = data.light;
-    palette.dark = data.dark;
-    palette.accents = data.accents;
+    palette.light = this.hexToRgba(data.light);
+    palette.dark = this.hexToRgba(data.dark);
+    let rgbaAccents = [];
+    for (let i = 0; i < data.accents.length; i++) {
+      rgbaAccents.push(this.hexToRgba(data.accents[i]));
+    }
+    palette.accents = rgbaAccents;
 
     return palette;
+  }
 
+  hexToRgba(hex) {
+    let rgba = "";
+    const r = parseInt(hex.substring(0,2), 16);
+    const g = parseInt(hex.substring(2,4), 16);
+    const b = parseInt(hex.substring(4,6), 16);
+
+    rgba = 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
+
+    return rgba;
   }
 
 }
