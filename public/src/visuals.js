@@ -49,11 +49,5 @@ module.exports = class {
       dark: chosenPalette.dark,
       others: this.chooseAccents(chosenPalette)
     });
-    // return {
-    //   light: chosenPalette.light,
-    //   dark: chosenPalette.dark,
-    //   accents: []
-    //   // accents: chooseAccents(chosenPalette, currLang.data.numColors)
-    // };
   }
 }

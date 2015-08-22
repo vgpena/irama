@@ -1,23 +1,19 @@
 "use strict";
 
 const data = require('../../public/data/languages.json');
-// const palettes = require('../../public/data/palettes.json');
-const Language = require('./generator.js');
-// const Palettes = require('./palettes.js');
-const Visuals = require('./visuals.js');
-const renderLimit = 5;
 
+
+const Language = require('./generator.js');
+const Visuals = require('./visuals.js');
+
+
+const renderLimit = 5;
 const mode = "debug";
 // const mode = "render";
 // const langMode = "normal";
 const langMode = "rand";
 
-// const palettesObj = new Palettes(palettes);
-// const allPalettes = palettesObj.allPalettes;
-// const numPalettes = palettesObj.numPalettes;
-
 let allLangs = [];
-
 let langsAndVisuals = [];
 
 
@@ -113,29 +109,6 @@ function genPaletteElt(paletteJSON) {
 
 /*
 *
-* Take a palette and a number of accent colors that you want to choose
-* and randomly choose that number of unique colors
-* from that palette
-*
-*/
-
-function chooseAccents(palette, numAccentColors) {
-  let otherColors = [];
-
-  while (otherColors.length < numAccentColors) {
-    let newColorIndex = Math.floor(Math.random() * palette.accents.length)
-    let newColor = palette.accents[newColorIndex];
-
-    if (otherColors.indexOf(newColor) === -1) {
-      otherColors.push(newColor);
-    }
-  }
-
-  return otherColors;
-}
-
-/*
-*
 * Debug output -- makes a list of languages
 * and their salient features
 * and adds it to the DOM
@@ -161,37 +134,6 @@ function printLangs() {
   }
 }
 
-
-/*
-*
-* Choose color palette for each lang
-* and save that info as a prop in its "visuals" field
-*
-*/
-// function choosePalettes(currLang) {
-//   // create arr of eligible palettes for lang
-//   // (where numColors in palette >= numColors in lang)
-//
-//   let eligiblePalettes = [];
-//   for (let paletteSet in allPalettes) {
-//     if (parseInt(paletteSet) >= currLang.data.numColors + 2) {
-//       for (let j = 0; j < allPalettes[paletteSet].length; j++) {
-//         eligiblePalettes.push(allPalettes[paletteSet][j]);
-//       }
-//     }
-//   }
-//
-//   let randIndex = Math.floor(Math.random() * eligiblePalettes.length);
-//
-//   let chosenPalette = eligiblePalettes[randIndex];
-//
-//   return {
-//     light: chosenPalette.light,
-//     dark: chosenPalette.dark,
-//     accents: chooseAccents(chosenPalette, currLang.data.numColors)
-//   };
-// }
-
 /*
 *
 * Generate visual imformation for languages:
@@ -202,7 +144,6 @@ function generateVisualsForLangs() {
   for (let i = 0; i <= langsAndVisuals.length; i++) {
     if (i < langsAndVisuals.length) {
       langsAndVisuals[i] = new Visuals(langsAndVisuals[i]);
-      // langsAndVisuals[i].visuals.palette = choosePalettes(langsAndVisuals[i]);
     } else {
       done();
     }
