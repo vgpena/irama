@@ -42,7 +42,7 @@ function genColor(rgba) {
 function genPaletteElt(paletteJSON, numAccentColors) {
   let palette = document.createElement("div");
 
-// create light element
+  // create light element
   let light = document.createElement("div");
   light.classList.add("palette-component");
 
@@ -54,7 +54,7 @@ function genPaletteElt(paletteJSON, numAccentColors) {
 
   palette.appendChild(light);
 
-// create dark element
+  // create dark element
   let dark = document.createElement("div");
   dark.classList.add("palette-component");
 
@@ -66,7 +66,7 @@ function genPaletteElt(paletteJSON, numAccentColors) {
 
   palette.appendChild(dark);
 
-// create other colors (but only if they should be there)
+  // create other colors (but only if they should be there)
   if (numAccentColors > 0) {
     let others = document.createElement("div");
     others.classList.add("palette-component");
@@ -75,12 +75,21 @@ function genPaletteElt(paletteJSON, numAccentColors) {
 
     others.appendChild(othersTitle);
 
-    // randomly pick accent colors
+    // randomly pick accent colors from available accents
+    let otherColors = [];
 
-    for (let i = 0; i < numAccentColors; i++) {
-      others.appendChild(genColor(paletteJSON.accents[i]));
+    while (otherColors.length < numAccentColors) {
+      let newColorIndex = Math.floor(Math.random() * paletteJSON.accents.length)
+      let newColor = paletteJSON.accents[newColorIndex];
+
+      if (otherColors.indexOf(newColor) === -1) {
+        otherColors.push(newColor);
+      }
     }
 
+    for (let i = 0; i < otherColors.length; i++) {
+      others.appendChild(genColor(otherColors[i]));
+    }
 
     palette.appendChild(others);
   }
@@ -136,8 +145,6 @@ function choosePalettes() {
       let chosenPalette = eligiblePalettes[randIndex];
 
       currLang.visuals.palette = chosenPalette;
-
-      console.log(chosenPalette);
 
     } else {
       done();
