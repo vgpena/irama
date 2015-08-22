@@ -75,18 +75,6 @@ function genPaletteElt(paletteJSON) {
 
     others.appendChild(othersTitle);
 
-    // // randomly pick accent colors from available accents
-    // let otherColors = [];
-    //
-    // while (otherColors.length < numAccentColors) {
-    //   let newColorIndex = Math.floor(Math.random() * paletteJSON.accents.length)
-    //   let newColor = paletteJSON.accents[newColorIndex];
-    //
-    //   if (otherColors.indexOf(newColor) === -1) {
-    //     otherColors.push(newColor);
-    //   }
-    // }
-
     for (let i = 0; i < paletteJSON.accents.length; i++) {
       others.appendChild(genColor(paletteJSON.accents[i]));
     }
