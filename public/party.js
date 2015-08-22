@@ -8626,15 +8626,15 @@ module.exports = class {
   * Changes a color's lightness
   */
   colorshift(color) {
-    let r = parseInt(color.split('(')[1].split(',')[0]);
-    let g = parseInt(color.split(', ')[1]);
-    let b = parseInt(color.split(', ')[2]);
+    const r = parseInt(color.split('(')[1].split(',')[0]);
+    const g = parseInt(color.split(', ')[1]);
+    const b = parseInt(color.split(', ')[2]);
 
-    let delta = parseInt(this.lang.saturationDelta)*4;
+    const delta = parseInt(this.lang.saturationDelta)*4;
 
-    let newR = Math.max(0, Math.min(255, r + delta));
-    let newG = Math.max(0, Math.min(255, g + delta));
-    let newB = Math.max(0, Math.min(255, b + delta));
+    const newR = Math.max(0, Math.min(255, r + delta));
+    const newG = Math.max(0, Math.min(255, g + delta));
+    const newB = Math.max(0, Math.min(255, b + delta));
 
     return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";
   }
