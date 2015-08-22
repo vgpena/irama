@@ -8394,6 +8394,15 @@ let allLangs = [];
 
 let langsAndVisuals = [];
 
+
+/*
+*
+* Create object based on language data
+* Lang will be saved into "data" field;
+* info related to rendering (colors, shapes, etc)
+* will be saved into "visuals" field.
+*
+*/
 function generateLang(index, language){
   let foo = new Language(language);
   allLangs.push(foo);
@@ -8407,16 +8416,26 @@ function generateLang(index, language){
   langsAndVisuals.push(langAndVisuals);
 }
 
-function genColor(rgba) {
+/*
+*
+* Creates a palette element with a specific background color.
+*
+*/
+function genColorElt(rgba) {
   let color = document.createElement("div");
-
   color.classList.add("palette-color");
-
   color.style.backgroundColor = rgba;
 
   return color;
 }
 
+
+/*
+*
+* Creates a "palette" element with a language's
+* light, dark, and accent colors
+*
+*/
 function genPaletteElt(paletteJSON) {
   let palette = document.createElement("div");
 
@@ -8428,7 +8447,7 @@ function genPaletteElt(paletteJSON) {
   lightTitle.appendChild(document.createTextNode("Light"));
 
   light.appendChild(lightTitle);
-  light.appendChild(genColor(paletteJSON.light));
+  light.appendChild(genColorElt(paletteJSON.light));
 
   palette.appendChild(light);
 
@@ -8440,7 +8459,7 @@ function genPaletteElt(paletteJSON) {
   darkTitle.appendChild(document.createTextNode("Dark"));
 
   dark.appendChild(darkTitle);
-  dark.appendChild(genColor(paletteJSON.dark));
+  dark.appendChild(genColorElt(paletteJSON.dark));
 
   palette.appendChild(dark);
 
@@ -8454,7 +8473,7 @@ function genPaletteElt(paletteJSON) {
     others.appendChild(othersTitle);
 
     for (let i = 0; i < paletteJSON.accents.length; i++) {
-      others.appendChild(genColor(paletteJSON.accents[i]));
+      others.appendChild(genColorElt(paletteJSON.accents[i]));
     }
 
     palette.appendChild(others);
@@ -8464,8 +8483,15 @@ function genPaletteElt(paletteJSON) {
   return palette;
 }
 
+/*
+*
+* Take a palette and a number of accent colors that you want to choose
+* and randomly choose that number of unique colors
+* from that palette
+*
+*/
+
 function chooseAccents(palette, numAccentColors) {
-  // randomly pick accent colors from available accents
   let otherColors = [];
 
   while (otherColors.length < numAccentColors) {
@@ -8480,6 +8506,13 @@ function chooseAccents(palette, numAccentColors) {
   return otherColors;
 }
 
+/*
+*
+* Debug output -- makes a list of languages
+* and their salient features
+* and adds it to the DOM
+*
+*/
 function printLangs() {
   let langsList = document.getElementsByClassName('languages-list')[0];
 
@@ -8500,12 +8533,13 @@ function printLangs() {
   }
 }
 
-function done() {
-  if (mode === "debug") {
-    printLangs();
-  }
-}
 
+/*
+*
+* Choose color palette for each lang
+* and save that info as a prop in its "visuals" field
+*
+*/
 function choosePalettes() {
   for (let i = 0; i <= langsAndVisuals.length; i++) {
     if (i < langsAndVisuals.length) {
@@ -8536,6 +8570,25 @@ function choosePalettes() {
   }
 }
 
+
+/*
+*
+* When everything that needs to be done has been done
+*
+*/
+function done() {
+  if (mode === "debug") {
+    printLangs();
+  }
+}
+
+
+/*
+*
+* Generate langs -- sets of properties based on languages' data
+*
+*
+*/
 for (let i = 0; i <= renderLimit; i++){
   // for as many as we want, generate language from data
   if (i < renderLimit) {
