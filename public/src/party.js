@@ -31,13 +31,19 @@ function printLangs(langs) {
   }
 }
 
+function done() {
+  if (mode === "debug") {
+    printLangs(allLangs);
+  }
+}
+
 
 for (let i = 0; i <= renderLimit; i++){
   if (i < renderLimit) {
     generateLang(i, data[i]);
   } else {
     if (mode === "debug") {
-      printLangs(allLangs);
+      done();
     }
     console.log(allLangs);
   }
