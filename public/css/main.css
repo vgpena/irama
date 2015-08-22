@@ -19,27 +19,33 @@ body {
   border-bottom: solid 2px #eeeeee;
   padding: 1rem;
 }
+/* line 17, ../sass/main.sass */
+.language > div {
+  padding: 0 0 1rem 0;
+  border-bottom: solid 4px #fafafa;
+  margin-bottom: 2rem;
+}
 
-/* line 18, ../sass/main.sass */
+/* line 22, ../sass/main.sass */
 h1 {
   font-size: 1.5rem;
   text-transform: uppercase;
 }
 
-/* line 22, ../sass/main.sass */
+/* line 26, ../sass/main.sass */
 h2 {
   font-size: 1.2rem;
   color: #999999;
   text-transform: uppercase;
 }
 
-/* line 28, ../sass/main.sass */
+/* line 32, ../sass/main.sass */
 .palette-component {
   display: inline-block;
   vertical-align: top;
 }
 
-/* line 32, ../sass/main.sass */
+/* line 36, ../sass/main.sass */
 .palette-color {
   display: inline-block;
   width: 100px;

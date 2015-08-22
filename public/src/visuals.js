@@ -11,9 +11,22 @@ module.exports = class {
     this.name = data.name;
     this.lang = data.data;
     this.visuals = {
+      pattern: {
+        type: this.getPatternType()
+      },
       palette: this.generatePalette()
     };
   }
+
+  /*
+  *
+  * Gets largest-grain pattern type
+  *
+  */
+  getPatternType() {
+    return this.lang.type;
+  }
+
 
   /*
   *

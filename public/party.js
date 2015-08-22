@@ -8494,6 +8494,18 @@ function genPaletteElt(paletteJSON) {
   return palette;
 }
 
+
+function genPatternElt(data) {
+  let patternElt = document.createElement("div");
+  let patternEltTitle = document.createElement("h2");
+
+  patternEltTitle.appendChild(document.createTextNode(data.type));
+
+  patternElt.appendChild(patternEltTitle);
+
+  return patternElt;
+}
+
 /*
 *
 * Debug output -- makes a list of languages
@@ -8516,6 +8528,8 @@ function printLangs() {
 
     langElt.appendChild(langTitle);
     langElt.appendChild(langPalette);
+
+    langElt.appendChild(genPatternElt(langsAndVisuals[i].visuals.pattern));
 
     langsList.appendChild(langElt);
   }
@@ -8597,9 +8611,22 @@ module.exports = class {
     this.name = data.name;
     this.lang = data.data;
     this.visuals = {
+      pattern: {
+        type: this.getPatternType()
+      },
       palette: this.generatePalette()
     };
   }
+
+  /*
+  *
+  * Gets largest-grain pattern type
+  *
+  */
+  getPatternType() {
+    return this.lang.type;
+  }
+
 
   /*
   *
