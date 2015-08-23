@@ -127,7 +127,7 @@ function genPatternElt(data) {
   let componentsList = document.createElement("ul");
   for (let i = 0; i < data.components.length; i++) {
     let componentItem = document.createElement("li");
-    componentItem.appendChild(document.createTextNode(data.components[i].id));
+    componentItem.appendChild(document.createTextNode(JSON.stringify(data.components[i])));
     componentsList.appendChild(componentItem);
   }
   if (!data.components.length || data.components.length === 0){

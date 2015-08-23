@@ -41,17 +41,43 @@ module.exports = class {
   */
   getComponents() {
     // TODO: don't have any Free patterns entered yet.
-    let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
+    let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
     if (allComponents === null) {
       return [];
+    }
+
+    /*
+    * if there are subtypes, we need to:
+    * 1. divide components into per-subtype lists
+    * 2. pick which subtype to use
+    * 3. choose only from that subtype
+    */
+    if (allComponents[0].subtype) {
+      // make lists
+      let componentsWithSubtypes = {};
+      let subtypesList = [];
+      for (let i = 0; i < allComponents.length; i++) {
+        if (!componentsWithSubtypes[allComponents[i].subtype]) {
+          componentsWithSubtypes[allComponents[i].subtype] = [];
+        }
+        componentsWithSubtypes[allComponents[i].subtype].push(allComponents[i]);
+        subtypesList.push(allComponents[i].subtype);
+      }
+
+      // choose which list to use
+      let rand = Math.floor(Math.random() * subtypesList.length);
+      let subtype = subtypesList[rand];
+
+      // the ol switcheroo
+      allComponents = componentsWithSubtypes[subtype];
     }
 
     let componentIndices = [];
     let components = [];
 
     while (componentIndices.length < parseInt(this.lang.numComponents)) {
-      let randIndex = Math.floor(Math.random() * allComponents[0].length);
+      let randIndex = Math.floor(Math.random() * allComponents.length);
 
       if (componentIndices.indexOf(randIndex) === -1) {
         componentIndices.push(randIndex);
@@ -59,7 +85,7 @@ module.exports = class {
     }
 
     for (let i = 0; i < componentIndices.length; i++) {
-      components.push(allComponents[0][componentIndices[i]]);
+      components.push(allComponents[componentIndices[i]]);
     }
 
     return components;
