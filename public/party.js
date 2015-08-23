@@ -8773,10 +8773,6 @@ function generateVisualsForLangs() {
       langsAndVisuals[i] = new Visuals(langsAndVisuals[i]);
     } else {
       done();
-      // console.log('done');
-      // window.setTimeout(() => {
-      //   done();
-      // }, 0);
     }
   }
 }
@@ -8901,22 +8897,6 @@ module.exports = class {
         });
       });
     });
-
-    // window.setTimeout(() => {
-    //   this.generatePalette();
-    // }, 0, () => {
-    //   window.setTimeout(() => {
-    //     this.getPatternType()
-    //   }, 0, () => {
-    //     window.setTimeout(() => {
-    //       this.getComponents();
-    //     }, 0, () => {
-    //       window.setTimeout(() => {
-    //         this.getBackgroundColor();
-    //       }, 0);
-    //     });
-    //   });
-    // });
   }
 
   /*
@@ -8955,10 +8935,9 @@ module.exports = class {
     }
 
     // if they have different bg colors, we need to reconcile.
-    // if (backgroundColors.length > 1) {
-      backgroundColor = backgroundColors[0];
-    // }
+    backgroundColor = backgroundColors[0];
 
+    // TODO
     // if (backgroundColor === 2) {
     //   console.log(this.visuals.palette);
     // }
