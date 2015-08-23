@@ -13,10 +13,6 @@ require('load-grunt-tasks')(grunt);
         files: ['./public/src/*.js', './public/data/*.json'],
         tasks: ['browserify', 'babel']
       }
-      // babel: {
-      //   files: ['./public/src/*.js', './public/data/*.json'],
-      //   tasks: ['babel']
-      // }
 		},
     browserify: {
       client: {
