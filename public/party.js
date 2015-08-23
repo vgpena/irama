@@ -9044,6 +9044,12 @@ module.exports = class {
     return otherColors;
   }
 
+  /*
+  *
+  * This and the following function came from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+  * because I don't know shit about color spaces.
+  *
+  */
   rgbToHsl(r, g, b) {
     r /= 255, g /= 255, b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -9091,7 +9097,7 @@ module.exports = class {
 
   /*
   *
-  * Changes a color's lightness
+  * Changes a color's saturation.
   */
   colorshift(color) {
     const r = parseInt(color.split('(')[1].split(',')[0]);

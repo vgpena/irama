@@ -90,11 +90,16 @@ if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numN
   *
   * Randomly choose as many accent colors as we need
   *
-  */},{key:"chooseAccents",value:function chooseAccents(palette){var otherColors=[];while(otherColors.length < this.lang.numColors) {var newColorIndex=Math.floor(Math.random() * palette.accents.length);var newColor=palette.accents[newColorIndex];if(otherColors.indexOf(newColor) === -1){otherColors.push(newColor);}}return otherColors;}},{key:"rgbToHsl",value:function rgbToHsl(r,g,b){r /= 255,g /= 255,b /= 255;var max=Math.max(r,g,b),min=Math.min(r,g,b);var h,s,l=(max + min) / 2;if(max == min){h = s = 0; // achromatic
+  */},{key:"chooseAccents",value:function chooseAccents(palette){var otherColors=[];while(otherColors.length < this.lang.numColors) {var newColorIndex=Math.floor(Math.random() * palette.accents.length);var newColor=palette.accents[newColorIndex];if(otherColors.indexOf(newColor) === -1){otherColors.push(newColor);}}return otherColors;} /*
+  *
+  * This and the following function came from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+  * because I don't know shit about color spaces.
+  *
+  */},{key:"rgbToHsl",value:function rgbToHsl(r,g,b){r /= 255,g /= 255,b /= 255;var max=Math.max(r,g,b),min=Math.min(r,g,b);var h,s,l=(max + min) / 2;if(max == min){h = s = 0; // achromatic
 }else {var d=max - min;s = l > 0.5?d / (2 - max - min):d / (max + min);switch(max){case r:h = (g - b) / d + (g < b?6:0);break;case g:h = (b - r) / d + 2;break;case b:h = (r - g) / d + 4;break;}h /= 6;}return [h,s,l];}},{key:"hslToRgb",value:function hslToRgb(h,s,l){var r,g,b;if(s == 0){r = g = b = l; // achromatic
 }else {var hue2rgb=function hue2rgb(p,q,t){if(t < 0)t += 1;if(t > 1)t -= 1;if(t < 1 / 6)return p + (q - p) * 6 * t;if(t < 1 / 2)return q;if(t < 2 / 3)return p + (q - p) * (2 / 3 - t) * 6;return p;};var q=l < 0.5?l * (1 + s):l + s - l * s;var p=2 * l - q;r = hue2rgb(p,q,h + 1 / 3);g = hue2rgb(p,q,h);b = hue2rgb(p,q,h - 1 / 3);}return [r * 255,g * 255,b * 255];} /*
   *
-  * Changes a color's lightness
+  * Changes a color's saturation.
   */},{key:"colorshift",value:function colorshift(color){var r=parseInt(color.split('(')[1].split(',')[0]);var g=parseInt(color.split(', ')[1]);var b=parseInt(color.split(', ')[2]);var hsl=this.rgbToHsl(r,g,b);var delta=parseInt(this.lang.saturationDelta) * 4 / 100;hsl[1] += delta;var newRgb=this.hslToRgb(hsl[0],hsl[1],hsl[2]);var newR=parseInt(newRgb[0]);var newG=parseInt(newRgb[1]);var newB=parseInt(newRgb[2]);return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";} /*
   *
   * Performs colorshifts on an array of colors.
