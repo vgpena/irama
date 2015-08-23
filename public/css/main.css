@@ -1,17 +1,17 @@
-/* line 1, ../sass/main.sass */
+/* line 3, ../sass/main.sass */
 body {
   color: #333333;
   font-family: sans-serif;
   margin: 0;
 }
 
-/* line 6, ../sass/main.sass */
+/* line 8, ../sass/main.sass */
 .fixme {
   color: red;
   font-weight: bold;
 }
 
-/* line 10, ../sass/main.sass */
+/* line 12, ../sass/main.sass */
 .languages-list {
   list-style-type: none;
   display: block;
@@ -19,43 +19,52 @@ body {
   padding: 0;
 }
 
-/* line 16, ../sass/main.sass */
+/* line 18, ../sass/main.sass */
 .language {
   display: block;
   border-bottom: solid 2px #eeeeee;
   padding: 1rem;
 }
-/* line 20, ../sass/main.sass */
+/* line 22, ../sass/main.sass */
 .language > div {
   padding: 0 0 1rem 0;
   border-bottom: solid 4px #fafafa;
   margin-bottom: 2rem;
 }
 
-/* line 25, ../sass/main.sass */
+/* line 27, ../sass/main.sass */
 h1 {
   font-size: 1.5rem;
   text-transform: uppercase;
 }
 
-/* line 29, ../sass/main.sass */
+/* line 31, ../sass/main.sass */
 h2 {
   font-size: 1.2rem;
   color: #999999;
   text-transform: uppercase;
 }
 
-/* line 35, ../sass/main.sass */
+/* line 37, ../sass/main.sass */
 .palette-component {
   display: inline-block;
   vertical-align: top;
 }
 
-/* line 39, ../sass/main.sass */
-.palette-color {
+/* line 41, ../sass/main.sass */
+.palette-color, .component-image {
   display: inline-block;
   width: 60px;
   height: 60px;
   vertical-align: top;
   margin-right: 1rem;
+  box-sizing: border-box;
+  border: solid 1px #eeeeee;
+}
+
+/* line 50, ../sass/main.sass */
+.component-image {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

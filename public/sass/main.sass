@@ -1,3 +1,5 @@
+$li-dim: 60px
+
 body
   color: #333
   font-family: sans-serif
@@ -36,9 +38,16 @@ h2
   display: inline-block
   vertical-align: top
 
-.palette-color
+.palette-color, .component-image
   display: inline-block
-  width: 60px
-  height: 60px
+  width: $li-dim
+  height: $li-dim
   vertical-align: top
   margin-right: 1rem
+  box-sizing: border-box
+  border: solid 1px #eee
+
+.component-image
+  background-size: contain
+  background-position: center
+  background-repeat: no-repeat
