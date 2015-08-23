@@ -9098,6 +9098,7 @@ module.exports = class {
   /*
   *
   * Changes a color's saturation.
+  *
   */
   colorshift(color) {
     const r = parseInt(color.split('(')[1].split(',')[0]);
@@ -9106,9 +9107,9 @@ module.exports = class {
 
     let hsl = this.rgbToHsl(r, g, b);
 
-    const delta = parseInt(this.lang.saturationDelta)*4/100;
+    const sDelta = parseInt(this.lang.saturationDelta)*4/100;
 
-    hsl[1] += delta;
+    hsl[1] += sDelta;
 
     let newRgb = this.hslToRgb(hsl[0], hsl[1], hsl[2]);
 

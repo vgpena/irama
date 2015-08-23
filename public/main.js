@@ -100,7 +100,8 @@ if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numN
 }else {var hue2rgb=function hue2rgb(p,q,t){if(t < 0)t += 1;if(t > 1)t -= 1;if(t < 1 / 6)return p + (q - p) * 6 * t;if(t < 1 / 2)return q;if(t < 2 / 3)return p + (q - p) * (2 / 3 - t) * 6;return p;};var q=l < 0.5?l * (1 + s):l + s - l * s;var p=2 * l - q;r = hue2rgb(p,q,h + 1 / 3);g = hue2rgb(p,q,h);b = hue2rgb(p,q,h - 1 / 3);}return [r * 255,g * 255,b * 255];} /*
   *
   * Changes a color's saturation.
-  */},{key:"colorshift",value:function colorshift(color){var r=parseInt(color.split('(')[1].split(',')[0]);var g=parseInt(color.split(', ')[1]);var b=parseInt(color.split(', ')[2]);var hsl=this.rgbToHsl(r,g,b);var delta=parseInt(this.lang.saturationDelta) * 4 / 100;hsl[1] += delta;var newRgb=this.hslToRgb(hsl[0],hsl[1],hsl[2]);var newR=parseInt(newRgb[0]);var newG=parseInt(newRgb[1]);var newB=parseInt(newRgb[2]);return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";} /*
+  *
+  */},{key:"colorshift",value:function colorshift(color){var r=parseInt(color.split('(')[1].split(',')[0]);var g=parseInt(color.split(', ')[1]);var b=parseInt(color.split(', ')[2]);var hsl=this.rgbToHsl(r,g,b);var sDelta=parseInt(this.lang.saturationDelta) * 4 / 100;hsl[1] += sDelta;var newRgb=this.hslToRgb(hsl[0],hsl[1],hsl[2]);var newR=parseInt(newRgb[0]);var newG=parseInt(newRgb[1]);var newB=parseInt(newRgb[2]);return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";} /*
   *
   * Performs colorshifts on an array of colors.
   *
