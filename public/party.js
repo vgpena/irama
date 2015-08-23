@@ -8839,16 +8839,44 @@ function printLangs() {
   }
 }
 
+
+/*
+*
+* Render the card! :D
+*
+*/
+
+function render(lang) {
+  let renderElt = document.createElement("canvas");
+  renderElt.classList.add("card");
+
+  return renderElt;
+}
+
+
 /*
 *
 * Render a language's name and its card
 *
 */
 function renderLang(lang) {
-  let langRender = document.createElement("h1");
-  langRender.appendChild(document.createTextNode(lang.name));
+  let element = document.createElement("div");
+  element.classList.add('lang-render-wrap');
+  let langInfo = document.createElement("div");
+  langInfo.classList.add('lang-info');
+  let langName = document.createElement("h1");
+  langName.appendChild(document.createTextNode(lang.name));
+  langInfo.appendChild(langName);
 
-  return langRender;
+  let renderElt = render(lang);
+  let renderWrap = document.createElement("div");
+  renderWrap.classList.add("render");
+  renderWrap.appendChild(renderElt);
+
+  element.appendChild(renderWrap);
+  element.appendChild(langInfo);
+
+  return element;
 }
 
 /*

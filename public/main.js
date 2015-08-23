@@ -37,9 +37,13 @@ if(!data.components.length || data.components.length === 0){componentsList.class
 *
 */function printLangs(){var langsList=document.getElementsByClassName('languages-list')[0];for(var _i7=0;_i7 < langsAndVisuals.length;_i7++) {var langElt=document.createElement("li");langElt.classList.add("language");var langTitle=document.createElement("h1");langTitle.appendChild(document.createTextNode(langsAndVisuals[_i7].name));var langPalette=genPaletteElt(langsAndVisuals[_i7].visuals.palette);langElt.appendChild(langTitle);langElt.appendChild(langPalette);langElt.appendChild(genPatternElt(langsAndVisuals[_i7].visuals.pattern));langsList.appendChild(langElt);}} /*
 *
+* Render the card! :D
+*
+*/function render(lang){var renderElt=document.createElement("canvas");renderElt.classList.add("card");return renderElt;} /*
+*
 * Render a language's name and its card
 *
-*/function renderLang(lang){var langRender=document.createElement("h1");langRender.appendChild(document.createTextNode(lang.name));return langRender;} /*
+*/function renderLang(lang){var element=document.createElement("div");element.classList.add('lang-render-wrap');var langInfo=document.createElement("div");langInfo.classList.add('lang-info');var langName=document.createElement("h1");langName.appendChild(document.createTextNode(lang.name));langInfo.appendChild(langName);var renderElt=render(lang);var renderWrap=document.createElement("div");renderWrap.classList.add("render");renderWrap.appendChild(renderElt);element.appendChild(renderWrap);element.appendChild(langInfo);return element;} /*
 *
 * Actual rendered language output
 *
