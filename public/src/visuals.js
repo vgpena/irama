@@ -250,8 +250,10 @@ module.exports = class {
 
     let hsl = this.rgbToHsl(r, g, b);
 
-    const sDelta = parseInt(this.lang.saturationDelta)*4/100;
+    const hDelta = parseInt(this.lang.hueDelta)*2/100;
+    hsl[0] += hDelta;
 
+    const sDelta = parseInt(this.lang.saturationDelta)*4/100;
     hsl[1] += sDelta;
 
     let newRgb = this.hslToRgb(hsl[0], hsl[1], hsl[2]);

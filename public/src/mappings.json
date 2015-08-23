@@ -62,6 +62,16 @@
       "tValue": true
     }
   },
+  "hueDelta" : {
+    "mapVal": "1A Consonant Inventories",
+    "vals": {
+      "1 Small": -20,
+      "2 Moderately small": -10,
+      "3 Average": 0,
+      "4 Moderately large": 10,
+      "5 Large": 20
+    }
+  },
   "saturationDelta": {
     "mapVal": "26A Prefixing vs. Suffixing in Inflectional Morphology",
     "vals": {

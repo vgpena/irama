@@ -8317,6 +8317,7 @@ module.exports = class {
     this.angle = this.genericGet(options, "angle");
     this.wavyLines = this.genericGet(options, "wavyLines");
     this.saturationDelta = this.genericGet(options, "saturationDelta");
+    this.hueDelta = this.genericGet(options, "hueDelta");
     this.numColors = this.genericGet(options, "numColors");
     this.hasBorders = this.genericGet(options, "hasBorders");
     this.howManyBorders = this.genericGet(options, "howManyBorders");
@@ -8448,6 +8449,16 @@ module.exports={
       "key": "type",
       "value": "lines",
       "tValue": true
+    }
+  },
+  "hueDelta" : {
+    "mapVal": "1A Consonant Inventories",
+    "vals": {
+      "1 Small": -20,
+      "2 Moderately small": -10,
+      "3 Average": 0,
+      "4 Moderately large": 10,
+      "5 Large": 20
     }
   },
   "saturationDelta": {
@@ -9107,8 +9118,10 @@ module.exports = class {
 
     let hsl = this.rgbToHsl(r, g, b);
 
-    const sDelta = parseInt(this.lang.saturationDelta)*4/100;
+    const hDelta = parseInt(this.lang.hueDelta)*2/100;
+    hsl[0] += hDelta;
 
+    const sDelta = parseInt(this.lang.saturationDelta)*4/100;
     hsl[1] += sDelta;
 
     let newRgb = this.hslToRgb(hsl[0], hsl[1], hsl[2]);
