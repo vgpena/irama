@@ -12,7 +12,7 @@ body {
 }
 
 /* line 12, ../sass/main.sass */
-.languages-list {
+.languages-list, .langs-render-list {
   list-style-type: none;
   display: block;
   margin: 0;
@@ -20,13 +20,13 @@ body {
 }
 
 /* line 18, ../sass/main.sass */
-.language {
+.language, .lang-render-item {
   display: block;
   border-bottom: solid 2px #eeeeee;
   padding: 1rem;
 }
 /* line 22, ../sass/main.sass */
-.language > div {
+.language > div, .lang-render-item > div {
   padding: 0 0 1rem 0;
   border-bottom: solid 4px #fafafa;
   margin-bottom: 2rem;
@@ -67,4 +67,18 @@ h2 {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* line 55, ../sass/main.sass */
+.render, .lang-info {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* line 59, ../sass/main.sass */
+.card {
+  width: 300px;
+  height: 500px;
+  border: solid 1px #eeeeee;
+  margin: 1rem;
 }
