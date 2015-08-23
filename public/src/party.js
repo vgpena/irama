@@ -181,7 +181,10 @@ function generateVisualsForLangs() {
     if (i < langsAndVisuals.length) {
       langsAndVisuals[i] = new Visuals(langsAndVisuals[i]);
     } else {
-      done();
+      console.log('done');
+      // window.setTimeout(() => {
+      //   done();
+      // }, 0);
     }
   }
 }
