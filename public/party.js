@@ -8183,7 +8183,7 @@ module.exports={
       "light": "eab7b8",
       "dark": "2c2322",
       "accents": ["da365c", "f2b733"]
-    },
+    }
   ]
 }
 

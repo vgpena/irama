@@ -14,7 +14,7 @@ require('load-grunt-tasks')(grunt);
         tasks: ['babel']
       },
       browserify: {
-        files: ['./public/src/*.js'],
+        files: ['./public/src/*.js', './public/data/*.json'],
         tasks: ['browserify']
       }
 		},
