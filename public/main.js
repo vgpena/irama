@@ -5,7 +5,7 @@
 * modules
 */var Language=require('./generator.js');var Visuals=require('./visuals.js'); /*
 * settings
-*/var renderLimit=3;var mode="debug"; // const mode = "render";
+*/var renderLimit=20;var mode="debug"; // const mode = "render";
 // const langMode = "normal";
 var langMode="rand"; /*
 * keeping track of things
