@@ -42,7 +42,7 @@ module.exports = class {
   getComponents() {
     let components = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
 
-    console.log(components);
+    console.log(this.lang.numComponents);
 
     return components;
   }

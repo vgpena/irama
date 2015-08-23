@@ -85,6 +85,17 @@
       "7 No dominant order": 2
     }
   },
+  "numComponents": {
+    "mapVal": "30A Number of Genders",
+    "vals": {
+      "1 None": 3,
+      "2 Two": 4,
+      "3 Three": 5,
+      "4 Four": 2,
+      "5 Five or more": 6,
+      "": 3
+    }
+  },
   "hasBorders": {
     "mapVal": "19A Presence of Uncommon Consonants",
     "vals": {

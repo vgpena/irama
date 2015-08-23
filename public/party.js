@@ -8237,6 +8237,7 @@ module.exports = class {
     this.hasBorders = this.genericGet(options, "hasBorders");
     this.howManyBorders = this.genericGet(options, "howManyBorders");
     this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
+    this.numComponents = this.genericGet(options, "numComponents");
 
     return this;
   }
@@ -8386,6 +8387,17 @@ module.exports={
       "4 VOS": 4,
       "5 OVS": 5,
       "7 No dominant order": 2
+    }
+  },
+  "numComponents": {
+    "mapVal": "30A Number of Genders",
+    "vals": {
+      "1 None": 3,
+      "2 Two": 4,
+      "3 Three": 5,
+      "4 Four": 2,
+      "5 Five or more": 6,
+      "": 3
     }
   },
   "hasBorders": {
@@ -8790,7 +8802,7 @@ module.exports = class {
   getComponents() {
     let components = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
 
-    console.log(components);
+    console.log(this.lang.numComponents);
 
     return components;
   }

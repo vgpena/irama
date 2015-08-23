@@ -14,6 +14,7 @@ module.exports = class {
     this.hasBorders = this.genericGet(options, "hasBorders");
     this.howManyBorders = this.genericGet(options, "howManyBorders");
     this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
+    this.numComponents = this.genericGet(options, "numComponents");
 
     return this;
   }
