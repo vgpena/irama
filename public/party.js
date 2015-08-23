@@ -8300,6 +8300,22 @@ module.exports={
           "colors": [0, 2]
         }
       ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0501",
+          "rule": "placeNext",
+          "colors": [2, 0]
+        },
+        {
+          "id": "lines0502",
+          "rule": "placeNext",
+          "colors": [2, 0]
+        }
+      ]
     }
   ]
 }
