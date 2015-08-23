@@ -8800,9 +8800,27 @@ module.exports = class {
   *
   */
   getComponents() {
-    let components = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
+    // TODO: don't have any Free patterns entered yet.
+    let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : [patterns[this.lang.type]];
 
-    console.log(this.lang.numComponents);
+    if (allComponents === null) {
+      return [];
+    }
+
+    let componentIndices = [];
+    let components = [];
+
+    while (componentIndices.length < parseInt(this.lang.numComponents)) {
+      let randIndex = Math.floor(Math.random() * allComponents[0].length);
+
+      if (componentIndices.indexOf(randIndex) === -1) {
+        componentIndices.push(randIndex);
+      }
+    }
+
+    for (let i = 0; i < componentIndices.length; i++) {
+      components.push(allComponents[0][componentIndices[i]]);
+    }
 
     return components;
   }
