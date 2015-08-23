@@ -9,14 +9,14 @@ require('load-grunt-tasks')(grunt);
 	    	files: ['./public/sass/*.sass'],
 	    	tasks: ['compass:dev']
 	    },
-      babel: {
-        files: ['./public/src/*.js'],
-        tasks: ['babel']
-      },
       browserify: {
         files: ['./public/src/*.js', './public/data/*.json'],
-        tasks: ['browserify']
+        tasks: ['browserify', 'babel']
       }
+      // babel: {
+      //   files: ['./public/src/*.js', './public/data/*.json'],
+      //   tasks: ['babel']
+      // }
 		},
     browserify: {
       client: {
@@ -30,7 +30,7 @@ require('load-grunt-tasks')(grunt);
       },
       dist: {
         files: {
-          'public/party.js': 'public/src/party.js'
+          'public/main.js': 'public/party.js'
         }
       }
     },

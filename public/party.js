@@ -8874,12 +8874,37 @@ module.exports = class {
     this.lang = data.data;
     this.visuals = {
       pattern: {
-        type: this.getPatternType(),
-        components: this.getComponents(),
+        type: null,
+        components: null,
         background: null
       },
-      palette: this.generatePalette()
+      palette: null
     };
+
+    this.getPatternType = this.getPatternType.bind(this);
+    this.getBackgroundColor = this.getBackgroundColor.bind(this);
+    this.getComponents = this.getComponents.bind(this);
+
+    this.generateVisuals();
+  }
+
+  generateVisuals() {
+    window.setTimeout(() => {
+      console.log('foo');
+    }, 1);
+    // let time = window.setTimeout(() => {
+    //   this.generatePalette();
+    // }, 0);
+    // this.generatePalette(
+    //   window.setTimeout(() => {
+    //     this.getPatternType(
+    //       this.getComponents(
+    //         this.getBackgroundColor()
+    //       )
+    //     )
+    //   })
+    //
+    // );
   }
 
   /*
@@ -8887,8 +8912,8 @@ module.exports = class {
   * Gets largest-grain pattern type
   *
   */
-  getPatternType() {
-    return this.lang.type;
+  getPatternType(callback) {
+    this.visuals.pattern.type = this.lang.type;
   }
 
 
@@ -8905,19 +8930,29 @@ module.exports = class {
   * make sure that it is not reused.
   *
   */
-  getBackgroundColor(components) {
-    let backgroundColors = []
+  getBackgroundColor(callback) {
+    let backgroundColors = [];
+    let backgroundColor = "";
 
-    for (let i = 0; i < components.length; i++) {
-      if (backgroundColors.indexOf(components[i].background) === -1) {
-        backgroundColors.push(components[i].background);
+    for (let i = 0; i < this.visuals.pattern.components.length; i++) {
+      if (backgroundColors.indexOf(this.visuals.pattern.components[i].background) === -1) {
+        backgroundColors.push(this.visuals.pattern.components[i].background);
       }
     }
 
     // if they have different bg colors, we need to reconcile.
-    if (backgroundColors.length > 1) {
-      console.log(backgroundColors);
-    }
+    // if (backgroundColors.length > 1) {
+      backgroundColor = backgroundColors[0];
+    // }
+
+    // if (backgroundColor === 2) {
+    //   console.log(this.visuals.palette);
+    // }
+
+    this.visuals.backgroundColor = backgroundColor;
+
+    callback();
+
   }
 
 
@@ -8926,7 +8961,7 @@ module.exports = class {
   * Get components to use in pattern
   *
   */
-  getComponents() {
+  getComponents(callback) {
     // TODO: don't have any Free patterns entered yet.
     let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
@@ -8989,9 +9024,13 @@ module.exports = class {
       components.push(allComponents[componentIndices[i]]);
     }
 
-    this.getBackgroundColor(components);
+    // this.getBackgroundColor(components);
 
-    return components;
+    console.log(this.visuals);
+
+    this.visuals.pattern.components = components;
+
+    // callback();
   }
 
   /*
@@ -9052,7 +9091,7 @@ module.exports = class {
   * Based on available palettes, pick one
   *
   */
-  generatePalette() {
+  generatePalette(callback) {
     let eligiblePalettes = [];
     for (let paletteSet in allPalettes) {
       if (parseInt(paletteSet) >= this.lang.numColors + 2) {
@@ -9066,11 +9105,13 @@ module.exports = class {
 
     let chosenPalette = eligiblePalettes[randIndex];
 
-    return ({
+    this.visuals.palette = {
       light: this.colorshift(chosenPalette.light),
       dark: this.colorshift(chosenPalette.dark),
       others: this.colorshiftAll(this.chooseAccents(chosenPalette))
-    });
+    };
+
+    callback();
   }
 }
 
