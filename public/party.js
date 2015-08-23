@@ -8726,11 +8726,10 @@ function genPatternElt(data) {
   patternEltTitle.appendChild(document.createTextNode(data.type));
   patternElt.appendChild(patternEltTitle);
 
-  let componentsList = document.createElement("ul");
+  let componentsList = document.createElement("div");
 
   // because derp.
   if (!data.components.length || data.components.length === 0){
-    componentsList = document.createElement("p");
     componentsList.classList.add("fixme");
     componentsList.appendChild(document.createTextNode("Insert components for Free pattern!"));
     patternElt.appendChild(componentsList);
@@ -8739,8 +8738,6 @@ function genPatternElt(data) {
 
 
   for (let i = 0; i < data.components.length; i++) {
-    let componentItem = document.createElement("li");
-
     let componentImage = document.createElement("div");
     componentImage.classList.add("component-image");
 
@@ -8753,8 +8750,7 @@ function genPatternElt(data) {
     let imagePath = './img/' + imageType + '/' + imageGroup + '/' + imageName + '.svg';
     componentImage.style.backgroundImage = 'url(' + imagePath + ')';
 
-    componentItem.appendChild(componentImage);
-    componentsList.appendChild(componentItem);
+    componentsList.appendChild(componentImage);
   }
 
   patternElt.appendChild(componentsList);
