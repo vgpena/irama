@@ -18,7 +18,8 @@ module.exports = class {
     this.visuals = {
       pattern: {
         type: this.getPatternType(),
-        components: this.getComponents()
+        components: this.getComponents(),
+        background: null
       },
       palette: this.generatePalette()
     };
@@ -31,6 +32,35 @@ module.exports = class {
   */
   getPatternType() {
     return this.lang.type;
+  }
+
+
+  /*
+  *
+  * Pick background color of the card.
+  * We might need to reconcile the different components
+  * if by default they have different background colors
+  * from each other.
+  *
+  * If the background color is marked as "other",
+  * we will also have to pick it at random.
+  * When we pick component colors, we will have to
+  * make sure that it is not reused.
+  *
+  */
+  getBackgroundColor(components) {
+    let backgroundColors = []
+
+    for (let i = 0; i < components.length; i++) {
+      if (backgroundColors.indexOf(components[i].background) === -1) {
+        backgroundColors.push(components[i].background);
+      }
+    }
+
+    // if they have different bg colors, we need to reconcile.
+    if (backgroundColors.length > 1) {
+      console.log(backgroundColors);
+    }
   }
 
 
@@ -76,6 +106,20 @@ module.exports = class {
     let componentIndices = [];
     let components = [];
 
+    // FIXME: with so few components currently entered,
+    // it is possible for a language to require
+    // more components than are in the menagerie.
+    if (parseInt(this.lang.numComponents) > allComponents.length) {
+      let i = 0;
+      const numNeeded = parseInt(this.lang.numComponents);
+      while (components.length < numNeeded) {
+        components.push(allComponents[i]);
+        i = (i+1)%numNeeded;
+      }
+
+      return components;
+    }
+
     while (componentIndices.length < parseInt(this.lang.numComponents)) {
       let randIndex = Math.floor(Math.random() * allComponents.length);
 
@@ -87,6 +131,8 @@ module.exports = class {
     for (let i = 0; i < componentIndices.length; i++) {
       components.push(allComponents[componentIndices[i]]);
     }
+
+    this.getBackgroundColor(components);
 
     return components;
   }
