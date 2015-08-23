@@ -1,12 +1,6 @@
 {
   "palettes": [
     {
-      "numColors": 2,
-      "light": "f4c89e",
-      "dark": "2e363e",
-      "accents": []
-    },
-    {
       "numColors": 3,
       "light": "c4c5c3",
       "dark": "1f1f1f",
@@ -119,6 +113,96 @@
       "light": "d6c5b4",
       "dark": "3d2c2a",
       "accents": ["fad789", "d9782c", "b34934", "5e6e44", "ce495d"]
-    }
+    },
+    {
+      "numColors": 4,
+      "light": "bfc6af",
+      "dark": "0a0808",
+      "accents": ["e0c3bc", "4d221d"]
+    },
+    {
+      "numColors": 6,
+      "light": "dcd8d5",
+      "dark": "19171b",
+      "accents": ["bdc0b9", "585b5a", "c4d6e6", "252b47"]
+    },
+    {
+      "numColors": 6,
+      "light": "ecedee",
+      "dark": "0f1010",
+      "accents": ["896130", "b97e7e", "823727", "708eb2"]
+    },
+    {
+      "numColors": 4,
+      "light": "d4d2d1",
+      "dark": "302b2a",
+      "accents": ["85b4c5", "af222c"]
+    },
+    {
+      "numColors": 4,
+      "light": "ead360",
+      "dark": "272c2b",
+      "accents": ["1c2b53", "376670"]
+    },
+    {
+      "numColors": 5,
+      "light": "e3b236",
+      "dark": "1b1916",
+      "accents": ["e1d8d4", "86863a", "2e677d"]
+    },
+    {
+      "numColors": 5,
+      "light": "7fbbad",
+      "dark": "1d2720",
+      "accents": ["bdbcbe", "45865e", "615b4d"]
+    },
+    {
+      "numColors": 7,
+      "light": "f2e7e2",
+      "dark": "321f24",
+      "accents": ["81bdc3", "a4b744", "fadf6a", "ed4439", "ec9ba2"]
+    },
+    {
+      "numColors": 4,
+      "light": "e1bd94",
+      "dark": "1a1515",
+      "accents": ["d2867e", "8a7c5a"]
+    },
+    {
+      "numColors": 6,
+      "light": "f6ecef",
+      "dark": "36152b",
+      "accents": ["8ebcb7", "f3cd62", "135ba4", "a35ba1"]
+    },
+    {
+      "numColors": 5,
+      "light": "ebd8a6",
+      "dark": "30272d",
+      "accents": ["ee6794", "5d89c4", "981d39"]
+    },
+    {
+      "numColors": 5,
+      "light": "fce161",
+      "dark": "34292e",
+      "accents": ["cec5c1", "3c99b1", "ed494f"]
+    },
+    {
+      "numColors": 5,
+      "light": "e8d5cf",
+      "dark": "5e0813",
+      "accents": ["8ca5c3", "d96e8d", "4c6a5d"]
+    },
+    {
+      "numColors": 6,
+      "light": "c7bdb8",
+      "dark": "553a2f",
+      "accents": ["b38674", "d2a638", "d1242e", "6c472b"]
+    },
+    {
+      "numColors": 4,
+      "light": "eab7b8",
+      "dark": "2c2322",
+      "accents": ["da365c", "f2b733"]
+    },
   ]
 }
