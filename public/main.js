@@ -37,9 +37,13 @@ if(!data.components.length || data.components.length === 0){componentsList.class
 *
 */function printLangs(){var langsList=document.getElementsByClassName('languages-list')[0];for(var _i7=0;_i7 < langsAndVisuals.length;_i7++) {var langElt=document.createElement("li");langElt.classList.add("language");var langTitle=document.createElement("h1");langTitle.appendChild(document.createTextNode(langsAndVisuals[_i7].name));var langPalette=genPaletteElt(langsAndVisuals[_i7].visuals.palette);langElt.appendChild(langTitle);langElt.appendChild(langPalette);langElt.appendChild(genPatternElt(langsAndVisuals[_i7].visuals.pattern));langsList.appendChild(langElt);}} /*
 *
+* Extract value of bg color from a lang's visuals
+*
+*/function getBgColor(visuals){if(parseInt(visuals.pattern.background) === 0){return visuals.palette.light;}else if(parseInt(visuals.pattern.background) === 1){return visuals.palette.dark;}else {return visuals.palette.others[parseInt(visuals.pattern.background) - 2];}} /*
+*
 * Render the card! :D
 *
-*/function render(lang){var renderElt=document.createElement("canvas");renderElt.classList.add("card");return renderElt;} /*
+*/function render(lang){var card=document.createElement("canvas");card.classList.add("card");var bgColor=getBgColor(lang.visuals);var cx=card.getContext('2d');cx.fillStyle = bgColor;cx.fillRect(0,0,card.width,card.height);return card;} /*
 *
 * Render a language's name and its card
 *
