@@ -39,7 +39,8 @@ if(paletteJSON.others.length > 0){var others=document.createElement("div");other
 * Generate visual imformation for languages:
 * colors, patterns, borders, etc.
 *
-*/function generateVisualsForLangs(){for(var _i8=0;_i8 <= langsAndVisuals.length;_i8++) {if(_i8 < langsAndVisuals.length){langsAndVisuals[_i8] = new Visuals(langsAndVisuals[_i8]);}else {console.log('done'); // window.setTimeout(() => {
+*/function generateVisualsForLangs(){for(var _i8=0;_i8 <= langsAndVisuals.length;_i8++) {if(_i8 < langsAndVisuals.length){langsAndVisuals[_i8] = new Visuals(langsAndVisuals[_i8]);}else {done(); // console.log('done');
+// window.setTimeout(() => {
 //   done();
 // }, 0);
 }}} /*
@@ -54,11 +55,26 @@ if(paletteJSON.others.length > 0){var others=document.createElement("div");other
 *
 */var chooseFrom=data;if(langMode === "rand"){var chooseFromRand=[];while(chooseFromRand.length < renderLimit) {var newIndex=Math.floor(Math.random() * data.length);if(chooseFromRand.indexOf(newIndex) === -1){chooseFromRand.push(newIndex);}}chooseFrom = [];for(var _i9=0;_i9 < chooseFromRand.length;_i9++) {chooseFrom.push(data[chooseFromRand[_i9]]);}}for(var _i10=0;_i10 <= renderLimit;_i10++) { // for as many as we want, generate language from data
 if(_i10 < renderLimit){generateLang(_i10,chooseFrom[_i10]);}else { // once we've done that, start making things to actually render
-generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){"use strict";module.exports = (function(){function _class3(data){_classCallCheck(this,_class3);this.grid = this.generatePatterns("grid",data);this.lines = this.generatePatterns("lines",data);}_createClass(_class3,[{key:"generatePatterns",value:function generatePatterns(type,data){var patterns=[];var category=data[type];for(var _i11=0;_i11 < category.length;_i11++) {var metaPattern=category[_i11];for(var j=0;j < metaPattern.components.length;j++) {var newComponent=metaPattern.components[j];newComponent.subtype = typeof metaPattern.subtype === "undefined"?null:metaPattern.subtype;newComponent.background = metaPattern.background;patterns.push(newComponent);}}return patterns;}}]);return _class3;})();},{}],9:[function(require,module,exports){"use strict";var palettesData=require('../../public/data/palettes.json');var Palettes=require('./palettes.js');var patternsData=require('../../public/data/patterns.json');var Patterns=require('./patterns.js');var palettesObj=new Palettes(palettesData);var allPalettes=palettesObj.allPalettes;var numPalettes=palettesObj.numPalettes;var patterns=new Patterns(patternsData);module.exports = (function(){function _class4(data){_classCallCheck(this,_class4);this.name = data.name;this.lang = data.data;this.visuals = {pattern:{type:null,components:null,background:null},palette:null};this.generateVisuals();}_createClass(_class4,[{key:"generateVisuals",value:function generateVisuals(){var _this=this;window.setTimeout(function(){_this.generatePalette();},0,function(){window.setTimeout(function(){_this.getPatternType();},0,function(){window.setTimeout(function(){_this.getComponents();},0,function(){window.setTimeout(function(){_this.getBackgroundColor();},0);});});});} /*
+generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){"use strict";module.exports = (function(){function _class3(data){_classCallCheck(this,_class3);this.grid = this.generatePatterns("grid",data);this.lines = this.generatePatterns("lines",data);}_createClass(_class3,[{key:"generatePatterns",value:function generatePatterns(type,data){var patterns=[];var category=data[type];for(var _i11=0;_i11 < category.length;_i11++) {var metaPattern=category[_i11];for(var j=0;j < metaPattern.components.length;j++) {var newComponent=metaPattern.components[j];newComponent.subtype = typeof metaPattern.subtype === "undefined"?null:metaPattern.subtype;newComponent.background = metaPattern.background;patterns.push(newComponent);}}return patterns;}}]);return _class3;})();},{}],9:[function(require,module,exports){"use strict";var palettesData=require('../../public/data/palettes.json');var Palettes=require('./palettes.js');var patternsData=require('../../public/data/patterns.json');var Patterns=require('./patterns.js');var palettesObj=new Palettes(palettesData);var allPalettes=palettesObj.allPalettes;var numPalettes=palettesObj.numPalettes;var patterns=new Patterns(patternsData);module.exports = (function(){function _class4(data){_classCallCheck(this,_class4);this.name = data.name;this.lang = data.data;this.visuals = {pattern:{type:null,components:[],background:null},palette:null};this.generatePalette = this.generatePalette.bind(this);this.getPatternType = this.getPatternType.bind(this);this.getComponents = this.getComponents.bind(this);this.getBackgroundColor = this.getBackgroundColor.bind(this);this.generateVisuals();}_createClass(_class4,[{key:"generateVisuals",value:function generateVisuals(){var _this=this;this.generatePalette(function(){_this.getPatternType(function(){_this.getComponents(function(){_this.getBackgroundColor();});});}); // window.setTimeout(() => {
+//   this.generatePalette();
+// }, 0, () => {
+//   window.setTimeout(() => {
+//     this.getPatternType()
+//   }, 0, () => {
+//     window.setTimeout(() => {
+//       this.getComponents();
+//     }, 0, () => {
+//       window.setTimeout(() => {
+//         this.getBackgroundColor();
+//       }, 0);
+//     });
+//   });
+// });
+} /*
   *
   * Gets largest-grain pattern type
   *
-  */},{key:"getPatternType",value:function getPatternType(){this.visuals.pattern.type = this.lang.type;} /*
+  */},{key:"getPatternType",value:function getPatternType(callback){this.visuals.pattern.type = this.lang.type;callback();} /*
   *
   * Pick background color of the card.
   * We might need to reconcile the different components
@@ -76,12 +92,12 @@ backgroundColor = backgroundColors[0]; // }
 // if (backgroundColor === 2) {
 //   console.log(this.visuals.palette);
 // }
-this.visuals.backgroundColor = backgroundColor;} /*
+this.visuals.pattern.background = backgroundColor;} /*
   *
   * Get components to use in pattern
   *
-  */},{key:"getComponents",value:function getComponents(){ // TODO: don't have any Free patterns entered yet.
-var allComponents=typeof patterns[this.lang.type] === "undefined"?null:patterns[this.lang.type];if(allComponents === null){return [];} /*
+  */},{key:"getComponents",value:function getComponents(callback){ // TODO: don't have any Free patterns entered yet.
+var allComponents=typeof patterns[this.lang.type] === "undefined"?null:patterns[this.lang.type];if(allComponents === null){this.visuals.pattern.components = [];callback();return;} /*
     * if there are subtypes, we need to:
     * 1. divide components into per-subtype lists
     * 2. pick which subtype to use
@@ -92,7 +108,7 @@ var rand=Math.floor(Math.random() * subtypesList.length);var subtype=subtypesLis
 allComponents = componentsWithSubtypes[subtype];}var componentIndices=[];var components=[]; // FIXME: with so few components currently entered,
 // it is possible for a language to require
 // more components than are in the menagerie.
-if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i14]);_i14 = (_i14 + 1) % numNeeded;}return components;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i15=0;_i15 < componentIndices.length;_i15++) {components.push(allComponents[componentIndices[_i15]]);}console.log(this.visuals);this.visuals.pattern.components = components;} /*
+if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i14]);_i14 = (_i14 + 1) % numNeeded;}this.visuals.pattern.components = components;;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i15=0;_i15 < componentIndices.length;_i15++) {components.push(allComponents[componentIndices[_i15]]);}this.visuals.pattern.components = components;callback();} /*
   *
   * Randomly choose as many accent colors as we need
   *
@@ -107,5 +123,5 @@ if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numN
   *
   * Based on available palettes, pick one
   *
-  */},{key:"generatePalette",value:function generatePalette(){var eligiblePalettes=[];for(var paletteSet in allPalettes) {if(parseInt(paletteSet) >= this.lang.numColors + 2){for(var j=0;j < allPalettes[paletteSet].length;j++) {eligiblePalettes.push(allPalettes[paletteSet][j]);}}}var randIndex=Math.floor(Math.random() * eligiblePalettes.length);var chosenPalette=eligiblePalettes[randIndex];this.visuals.palette = {light:this.colorshift(chosenPalette.light),dark:this.colorshift(chosenPalette.dark),others:this.colorshiftAll(this.chooseAccents(chosenPalette))};}}]);return _class4;})();},{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":6,"./patterns.js":8}]},{},[7]);
+  */},{key:"generatePalette",value:function generatePalette(callback){var eligiblePalettes=[];for(var paletteSet in allPalettes) {if(parseInt(paletteSet) >= this.lang.numColors + 2){for(var j=0;j < allPalettes[paletteSet].length;j++) {eligiblePalettes.push(allPalettes[paletteSet][j]);}}}var randIndex=Math.floor(Math.random() * eligiblePalettes.length);var chosenPalette=eligiblePalettes[randIndex];this.visuals.palette = {light:this.colorshift(chosenPalette.light),dark:this.colorshift(chosenPalette.dark),others:this.colorshiftAll(this.chooseAccents(chosenPalette))};callback();}}]);return _class4;})();},{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":6,"./patterns.js":8}]},{},[7]);
 //# sourceMappingURL=main.js.map

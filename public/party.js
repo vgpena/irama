@@ -8772,7 +8772,8 @@ function generateVisualsForLangs() {
     if (i < langsAndVisuals.length) {
       langsAndVisuals[i] = new Visuals(langsAndVisuals[i]);
     } else {
-      console.log('done');
+      done();
+      // console.log('done');
       // window.setTimeout(() => {
       //   done();
       // }, 0);
@@ -8878,31 +8879,44 @@ module.exports = class {
     this.visuals = {
       pattern: {
         type: null,
-        components: null,
+        components: [],
         background: null
       },
       palette: null
     };
 
+    this.generatePalette = this.generatePalette.bind(this);
+    this.getPatternType = this.getPatternType.bind(this);
+    this.getComponents = this.getComponents.bind(this);
+    this.getBackgroundColor = this.getBackgroundColor.bind(this);
+
     this.generateVisuals();
   }
 
   generateVisuals() {
-    window.setTimeout(() => {
-      this.generatePalette();
-    }, 0, () => {
-      window.setTimeout(() => {
-        this.getPatternType()
-      }, 0, () => {
-        window.setTimeout(() => {
-          this.getComponents();
-        }, 0, () => {
-          window.setTimeout(() => {
-            this.getBackgroundColor();
-          }, 0);
+    this.generatePalette( () => {
+      this.getPatternType( () => {
+        this.getComponents( () => {
+          this.getBackgroundColor();
         });
       });
     });
+
+    // window.setTimeout(() => {
+    //   this.generatePalette();
+    // }, 0, () => {
+    //   window.setTimeout(() => {
+    //     this.getPatternType()
+    //   }, 0, () => {
+    //     window.setTimeout(() => {
+    //       this.getComponents();
+    //     }, 0, () => {
+    //       window.setTimeout(() => {
+    //         this.getBackgroundColor();
+    //       }, 0);
+    //     });
+    //   });
+    // });
   }
 
   /*
@@ -8910,8 +8924,10 @@ module.exports = class {
   * Gets largest-grain pattern type
   *
   */
-  getPatternType() {
+  getPatternType(callback) {
     this.visuals.pattern.type = this.lang.type;
+
+    callback();
   }
 
 
@@ -8947,7 +8963,7 @@ module.exports = class {
     //   console.log(this.visuals.palette);
     // }
 
-    this.visuals.backgroundColor = backgroundColor;
+    this.visuals.pattern.background = backgroundColor;
   }
 
 
@@ -8956,12 +8972,14 @@ module.exports = class {
   * Get components to use in pattern
   *
   */
-  getComponents() {
+  getComponents(callback) {
     // TODO: don't have any Free patterns entered yet.
     let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
     if (allComponents === null) {
-      return [];
+      this.visuals.pattern.components = [];
+      callback();
+      return;
     }
 
     /*
@@ -9004,7 +9022,7 @@ module.exports = class {
         i = (i+1)%numNeeded;
       }
 
-      return components;
+      this.visuals.pattern.components = components;;
     }
 
     while (componentIndices.length < parseInt(this.lang.numComponents)) {
@@ -9019,9 +9037,9 @@ module.exports = class {
       components.push(allComponents[componentIndices[i]]);
     }
 
-    console.log(this.visuals);
-
     this.visuals.pattern.components = components;
+
+    callback();
 
   }
 
@@ -9083,7 +9101,7 @@ module.exports = class {
   * Based on available palettes, pick one
   *
   */
-  generatePalette() {
+  generatePalette(callback) {
     let eligiblePalettes = [];
     for (let paletteSet in allPalettes) {
       if (parseInt(paletteSet) >= this.lang.numColors + 2) {
@@ -9102,7 +9120,10 @@ module.exports = class {
       dark: this.colorshift(chosenPalette.dark),
       others: this.colorshiftAll(this.chooseAccents(chosenPalette))
     };
+
+    callback();
   }
+
 }
 
 },{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":6,"./patterns.js":8}]},{},[7]);
