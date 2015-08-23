@@ -5,9 +5,9 @@
 * modules
 */var Language=require('./generator.js');var Visuals=require('./visuals.js'); /*
 * settings
-*/var renderLimit=20;var mode="debug"; // const mode = "render";
-// const langMode = "normal";
-var langMode="rand"; /*
+*/var renderLimit=20; // const mode = "debug";
+var mode="render";var langMode="normal"; // const langMode = "rand";
+if(mode === "render"){renderLimit = 1;} /*
 * keeping track of things
 */var allLangs=[];var langsAndVisuals=[]; /*
 *
@@ -37,22 +37,30 @@ if(!data.components.length || data.components.length === 0){componentsList.class
 *
 */function printLangs(){var langsList=document.getElementsByClassName('languages-list')[0];for(var _i7=0;_i7 < langsAndVisuals.length;_i7++) {var langElt=document.createElement("li");langElt.classList.add("language");var langTitle=document.createElement("h1");langTitle.appendChild(document.createTextNode(langsAndVisuals[_i7].name));var langPalette=genPaletteElt(langsAndVisuals[_i7].visuals.palette);langElt.appendChild(langTitle);langElt.appendChild(langPalette);langElt.appendChild(genPatternElt(langsAndVisuals[_i7].visuals.pattern));langsList.appendChild(langElt);}} /*
 *
+* Render a language's name and its card
+*
+*/function renderLang(lang){var langRender=document.createElement("h1");langRender.appendChild(document.createTextNode(lang.name));return langRender;} /*
+*
+* Actual rendered language output
+*
+*/function renderLangs(){var langsRenderList=document.getElementsByClassName('languages-list')[0];langsRenderList.classList.remove('languages-list');langsRenderList.classList.add('langs-render-list');for(var _i8=0;_i8 < langsAndVisuals.length;_i8++) {var langRender=renderLang(langsAndVisuals[_i8]);var langRenderItem=document.createElement("li");langRenderItem.classList.add('lang-render-item');langRenderItem.appendChild(langRender);langsRenderList.appendChild(langRenderItem);}} /*
+*
 * Generate visual imformation for languages:
 * colors, patterns, borders, etc.
 *
-*/function generateVisualsForLangs(){for(var _i8=0;_i8 <= langsAndVisuals.length;_i8++) {if(_i8 < langsAndVisuals.length){langsAndVisuals[_i8] = new Visuals(langsAndVisuals[_i8]);}else {done();}}} /*
+*/function generateVisualsForLangs(){for(var _i9=0;_i9 <= langsAndVisuals.length;_i9++) {if(_i9 < langsAndVisuals.length){langsAndVisuals[_i9] = new Visuals(langsAndVisuals[_i9]);}else {done();}}} /*
 *
 * When everything that needs to be done has been done
 *
-*/function done(){if(mode === "debug"){printLangs();}} /*
+*/function done(){if(mode === "debug"){printLangs();}else {renderLangs();}} /*
 *
 * Generate langs -- sets of properties based on languages' data
 * set a const to determine whether the languages used
 * are the first n in the dataset or are randomly chosen
 *
-*/var chooseFrom=data;if(langMode === "rand"){var chooseFromRand=[];while(chooseFromRand.length < renderLimit) {var newIndex=Math.floor(Math.random() * data.length);if(chooseFromRand.indexOf(newIndex) === -1){chooseFromRand.push(newIndex);}}chooseFrom = [];for(var _i9=0;_i9 < chooseFromRand.length;_i9++) {chooseFrom.push(data[chooseFromRand[_i9]]);}}for(var _i10=0;_i10 <= renderLimit;_i10++) { // for as many as we want, generate language from data
-if(_i10 < renderLimit){generateLang(_i10,chooseFrom[_i10]);}else { // once we've done that, start making things to actually render
-generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){"use strict";module.exports = (function(){function _class3(data){_classCallCheck(this,_class3);this.grid = this.generatePatterns("grid",data);this.lines = this.generatePatterns("lines",data);}_createClass(_class3,[{key:"generatePatterns",value:function generatePatterns(type,data){var patterns=[];var category=data[type];for(var _i11=0;_i11 < category.length;_i11++) {var metaPattern=category[_i11];for(var j=0;j < metaPattern.components.length;j++) {var newComponent=metaPattern.components[j];newComponent.subtype = typeof metaPattern.subtype === "undefined"?null:metaPattern.subtype;newComponent.background = metaPattern.background;patterns.push(newComponent);}}return patterns;}}]);return _class3;})();},{}],9:[function(require,module,exports){"use strict";var palettesData=require('../../public/data/palettes.json');var Palettes=require('./palettes.js');var patternsData=require('../../public/data/patterns.json');var Patterns=require('./patterns.js');var palettesObj=new Palettes(palettesData);var allPalettes=palettesObj.allPalettes;var numPalettes=palettesObj.numPalettes;var patterns=new Patterns(patternsData);module.exports = (function(){function _class4(data){_classCallCheck(this,_class4);this.name = data.name;this.lang = data.data;this.visuals = {pattern:{type:null,components:[],background:null},palette:null};this.generatePalette = this.generatePalette.bind(this);this.getPatternType = this.getPatternType.bind(this);this.getComponents = this.getComponents.bind(this);this.getBackgroundColor = this.getBackgroundColor.bind(this);this.generateVisuals();}_createClass(_class4,[{key:"generateVisuals",value:function generateVisuals(){var _this=this;this.generatePalette(function(){_this.getPatternType(function(){_this.getComponents(function(){_this.getBackgroundColor();});});});} /*
+*/var chooseFrom=data;if(langMode === "rand"){var chooseFromRand=[];while(chooseFromRand.length < renderLimit) {var newIndex=Math.floor(Math.random() * data.length);if(chooseFromRand.indexOf(newIndex) === -1){chooseFromRand.push(newIndex);}}chooseFrom = [];for(var _i10=0;_i10 < chooseFromRand.length;_i10++) {chooseFrom.push(data[chooseFromRand[_i10]]);}}for(var _i11=0;_i11 <= renderLimit;_i11++) { // for as many as we want, generate language from data
+if(_i11 < renderLimit){generateLang(_i11,chooseFrom[_i11]);}else { // once we've done that, start making things to actually render
+generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){"use strict";module.exports = (function(){function _class3(data){_classCallCheck(this,_class3);this.grid = this.generatePatterns("grid",data);this.lines = this.generatePatterns("lines",data);}_createClass(_class3,[{key:"generatePatterns",value:function generatePatterns(type,data){var patterns=[];var category=data[type];for(var _i12=0;_i12 < category.length;_i12++) {var metaPattern=category[_i12];for(var j=0;j < metaPattern.components.length;j++) {var newComponent=metaPattern.components[j];newComponent.subtype = typeof metaPattern.subtype === "undefined"?null:metaPattern.subtype;newComponent.background = metaPattern.background;patterns.push(newComponent);}}return patterns;}}]);return _class3;})();},{}],9:[function(require,module,exports){"use strict";var palettesData=require('../../public/data/palettes.json');var Palettes=require('./palettes.js');var patternsData=require('../../public/data/patterns.json');var Patterns=require('./patterns.js');var palettesObj=new Palettes(palettesData);var allPalettes=palettesObj.allPalettes;var numPalettes=palettesObj.numPalettes;var patterns=new Patterns(patternsData);module.exports = (function(){function _class4(data){_classCallCheck(this,_class4);this.name = data.name;this.lang = data.data;this.visuals = {pattern:{type:null,components:[],background:null},palette:null};this.generatePalette = this.generatePalette.bind(this);this.getPatternType = this.getPatternType.bind(this);this.getComponents = this.getComponents.bind(this);this.getBackgroundColor = this.getBackgroundColor.bind(this);this.generateVisuals();}_createClass(_class4,[{key:"generateVisuals",value:function generateVisuals(){var _this=this;this.generatePalette(function(){_this.getPatternType(function(){_this.getComponents(function(){_this.getBackgroundColor();});});});} /*
   *
   * Gets largest-grain pattern type
   *
@@ -68,7 +76,7 @@ generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator
   * When we pick component colors, we will have to
   * make sure that it is not reused.
   *
-  */},{key:"getBackgroundColor",value:function getBackgroundColor(){var backgroundColors=[];var backgroundColor="";for(var _i12=0;_i12 < this.visuals.pattern.components.length;_i12++) {if(backgroundColors.indexOf(this.visuals.pattern.components[_i12].background) === -1){backgroundColors.push(this.visuals.pattern.components[_i12].background);}} // if they have different bg colors, we need to reconcile.
+  */},{key:"getBackgroundColor",value:function getBackgroundColor(){var backgroundColors=[];var backgroundColor="";for(var _i13=0;_i13 < this.visuals.pattern.components.length;_i13++) {if(backgroundColors.indexOf(this.visuals.pattern.components[_i13].background) === -1){backgroundColors.push(this.visuals.pattern.components[_i13].background);}} // if they have different bg colors, we need to reconcile.
 backgroundColor = backgroundColors[0]; // if bg color is "others", pick item from "others" array.
 // represent bg color as arrIndexChosen + 2.
 if(parseInt(backgroundColor) === 2){var randIndex=Math.floor(Math.random() * this.visuals.palette.others.length);backgroundColor = randIndex + 2;}this.visuals.pattern.background = backgroundColor;} /*
@@ -82,12 +90,12 @@ var allComponents=typeof patterns[this.lang.type] === "undefined"?null:patterns[
     * 2. pick which subtype to use
     * 3. choose only from that subtype
     */if(allComponents[0].subtype){ // make lists
-var componentsWithSubtypes={};var subtypesList=[];for(var _i13=0;_i13 < allComponents.length;_i13++) {if(!componentsWithSubtypes[allComponents[_i13].subtype]){componentsWithSubtypes[allComponents[_i13].subtype] = [];}componentsWithSubtypes[allComponents[_i13].subtype].push(allComponents[_i13]);subtypesList.push(allComponents[_i13].subtype);} // choose which list to use
+var componentsWithSubtypes={};var subtypesList=[];for(var _i14=0;_i14 < allComponents.length;_i14++) {if(!componentsWithSubtypes[allComponents[_i14].subtype]){componentsWithSubtypes[allComponents[_i14].subtype] = [];}componentsWithSubtypes[allComponents[_i14].subtype].push(allComponents[_i14]);subtypesList.push(allComponents[_i14].subtype);} // choose which list to use
 var rand=Math.floor(Math.random() * subtypesList.length);var subtype=subtypesList[rand]; // the ol switcheroo
 allComponents = componentsWithSubtypes[subtype];}var componentIndices=[];var components=[]; // FIXME: with so few components currently entered,
 // it is possible for a language to require
 // more components than are in the menagerie.
-if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i14]);_i14 = (_i14 + 1) % numNeeded;}this.visuals.pattern.components = components;;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i15=0;_i15 < componentIndices.length;_i15++) {components.push(allComponents[componentIndices[_i15]]);}this.visuals.pattern.components = components;callback();} /*
+if(parseInt(this.lang.numComponents) > allComponents.length){var _i15=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i15]);_i15 = (_i15 + 1) % numNeeded;}this.visuals.pattern.components = components;;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i16=0;_i16 < componentIndices.length;_i16++) {components.push(allComponents[componentIndices[_i16]]);}this.visuals.pattern.components = components;callback();} /*
   *
   * Randomly choose as many accent colors as we need
   *
@@ -106,7 +114,7 @@ if(parseInt(this.lang.numComponents) > allComponents.length){var _i14=0;var numN
   *
   * Performs colorshifts on an array of colors.
   *
-  */},{key:"colorshiftAll",value:function colorshiftAll(colors){var newColors=[];for(var _i16=0;_i16 < colors.length;_i16++) {newColors.push(this.colorshift(colors[_i16]));}return newColors;} /*
+  */},{key:"colorshiftAll",value:function colorshiftAll(colors){var newColors=[];for(var _i17=0;_i17 < colors.length;_i17++) {newColors.push(this.colorshift(colors[_i17]));}return newColors;} /*
   *
   * Based on available palettes, pick one
   *

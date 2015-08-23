@@ -14,11 +14,15 @@ const Visuals = require('./visuals.js');
 /*
 * settings
 */
-const renderLimit = 20;
-const mode = "debug";
-// const mode = "render";
-// const langMode = "normal";
-const langMode = "rand";
+let renderLimit = 20;
+// const mode = "debug";
+const mode = "render";
+const langMode = "normal";
+// const langMode = "rand";
+
+if (mode === "render") {
+  renderLimit = 1;
+}
 
 
 /*
@@ -187,6 +191,38 @@ function printLangs() {
 
 /*
 *
+* Render a language's name and its card
+*
+*/
+function renderLang(lang) {
+  let langRender = document.createElement("h1");
+  langRender.appendChild(document.createTextNode(lang.name));
+
+  return langRender;
+}
+
+/*
+*
+* Actual rendered language output
+*
+*/
+function renderLangs() {
+  let langsRenderList = document.getElementsByClassName('languages-list')[0];
+  langsRenderList.classList.remove('languages-list');
+  langsRenderList.classList.add('langs-render-list');
+
+  for (let i = 0; i < langsAndVisuals.length; i++) {
+    let langRender = renderLang(langsAndVisuals[i]);
+    let langRenderItem = document.createElement("li");
+    langRenderItem.classList.add('lang-render-item');
+    langRenderItem.appendChild(langRender);
+    langsRenderList.appendChild(langRenderItem);
+  }
+}
+
+
+/*
+*
 * Generate visual imformation for languages:
 * colors, patterns, borders, etc.
 *
@@ -210,6 +246,8 @@ function generateVisualsForLangs() {
 function done() {
   if (mode === "debug") {
     printLangs();
+  } else {
+    renderLangs();
   }
 }
 
