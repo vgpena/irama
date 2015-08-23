@@ -8389,11 +8389,12 @@ module.exports = class {
 },{"./mappings.json":5}],5:[function(require,module,exports){
 module.exports={
   "type": {
-    "mapVal": "13A Tone",
+    "mapVal": "87A Order of Adjective and Noun",
     "vals": {
-      "1 No tones": "lines",
-      "2 Simple tone system": "grid",
-      "3 Complex tone system": "free",
+      "1 Adjective-Noun": "grid",
+      "2 Noun-Adjective": "lines",
+      "3 No dominant order": "free",
+      "4 Only internally-headed relative clauses": "lines",
       "": "lines"
     }
   },
