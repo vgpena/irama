@@ -68,11 +68,9 @@ generateVisualsForLangs();}}},{"../../public/data/languages.json":1,"./generator
   * make sure that it is not reused.
   *
   */},{key:"getBackgroundColor",value:function getBackgroundColor(){var backgroundColors=[];var backgroundColor="";for(var _i12=0;_i12 < this.visuals.pattern.components.length;_i12++) {if(backgroundColors.indexOf(this.visuals.pattern.components[_i12].background) === -1){backgroundColors.push(this.visuals.pattern.components[_i12].background);}} // if they have different bg colors, we need to reconcile.
-backgroundColor = backgroundColors[0]; // TODO
-// if (backgroundColor === 2) {
-//   console.log(this.visuals.palette);
-// }
-this.visuals.pattern.background = backgroundColor;} /*
+backgroundColor = backgroundColors[0]; // if bg color is "others", pick item from "others" array.
+// represent bg color as arrIndexChosen + 2.
+if(parseInt(backgroundColor) === 2){var randIndex=Math.floor(Math.random() * this.visuals.palette.others.length);backgroundColor = randIndex + 2;}this.visuals.pattern.background = backgroundColor;} /*
   *
   * Get components to use in pattern
   *

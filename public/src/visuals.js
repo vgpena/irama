@@ -80,10 +80,12 @@ module.exports = class {
     // if they have different bg colors, we need to reconcile.
     backgroundColor = backgroundColors[0];
 
-    // TODO
-    // if (backgroundColor === 2) {
-    //   console.log(this.visuals.palette);
-    // }
+    // if bg color is "others", pick item from "others" array.
+    // represent bg color as arrIndexChosen + 2.
+    if (parseInt(backgroundColor) === 2) {
+      let randIndex = Math.floor(Math.random() * this.visuals.palette.others.length);
+      backgroundColor = randIndex + 2;
+    }
 
     this.visuals.pattern.background = backgroundColor;
   }
