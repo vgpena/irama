@@ -8316,6 +8316,37 @@ module.exports={
           "colors": [2, 0]
         }
       ]
+    },
+    {
+      "subtype": "normal",
+      "background": 1,
+      "components": [
+        {
+          "id": "lines0601",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        },
+        {
+          "id": "lines0602",
+          "rule": "placeNextTriangle",
+          "colors": [2, 0]
+        },
+        {
+          "id": "lines0603",
+          "rule": "placeNextTriangle",
+          "colors": [0, 2, 2]
+        },
+        {
+          "id": "lines0604",
+          "rule": "placeNext",
+          "colors": [2]
+        },
+        {
+          "id": "lines0605",
+          "rule": "placeNext",
+          "colors": [0, 2]
+        }
+      ]
     }
   ]
 }
