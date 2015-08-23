@@ -122,8 +122,21 @@ function genPatternElt(data) {
   let patternEltTitle = document.createElement("h2");
 
   patternEltTitle.appendChild(document.createTextNode(data.type));
-
   patternElt.appendChild(patternEltTitle);
+
+  let componentsList = document.createElement("ul");
+  for (let i = 0; i < data.components.length; i++) {
+    let componentItem = document.createElement("li");
+    componentItem.appendChild(document.createTextNode(data.components[i].id));
+    componentsList.appendChild(componentItem);
+  }
+  if (!data.components.length || data.components.length === 0){
+    componentsList = document.createElement("p");
+    componentsList.classList.add("fixme");
+    componentsList.appendChild(document.createTextNode("Insert components for Free pattern!"));
+  }
+
+  patternElt.appendChild(componentsList);
 
   return patternElt;
 }

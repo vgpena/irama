@@ -5,7 +5,13 @@ body {
   margin: 0;
 }
 
-/* line 7, ../sass/main.sass */
+/* line 6, ../sass/main.sass */
+.fixme {
+  color: red;
+  font-weight: bold;
+}
+
+/* line 10, ../sass/main.sass */
 .languages-list {
   list-style-type: none;
   display: block;
@@ -13,43 +19,43 @@ body {
   padding: 0;
 }
 
-/* line 13, ../sass/main.sass */
+/* line 16, ../sass/main.sass */
 .language {
   display: block;
   border-bottom: solid 2px #eeeeee;
   padding: 1rem;
 }
-/* line 17, ../sass/main.sass */
+/* line 20, ../sass/main.sass */
 .language > div {
   padding: 0 0 1rem 0;
   border-bottom: solid 4px #fafafa;
   margin-bottom: 2rem;
 }
 
-/* line 22, ../sass/main.sass */
+/* line 25, ../sass/main.sass */
 h1 {
   font-size: 1.5rem;
   text-transform: uppercase;
 }
 
-/* line 26, ../sass/main.sass */
+/* line 29, ../sass/main.sass */
 h2 {
   font-size: 1.2rem;
   color: #999999;
   text-transform: uppercase;
 }
 
-/* line 32, ../sass/main.sass */
+/* line 35, ../sass/main.sass */
 .palette-component {
   display: inline-block;
   vertical-align: top;
 }
 
-/* line 36, ../sass/main.sass */
+/* line 39, ../sass/main.sass */
 .palette-color {
   display: inline-block;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   vertical-align: top;
   margin-right: 1rem;
 }
