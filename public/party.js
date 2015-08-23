@@ -8465,8 +8465,8 @@ module.exports={
     "mapVal": "26A Prefixing vs. Suffixing in Inflectional Morphology",
     "vals": {
       "1 Little affixation": 0,
-      "2 Strongly suffixing": 20,
-      "3 Weakly suffixing": 10,
+      "2 Strongly suffixing": 10,
+      "3 Weakly suffixing": 5,
       "4 Equal prefixing and suffixing": 0,
       "5 Weakly prefixing": -10,
       "6 Strong prefixing": -20,
