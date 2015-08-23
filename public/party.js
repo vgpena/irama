@@ -8727,15 +8727,34 @@ function genPatternElt(data) {
   patternElt.appendChild(patternEltTitle);
 
   let componentsList = document.createElement("ul");
-  for (let i = 0; i < data.components.length; i++) {
-    let componentItem = document.createElement("li");
-    componentItem.appendChild(document.createTextNode(JSON.stringify(data.components[i])));
-    componentsList.appendChild(componentItem);
-  }
+
+  // because derp.
   if (!data.components.length || data.components.length === 0){
     componentsList = document.createElement("p");
     componentsList.classList.add("fixme");
     componentsList.appendChild(document.createTextNode("Insert components for Free pattern!"));
+    patternElt.appendChild(componentsList);
+    return patternElt;
+  }
+
+
+  for (let i = 0; i < data.components.length; i++) {
+    let componentItem = document.createElement("li");
+
+    let componentImage = document.createElement("div");
+    componentImage.classList.add("component-image");
+
+    let id = data.components[i].id;
+
+    let imageName = id.substring(id.length - 2);
+    let imageGroup = id.substring(id.length - 4, id.length - 2);
+    let imageType = data.type;
+
+    let imagePath = './img/' + imageType + '/' + imageGroup + '/' + imageName + '.svg';
+    componentImage.style.backgroundImage = 'url(' + imagePath + ')';
+
+    componentItem.appendChild(componentImage);
+    componentsList.appendChild(componentItem);
   }
 
   patternElt.appendChild(componentsList);
