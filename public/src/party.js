@@ -10,6 +10,7 @@ const data = require('../../public/data/languages.json');
 */
 const Language = require('./generator.js');
 const Visuals = require('./visuals.js');
+const Card = require('./card.js');
 
 /*
 * settings
@@ -241,7 +242,7 @@ function renderLang(lang) {
   langName.appendChild(document.createTextNode(lang.name));
   langInfo.appendChild(langName);
 
-  let renderElt = render(lang);
+  let renderElt = new Card(lang).contents;
   let renderWrap = document.createElement("div");
   renderWrap.classList.add("render");
   renderWrap.appendChild(renderElt);

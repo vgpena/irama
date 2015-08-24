@@ -8354,6 +8354,39 @@ module.exports={
 },{}],4:[function(require,module,exports){
 "use strict";
 
+module.exports = class {
+  constructor(lang) {
+    this.lang = lang;
+    this.contents = this.generate();
+  }
+
+  getBgColor(visuals) {
+    if (parseInt(visuals.pattern.background) === 0) {
+      return visuals.palette.light;
+    } else if (parseInt(visuals.pattern.background) === 1) {
+      return visuals.palette.dark;
+    } else {
+      return visuals.palette.others[parseInt(visuals.pattern.background) - 2];
+    }
+  }
+
+  generate() {
+    let card = document.createElement("canvas");
+    card.classList.add("card");
+
+    let bgColor = this.getBgColor(this.lang.visuals);
+
+    let cx = card.getContext('2d');
+    cx.fillStyle = bgColor;
+    cx.fillRect(0, 0, card.width, card.height);
+
+    return card;
+  }
+}
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
 const mappings = require('./mappings.json');
 
 module.exports = class {
@@ -8433,7 +8466,7 @@ module.exports = class {
   }
 }
 
-},{"./mappings.json":5}],5:[function(require,module,exports){
+},{"./mappings.json":6}],6:[function(require,module,exports){
 module.exports={
   "type": {
     "mapVal": "87A Order of Adjective and Noun",
@@ -8592,7 +8625,7 @@ module.exports={
   }
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 module.exports = class {
@@ -8647,7 +8680,7 @@ module.exports = class {
 
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 /*
@@ -8660,6 +8693,7 @@ const data = require('../../public/data/languages.json');
 */
 const Language = require('./generator.js');
 const Visuals = require('./visuals.js');
+const Card = require('./card.js');
 
 /*
 * settings
@@ -8891,7 +8925,7 @@ function renderLang(lang) {
   langName.appendChild(document.createTextNode(lang.name));
   langInfo.appendChild(langName);
 
-  let renderElt = render(lang);
+  let renderElt = new Card(lang).contents;
   let renderWrap = document.createElement("div");
   renderWrap.classList.add("render");
   renderWrap.appendChild(renderElt);
@@ -8986,7 +9020,7 @@ for (let i = 0; i <= renderLimit; i++){
   }
 }
 
-},{"../../public/data/languages.json":1,"./generator.js":4,"./visuals.js":9}],8:[function(require,module,exports){
+},{"../../public/data/languages.json":1,"./card.js":4,"./generator.js":5,"./visuals.js":10}],9:[function(require,module,exports){
 "use strict";
 
 module.exports = class {
@@ -9017,7 +9051,7 @@ module.exports = class {
   }
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 const palettesData = require('../../public/data/palettes.json');
 const Palettes = require('./palettes.js');
@@ -9330,4 +9364,4 @@ module.exports = class {
 
 }
 
-},{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":6,"./patterns.js":8}]},{},[7]);
+},{"../../public/data/palettes.json":2,"../../public/data/patterns.json":3,"./palettes.js":7,"./patterns.js":9}]},{},[8]);
