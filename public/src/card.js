@@ -30,13 +30,13 @@ module.exports = class {
   }
 
   generateLines() {
-    console.log('let\'s do some lines!');
+    console.log(this.lang);
+    console.log(this.visuals);
   }
 
   getElement(callback) {
     let card = document.createElement("canvas");
     card.classList.add("card");
-
     this.elt = card;
 
     callback();
@@ -44,7 +44,6 @@ module.exports = class {
 
   getContext(callback) {
     let cx = this.elt.getContext('2d');
-
     this.cx = cx;
 
     callback();
@@ -52,15 +51,8 @@ module.exports = class {
 
 
   generateCard() {
-    console.log(this.lang);
-    console.log(this.visuals);
-
-    // let card = document.createElement("canvas");
-    // card.classList.add("card");
-
     let bgColor = this.getBgColor(this.visuals);
 
-    // let cx = card.getContext('2d');
     this.cx.fillStyle = bgColor;
     this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
 
