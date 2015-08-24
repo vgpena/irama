@@ -35,6 +35,12 @@ module.exports = class {
     }
   }
 
+  generateLine(components) {
+    console.log('--------');
+    console.log(components);
+  }
+
+
   /*
   *
   * Generate the lines on a card.
@@ -43,6 +49,27 @@ module.exports = class {
   generateLines() {
     console.log(this.lang);
     console.log(this.visuals);
+
+    // if every component's placing rule is PlaceNext,
+    // we can make a line out of each pattern.
+    let patternPlaceRules = [];
+
+    for (let i = 0; i < this.visuals.pattern.components.length; i++) {
+      if (patternPlaceRules.indexOf(this.visuals.pattern.components[i].rule) === -1) {
+        patternPlaceRules.push(this.visuals.pattern.components[i].rule);
+      }
+    }
+
+    console.log(patternPlaceRules);
+
+    if (patternPlaceRules.length === 1) {
+      for (let i = 0; i < this.visuals.pattern.components.length; i++) {
+        this.generateLine(this.visuals.pattern.componenents[i]);
+      }
+    } else {
+      // if there are any placeNextTriangles,
+      //we combine them into groups of 2
+    }
   }
 
 
