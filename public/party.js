@@ -8373,6 +8373,12 @@ module.exports = class {
     })
   }
 
+  /*
+  *
+  * Get background color of a card (as rgba)
+  * from an int + a card's palette
+  *
+  */
   getBgColor(visuals) {
     if (parseInt(visuals.pattern.background) === 0) {
       return visuals.palette.light;
@@ -8383,11 +8389,20 @@ module.exports = class {
     }
   }
 
+  /*
+  *
+  * Generate the lines on a card.
+  *
+  */
   generateLines() {
     console.log(this.lang);
     console.log(this.visuals);
   }
 
+
+  /*
+  * Get the DOM element we'll be writing to & save to itself
+  */
   getElement(callback) {
     let card = document.createElement("canvas");
     card.classList.add("card");
@@ -8396,6 +8411,9 @@ module.exports = class {
     callback();
   }
 
+  /*
+  * Get the context we'll be writing to & save to itself
+  */
   getContext(callback) {
     let cx = this.elt.getContext('2d');
     this.cx = cx;
@@ -8404,6 +8422,11 @@ module.exports = class {
   }
 
 
+  /*
+  *
+  * Let's make the card! :D
+  *
+  */
   generateCard() {
     let bgColor = this.getBgColor(this.visuals);
 
