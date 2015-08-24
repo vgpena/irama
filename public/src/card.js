@@ -1,9 +1,22 @@
 "use strict";
 
 module.exports = class {
-  constructor(lang) {
-    this.lang = lang;
-    this.contents = this.generate();
+  constructor(data) {
+    this.visuals = data.visuals;
+    this.lang = data.lang;
+    this.elt = null;
+    this.cx = null;
+    this.contents = null;
+
+    this.generate();
+  }
+
+  generate() {
+    this.getElement(() => {
+      this.getContext(() => {
+        this.generateCard();
+      })
+    })
   }
 
   getBgColor(visuals) {
@@ -16,16 +29,45 @@ module.exports = class {
     }
   }
 
-  generate() {
+  generateLines() {
+    console.log('let\'s do some lines!');
+  }
+
+  getElement(callback) {
     let card = document.createElement("canvas");
     card.classList.add("card");
 
-    let bgColor = this.getBgColor(this.lang.visuals);
+    this.elt = card;
 
-    let cx = card.getContext('2d');
-    cx.fillStyle = bgColor;
-    cx.fillRect(0, 0, card.width, card.height);
+    callback();
+  }
 
-    return card;
+  getContext(callback) {
+    let cx = this.elt.getContext('2d');
+
+    this.cx = cx;
+
+    callback();
+  }
+
+
+  generateCard() {
+    console.log(this.lang);
+    console.log(this.visuals);
+
+    // let card = document.createElement("canvas");
+    // card.classList.add("card");
+
+    let bgColor = this.getBgColor(this.visuals);
+
+    // let cx = card.getContext('2d');
+    this.cx.fillStyle = bgColor;
+    this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
+
+    if (this.lang.type === "lines") {
+      this.generateLines();
+    }
+
+    this.contents = this.elt;
   }
 }
