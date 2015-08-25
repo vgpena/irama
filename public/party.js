@@ -8361,6 +8361,7 @@ module.exports = class {
     this.elt = null;
     this.cx = null;
     this.contents = null;
+    this.lines = [];
 
     this.generate();
   }
@@ -8389,9 +8390,55 @@ module.exports = class {
     }
   }
 
-  generateLine(components) {
-    console.log('--------');
-    console.log(components);
+  getColor(index) {
+    if (index === 0) {
+      return this.visuals.palette.light;
+    } else if (index === 1) {
+      return this.visuals.palette.dark;
+    } else {
+      return this.visuals.palette.others[0];
+    }
+  }
+
+
+  generateLine(pattern, index, totalLines) {
+    console.log('---------');
+
+    let topOffset = 0;
+    let height = Math.floor(this.elt.height/totalLines);
+
+
+
+    if (index > 0) {
+      console.log(index);
+      topOffset = this.lines[index - 1].topOffset + height;
+    }
+
+    console.log(topOffset);
+    console.log(height);
+
+    let thisColor = this.getColor(pattern.colors[0]);
+
+    this.lines.push({
+      'index': index,
+      'topOffset': topOffset,
+      'pattern': pattern,
+      'color': thisColor
+    });
+
+
+    // console.log(pattern);
+    // console.log
+    this.cx.fillStyle = thisColor;
+    this.cx.fillRect(0, topOffset, this.elt.width, height);
+    //
+    // let topOffset = index === 0 ? index : (index/totalLines)*this.elt.height;
+    // let height = this.elt.height/totalLines;
+    //
+    // console.log(topOffset);
+    // console.log(height);
+    //
+    // this.cx.fillRect(0, topOffset, this.elt.width, height);
   }
 
 
@@ -8401,8 +8448,6 @@ module.exports = class {
   *
   */
   generateLines() {
-    console.log(this.lang);
-    console.log(this.visuals);
 
     // if every component's placing rule is PlaceNext,
     // we can make a line out of each pattern.
@@ -8414,11 +8459,17 @@ module.exports = class {
       }
     }
 
-    console.log(patternPlaceRules);
+    let totalLines = 2;
 
     if (patternPlaceRules.length === 1) {
-      for (let i = 0; i < this.visuals.pattern.components.length; i++) {
-        this.generateLine(this.visuals.pattern.componenents[i]);
+      for (let j = 0; j < totalLines; j++) {
+        for (let i = 0; i < this.visuals.pattern.components.length; i++) {
+          if (typeof this.visuals.pattern.components === "undefined") {
+            console.warn("Components is undefined");
+          } else {
+            this.generateLine(this.visuals.pattern.components[i], j*this.visuals.pattern.components.length + i, this.visuals.pattern.components.length*totalLines);
+          }
+        }
       }
     } else {
       // if there are any placeNextTriangles,
@@ -8433,6 +8484,8 @@ module.exports = class {
   getElement(callback) {
     let card = document.createElement("canvas");
     card.classList.add("card");
+    card.width = 600;
+    card.height = 800;
     this.elt = card;
 
     callback();
