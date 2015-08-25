@@ -262,7 +262,7 @@ module.exports = class {
     const newG = parseInt(newRgb[1]);
     const newB = parseInt(newRgb[2]);
 
-    return "rgba(" + newR + ", " + newG + ", " + newB + ", 1)";
+    return "rgba(" + newR + "," + newG + "," + newB + ",1)";
   }
 
   /*

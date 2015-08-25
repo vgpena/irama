@@ -46,6 +46,34 @@ module.exports = class {
     }
   }
 
+  /*
+  *
+  * Replace the colors in an svg with the ones dictated by the palette.
+  *
+  */
+  replaceColors(pattern) {
+    let src = pattern.src;
+    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
+    let count = (style.match(/fill:#/g) || []).length + (style.match(/stroke:#/g) || []).length;
+    let newCol = this.visuals.palette.dark;
+    let statements = style.split(';');
+    let newStyles = "";
+    for (let i = 0; i < statements.length; i++) {
+      let nextStyle = "";
+      if (statements[i].indexOf("fill:#") !== -1) {
+        nextStyle = statements[i].split("#")[0] + newCol;
+      } else if (statements[i].indexOf("stroke:#") !== -1) {
+        nextStyle = statements[i].split("#")[0] + newCol;
+      } else {
+        nextStyle = statements[i];
+      }
+      newStyles += nextStyle + ";";
+    }
+
+    let newSrc = src.split(style)[0] + newStyles + src.split(style)[1];
+    return newSrc;
+  }
+
 
   generateLine(pattern, index, totalLines) {
     let topOffset = 0;
@@ -68,12 +96,11 @@ module.exports = class {
     this.cx.fillRect(0, topOffset, this.elt.width, height);
 
     let id = pattern.id;
-    console.log(pattern);
 
     var data = "";
 
     if (pattern.src) {
-      data = pattern.src;
+      data = this.replaceColors(pattern);
       var DOMURL = window.URL || window.webkitURL || window;
 
       var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
@@ -92,7 +119,7 @@ module.exports = class {
 
       img.src = url;
     } else {
-      console.log('no src for pattern ' + pattern.id);
+      console.debug('no src for pattern ' + pattern.id);
     }
 
 
