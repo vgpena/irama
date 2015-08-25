@@ -3,17 +3,7 @@
   * Get background color of a card (as rgba)
   * from an int + a card's palette
   *
-  */},{key:"getBgColor",value:function getBgColor(visuals){if(parseInt(visuals.pattern.background) === 0){return visuals.palette.light;}else if(parseInt(visuals.pattern.background) === 1){return visuals.palette.dark;}else {return visuals.palette.others[parseInt(visuals.pattern.background) - 2];}}},{key:"getColor",value:function getColor(index){if(index === 0){return this.visuals.palette.light;}else if(index === 1){return this.visuals.palette.dark;}else {return this.visuals.palette.others[0];}}},{key:"generateLine",value:function generateLine(pattern,index,totalLines){console.log('---------');var topOffset=0;var height=Math.floor(this.elt.height / totalLines);if(index > 0){console.log(index);topOffset = this.lines[index - 1].topOffset + height;}console.log(topOffset);console.log(height);var thisColor=this.getColor(pattern.colors[0]);this.lines.push({'index':index,'topOffset':topOffset,'pattern':pattern,'color':thisColor}); // console.log(pattern);
-// console.log
-this.cx.fillStyle = thisColor;this.cx.fillRect(0,topOffset,this.elt.width,height); //
-// let topOffset = index === 0 ? index : (index/totalLines)*this.elt.height;
-// let height = this.elt.height/totalLines;
-//
-// console.log(topOffset);
-// console.log(height);
-//
-// this.cx.fillRect(0, topOffset, this.elt.width, height);
-} /*
+  */},{key:"getBgColor",value:function getBgColor(visuals){if(parseInt(visuals.pattern.background) === 0){return visuals.palette.light;}else if(parseInt(visuals.pattern.background) === 1){return visuals.palette.dark;}else {return visuals.palette.others[parseInt(visuals.pattern.background) - 2];}}},{key:"getColor",value:function getColor(index){if(index === 0){return this.visuals.palette.light;}else if(index === 1){return this.visuals.palette.dark;}else {return this.visuals.palette.others[0];}}},{key:"generateLine",value:function generateLine(pattern,index,totalLines){console.log('---------');var topOffset=0;var height=Math.floor(this.elt.height / totalLines);if(index > 0){topOffset = this.lines[index - 1].topOffset + height;}console.log(topOffset);console.log(height);var thisColor=this.getColor(pattern.colors[0]);this.lines.push({'index':index,'topOffset':topOffset,'pattern':pattern,'color':thisColor});this.cx.fillStyle = thisColor;this.cx.fillRect(0,topOffset,this.elt.width,height);} /*
   *
   * Generate the lines on a card.
   *

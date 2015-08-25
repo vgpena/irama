@@ -8407,10 +8407,7 @@ module.exports = class {
     let topOffset = 0;
     let height = Math.floor(this.elt.height/totalLines);
 
-
-
     if (index > 0) {
-      console.log(index);
       topOffset = this.lines[index - 1].topOffset + height;
     }
 
@@ -8426,19 +8423,8 @@ module.exports = class {
       'color': thisColor
     });
 
-
-    // console.log(pattern);
-    // console.log
     this.cx.fillStyle = thisColor;
     this.cx.fillRect(0, topOffset, this.elt.width, height);
-    //
-    // let topOffset = index === 0 ? index : (index/totalLines)*this.elt.height;
-    // let height = this.elt.height/totalLines;
-    //
-    // console.log(topOffset);
-    // console.log(height);
-    //
-    // this.cx.fillRect(0, topOffset, this.elt.width, height);
   }
 
 
