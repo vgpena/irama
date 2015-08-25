@@ -55,7 +55,14 @@ module.exports = class {
     let src = pattern.src;
     let style = src.split("<style type='text/css'>")[1].split("</style")[0];
     let count = (style.match(/fill:#/g) || []).length + (style.match(/stroke:#/g) || []).length;
-    let newCol = this.visuals.palette.dark;
+    let newCol = "";
+    if (pattern.colors[0] === 0) {
+      newCol = this.visuals.palette.others[0];
+    } else if (pattern.colors[0] === 1) {
+      newCol = this.visuals.palette.light;
+    } else {
+      newCol = this.visuals.palette.dark;
+    }
     let statements = style.split(';');
     let newStyles = "";
     for (let i = 0; i < statements.length; i++) {
