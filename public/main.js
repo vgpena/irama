@@ -9,7 +9,7 @@
   *
   */},{key:"generateLines",value:function generateLines(){ // if every component's placing rule is PlaceNext,
 // we can make a line out of each pattern.
-var patternPlaceRules=[];for(var _i=0;_i < this.visuals.pattern.components.length;_i++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i].rule);}}var totalLines=2;if(patternPlaceRules.length === 1){for(var j=0;j < totalLines;j++) {for(var _i2=0;_i2 < this.visuals.pattern.components.length;_i2++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i2],j * this.visuals.pattern.components.length + _i2,this.visuals.pattern.components.length * totalLines);}}}}else { // if there are any placeNextTriangles,
+var patternPlaceRules=[];for(var _i=0;_i < this.visuals.pattern.components.length;_i++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i].rule);}}var totalLines=4;if(patternPlaceRules.length === 1){for(var j=0;j <= totalLines;j++) {for(var _i2=0;_i2 < this.visuals.pattern.components.length;_i2++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i2],j * this.visuals.pattern.components.length + _i2,this.visuals.pattern.components.length * totalLines);}}}}else { // if there are any placeNextTriangles,
 //we combine them into groups of 2
 }} /*
   * Get the DOM element we'll be writing to & save to itself

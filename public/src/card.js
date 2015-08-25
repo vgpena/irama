@@ -110,10 +110,10 @@ module.exports = class {
       }
     }
 
-    let totalLines = 2;
+    let totalLines = 4;
 
     if (patternPlaceRules.length === 1) {
-      for (let j = 0; j < totalLines; j++) {
+      for (let j = 0; j <= totalLines; j++) {
         for (let i = 0; i < this.visuals.pattern.components.length; i++) {
           if (typeof this.visuals.pattern.components === "undefined") {
             console.warn("Components is undefined");
