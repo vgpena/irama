@@ -8403,6 +8403,7 @@ module.exports = class {
 
   generateLine(pattern, index, totalLines) {
     console.log('---------');
+    console.log(pattern);
 
     let topOffset = 0;
     let height = Math.floor(this.elt.height/totalLines);
@@ -8410,9 +8411,6 @@ module.exports = class {
     if (index > 0) {
       topOffset = this.lines[index - 1].topOffset + height;
     }
-
-    console.log(topOffset);
-    console.log(height);
 
     let thisColor = this.getColor(pattern.colors[0]);
 
@@ -8425,6 +8423,27 @@ module.exports = class {
 
     this.cx.fillStyle = thisColor;
     this.cx.fillRect(0, topOffset, this.elt.width, height);
+
+    let img = new Image();
+    let id = pattern.id;
+
+    let imageName = id.substring(id.length - 2);
+    let imageGroup = id.substring(id.length - 4, id.length - 2);
+    let imageType = "lines";
+
+    let imagePath = './img/' + imageType + '/' + imageGroup + '/' + imageName + '.svg';
+
+    let leftOffset = 0;
+    img.onload = () => {
+      let newWidth = height*img.width/img.height;
+      while (leftOffset < this.elt.width) {
+        this.cx.drawImage(img, leftOffset, topOffset, newWidth, height);
+        console.log(img.width);
+        console.log(img.height);
+        leftOffset += newWidth;
+      }
+    }
+    img.src = imagePath;
   }
 
 
