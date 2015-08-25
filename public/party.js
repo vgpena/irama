@@ -8438,8 +8438,6 @@ module.exports = class {
       let newWidth = height*img.width/img.height;
       while (leftOffset < this.elt.width) {
         this.cx.drawImage(img, leftOffset, topOffset, newWidth, height);
-        console.log(img.width);
-        console.log(img.height);
         leftOffset += newWidth;
       }
     }
