@@ -108,7 +108,7 @@ module.exports = class {
 
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
-    let topOffset = height*index;
+    let topOffset = height*index - this.elt.height;
 
     let colors = this.getColorsForPattern(pattern.colors);
 
@@ -140,9 +140,9 @@ module.exports = class {
         tCx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
         let pattern = this.cx.createPattern(tempCan, 'repeat');
         this.cx.fillStyle = colors.bg;
-        this.cx.fillRect(0, topOffset, this.elt.width, height);
+        this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
         this.cx.fillStyle = pattern;
-        this.cx.fillRect(0, topOffset, this.elt.width, height);
+        this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
         DOMURL.revokeObjectURL(url);
         tCx.clearRect(0, 0, newWidth, newHeight);
@@ -162,6 +162,14 @@ module.exports = class {
   *
   */
   generateLines() {
+    // rotate canvas before draw
+    this.cx.translate(this.elt.width/2,this.elt.height/2);
+
+    console.log(this.lang);
+    let coefficient = this.lang.direction === "right" ? -1 : 1;
+    let deg = parseInt(this.lang.angle);
+
+    this.cx.rotate(deg*coefficient*Math.PI/180);
 
     // if every component's placing rule is PlaceNext,
     // we can make a line out of each pattern.
@@ -176,7 +184,7 @@ module.exports = class {
     let totalLines = 4;
 
     if (patternPlaceRules.length === 1) {
-      for (let j = 0; j <= totalLines; j++) {
+      for (let j = 0; j <= totalLines*2; j++) {
         for (let i = 0; i < this.visuals.pattern.components.length; i++) {
           if (typeof this.visuals.pattern.components === "undefined") {
             console.warn("Components is undefined");
@@ -185,6 +193,7 @@ module.exports = class {
           }
         }
       }
+
     } else {
       // if there are any placeNextTriangles,
       //we combine them into groups of 2
