@@ -36,13 +36,37 @@ module.exports = class {
     }
   }
 
+  getColorsForPattern(patternColors) {
+    let colors = {
+      "bg": "",
+      "fg": "",
+      "other": []
+    };
+
+    for (let i = 0; i < patternColors.length; i++) {
+      let actualColor = this.getColor(patternColors[i]);
+      if (i === 0) {
+        colors.fg = actualColor;
+      } else {
+        colors.other.push(actualColor);
+      }
+    }
+    if (patternColors.indexOf(0) === -1) {
+      colors.bg = this.visuals.palette.light;
+    } else {
+      colors.bg = this.visuals.palette.dark;
+    }
+
+    return colors;
+  }
+
   getColor(index) {
     if (index === 0) {
       return this.visuals.palette.light;
     } else if (index === 1) {
       return this.visuals.palette.dark;
     } else {
-      return this.visuals.palette.others[0];
+      return this.visuals.palette.others[index - 2];
     }
   }
 
@@ -51,26 +75,26 @@ module.exports = class {
   * Replace the colors in an svg with the ones dictated by the palette.
   *
   */
-  replaceColors(pattern) {
+  replaceColors(pattern, color) {
     let src = pattern.src;
     let style = src.split("<style type='text/css'>")[1].split("</style")[0];
     let count = (style.match(/fill:#/g) || []).length + (style.match(/stroke:#/g) || []).length;
-    let newCol = "";
-    if (pattern.colors[0] === 0) {
-      newCol = this.visuals.palette.others[0];
-    } else if (pattern.colors[0] === 1) {
-      newCol = this.visuals.palette.light;
-    } else {
-      newCol = this.visuals.palette.dark;
-    }
+    // let newCol = "";
+    // if (pattern.colors[0] === 0) {
+    //   newCol = this.visuals.palette.others[0];
+    // } else if (pattern.colors[0] === 1) {
+    //   newCol = this.visuals.palette.light;
+    // } else {
+    //   newCol = this.visuals.palette.dark;
+    // }
     let statements = style.split(';');
     let newStyles = "";
     for (let i = 0; i < statements.length; i++) {
       let nextStyle = "";
       if (statements[i].indexOf("fill:#") !== -1) {
-        nextStyle = statements[i].split("#")[0] + newCol;
+        nextStyle = statements[i].split("#")[0] + color;
       } else if (statements[i].indexOf("stroke:#") !== -1) {
-        nextStyle = statements[i].split("#")[0] + newCol;
+        nextStyle = statements[i].split("#")[0] + color;
       } else {
         nextStyle = statements[i];
       }
@@ -90,16 +114,18 @@ module.exports = class {
       topOffset = this.lines[index - 1].topOffset + height;
     }
 
-    let thisColor = this.getColor(pattern.colors[0]);
+    // let thisColor = this.getColor(pattern.colors[0]);
+
+    let colors = this.getColorsForPattern(pattern.colors);
 
     this.lines.push({
       'index': index,
       'topOffset': topOffset,
       'pattern': pattern,
-      'color': thisColor
+      'colors': colors
     });
 
-    this.cx.fillStyle = thisColor;
+    this.cx.fillStyle = colors.bg;
     this.cx.fillRect(0, topOffset, this.elt.width, height);
 
     let id = pattern.id;
@@ -107,7 +133,7 @@ module.exports = class {
     var data = "";
 
     if (pattern.src) {
-      data = this.replaceColors(pattern);
+      data = this.replaceColors(pattern, colors.fg);
       var DOMURL = window.URL || window.webkitURL || window;
 
       var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
