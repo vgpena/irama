@@ -8473,13 +8473,9 @@ module.exports = class {
 
     this.lines.push({
       'index': index,
-      'topOffset': topOffset,
       'pattern': pattern,
       'colors': colors
     });
-
-    this.cx.fillStyle = colors.bg;
-    this.cx.fillRect(0, topOffset, this.elt.width, height);
 
     let id = pattern.id;
 
@@ -8492,7 +8488,6 @@ module.exports = class {
       var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
       var url = DOMURL.createObjectURL(svg);
       var img = new Image();
-      img.src = url;
 
       img.onload = () => {
         let newHeight = height;
@@ -8502,17 +8497,21 @@ module.exports = class {
         tempCan.height = newHeight;
         tempCan.width = newWidth;
         tCx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-        let pattern = this.cx.createPattern(tempCan, 'repeat-x');
+        let pattern = this.cx.createPattern(tempCan, 'repeat');
+        this.cx.fillStyle = colors.bg;
+        this.cx.fillRect(0, topOffset, this.elt.width, height);
         this.cx.fillStyle = pattern;
         this.cx.fillRect(0, topOffset, this.elt.width, height);
+
         DOMURL.revokeObjectURL(url);
+        tCx.clearRect(0, 0, newWidth, newHeight);
       }
+      img.src = url;
+
 
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
-
-
   }
 
 
