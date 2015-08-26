@@ -107,12 +107,8 @@ module.exports = class {
 
 
   generateLine(pattern, index, totalLines) {
-    let topOffset = 0;
     let height = Math.floor(this.elt.height/totalLines);
-
-    if (index > 0) {
-      topOffset = this.lines[index - 1].topOffset + height;
-    }
+    let topOffset = height*index;
 
     // let thisColor = this.getColor(pattern.colors[0]);
 
@@ -133,24 +129,40 @@ module.exports = class {
     var data = "";
 
     if (pattern.src) {
-      data = this.replaceColors(pattern, colors.fg);
+      data = this.replaceColors(pattern, "#ffffff");
       var DOMURL = window.URL || window.webkitURL || window;
 
       var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
       var url = DOMURL.createObjectURL(svg);
       var img = new Image();
+      img.src = url;
 
-      let leftOffset = 0;
+      // let leftOffset = 0;
       img.onload = () => {
+        let newHeight = height;
         let newWidth = height*img.width/img.height;
-        while (leftOffset < this.elt.width) {
-          this.cx.drawImage(img, leftOffset, topOffset, newWidth, height);
-          leftOffset += newWidth;
-        }
+        let tempCan = document.createElement("canvas");
+        let tCx = tempCan.getContext("2d");
+        tempCan.height = newHeight;
+        tempCan.width = newWidth;
+        tCx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
+        console.log('-------');
+        console.log(tempCan);
+        // console.log('w: ' + tempCan.width);
+        // console.log('h: ' + tempCan.height);
+        // let newWidth = height*img.width/img.height;
+        // while (leftOffset < this.elt.width) {
+        //   this.cx.drawImage(img, leftOffset, topOffset, newWidth, height);
+        //   leftOffset += newWidth;
+        // }
+        let pattern = this.cx.createPattern(tempCan, 'repeat-x');
+        this.cx.fillStyle = pattern;
+        console.log(topOffset);
+        console.log(height);
+        this.cx.fillRect(0, topOffset, this.elt.width, height);
         DOMURL.revokeObjectURL(url);
       }
 
-      img.src = url;
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
