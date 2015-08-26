@@ -110,8 +110,6 @@ module.exports = class {
     let height = Math.floor(this.elt.height/totalLines);
     let topOffset = height*index;
 
-    // let thisColor = this.getColor(pattern.colors[0]);
-
     let colors = this.getColorsForPattern(pattern.colors);
 
     this.lines.push({
@@ -129,7 +127,7 @@ module.exports = class {
     var data = "";
 
     if (pattern.src) {
-      data = this.replaceColors(pattern, "#ffffff");
+      data = this.replaceColors(pattern, colors.fg);
       var DOMURL = window.URL || window.webkitURL || window;
 
       var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
@@ -137,7 +135,6 @@ module.exports = class {
       var img = new Image();
       img.src = url;
 
-      // let leftOffset = 0;
       img.onload = () => {
         let newHeight = height;
         let newWidth = height*img.width/img.height;
@@ -146,19 +143,8 @@ module.exports = class {
         tempCan.height = newHeight;
         tempCan.width = newWidth;
         tCx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-        console.log('-------');
-        console.log(tempCan);
-        // console.log('w: ' + tempCan.width);
-        // console.log('h: ' + tempCan.height);
-        // let newWidth = height*img.width/img.height;
-        // while (leftOffset < this.elt.width) {
-        //   this.cx.drawImage(img, leftOffset, topOffset, newWidth, height);
-        //   leftOffset += newWidth;
-        // }
         let pattern = this.cx.createPattern(tempCan, 'repeat-x');
         this.cx.fillStyle = pattern;
-        console.log(topOffset);
-        console.log(height);
         this.cx.fillRect(0, topOffset, this.elt.width, height);
         DOMURL.revokeObjectURL(url);
       }
