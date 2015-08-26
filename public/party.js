@@ -8367,6 +8367,8 @@ module.exports = class {
     this.cx = null;
     this.contents = null;
     this.lines = [];
+    // because it looks nice.
+    this.linesSets = 4;
 
     this.generate();
   }
@@ -8395,6 +8397,11 @@ module.exports = class {
     }
   }
 
+  /*
+  *
+  * Assign colors based on palette.
+  *
+  */
   getColorsForPattern(patternColors) {
     let colors = {
       "bg": "",
@@ -8419,6 +8426,11 @@ module.exports = class {
     return colors;
   }
 
+  /*
+  *
+  * Using an index, get a color from the palette.
+  *
+  */
   getColor(index) {
     if (index === 0) {
       return this.visuals.palette.light;
@@ -8465,6 +8477,62 @@ module.exports = class {
   }
 
 
+  /*
+  *
+  * Draw pattern image to a temporary canvas
+  * that can then be resized and used
+  * as the "actual" pattern in a line.
+  *
+  */
+  createPattern(image, width, height) {
+    let tempCan = document.createElement("canvas");
+    let tCx = tempCan.getContext("2d");
+    tempCan.width = width;
+    tempCan.height = height;
+    tCx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height);
+
+    return tempCan;
+  }
+
+
+  /*
+  *
+  * Color in the line
+  * with a bg color and a pattern.
+  *
+  */
+  colorInLine(pattern, colors, height, topOffset) {
+    let data = this.replaceColors(pattern, colors.fg);
+    var DOMURL = window.URL || window.webkitURL || window;
+
+    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svg);
+    var img = new Image();
+    img.src = url;
+
+    img.onload = () => {
+      let newWidth = height*img.width/img.height;
+
+      let pattern = this.cx.createPattern(this.createPattern(img, newWidth, height), 'repeat');
+
+      // fill with bg color
+      this.cx.fillStyle = colors.bg;
+      this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+
+      // fill with pattern
+      this.cx.fillStyle = pattern;
+      this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+
+      DOMURL.revokeObjectURL(url);
+    }
+  }
+
+  /*
+  *
+  * Create space for a line, and prompt it being filled in
+  * if there is a pattern for it.
+  *
+  */
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
     let topOffset = height*index - this.elt.height;
@@ -8477,43 +8545,30 @@ module.exports = class {
       'colors': colors
     });
 
-    let id = pattern.id;
-
-    var data = "";
-
     if (pattern.src) {
-      data = this.replaceColors(pattern, colors.fg);
-      var DOMURL = window.URL || window.webkitURL || window;
-
-      var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-      var url = DOMURL.createObjectURL(svg);
-      var img = new Image();
-
-      img.onload = () => {
-        let newHeight = height;
-        let newWidth = height*img.width/img.height;
-        let tempCan = document.createElement("canvas");
-        let tCx = tempCan.getContext("2d");
-        tempCan.height = newHeight;
-        tempCan.width = newWidth;
-        tCx.drawImage(img, 0, 0, img.width, img.height, 0, 0, newWidth, newHeight);
-        let pattern = this.cx.createPattern(tempCan, 'repeat');
-        this.cx.fillStyle = colors.bg;
-        this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
-        this.cx.fillStyle = pattern;
-        this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
-
-        DOMURL.revokeObjectURL(url);
-        tCx.clearRect(0, 0, newWidth, newHeight);
-      }
-      img.src = url;
-
+      this.colorInLine(pattern, colors, height, topOffset);
 
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
   }
 
+  /*
+  *
+  * Rotate canvas a specified amount and direction,
+  * based on the properties of the lang.
+  *
+  */
+  rotateCanvas() {
+    this.cx.save();
+    this.cx.translate(this.elt.width/2,this.elt.height/2);
+
+    let coefficient = this.lang.direction === "right" ? -1 : 1;
+    let deg = parseInt(this.lang.angle);
+
+    this.cx.rotate(deg*coefficient*Math.PI/180);
+    this.cx.save();
+  }
 
   /*
   *
@@ -8521,14 +8576,7 @@ module.exports = class {
   *
   */
   generateLines() {
-    // rotate canvas before draw
-    this.cx.translate(this.elt.width/2,this.elt.height/2);
-
-    console.log(this.lang);
-    let coefficient = this.lang.direction === "right" ? -1 : 1;
-    let deg = parseInt(this.lang.angle);
-
-    this.cx.rotate(deg*coefficient*Math.PI/180);
+    this.rotateCanvas();
 
     // if every component's placing rule is PlaceNext,
     // we can make a line out of each pattern.
@@ -8540,19 +8588,17 @@ module.exports = class {
       }
     }
 
-    let totalLines = 4;
-
     if (patternPlaceRules.length === 1) {
-      for (let j = 0; j <= totalLines*2; j++) {
+      for (let j = 0; j <= this.linesSets*2; j++) {
         for (let i = 0; i < this.visuals.pattern.components.length; i++) {
           if (typeof this.visuals.pattern.components === "undefined") {
             console.warn("Components is undefined");
           } else {
-            this.generateLine(this.visuals.pattern.components[i], j*this.visuals.pattern.components.length + i, this.visuals.pattern.components.length*totalLines);
+            this.generateLine(this.visuals.pattern.components[i], j*this.visuals.pattern.components.length + i, this.visuals.pattern.components.length*this.linesSets);
           }
         }
       }
-
+      this.cx.restore();
     } else {
       // if there are any placeNextTriangles,
       //we combine them into groups of 2
