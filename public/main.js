@@ -14,6 +14,15 @@ this.linesSets = 4;this.generate();}_createClass(_class,[{key:"generate",value:f
   *
   */},{key:"getColor",value:function getColor(index){if(index === 0){return this.visuals.palette.light;}else if(index === 1){return this.visuals.palette.dark;}else {return this.visuals.palette.others[index - 2];}} /*
   *
+  * Split apart the <style> element of an svg into
+  * each of its color declarations.
+  * Returns an array of strings.
+  *
+  */},{key:"getStylesForSvg",value:function getStylesForSvg(src){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return style.split(';');} /*
+  * Inject new styles into svg.
+  * Returns a string representing the entire svg.
+  */},{key:"setStylesForSvg",value:function setStylesForSvg(src,styles){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return src.split(style)[0] + styles + src.split(style)[1];} /*
+  *
   * For multi-color patterns.
   *
   */},{key:"replaceMultipleColors",value:function replaceMultipleColors(pattern,colors){} // Keep track of colors used in the pattern
@@ -21,13 +30,6 @@ this.linesSets = 4;this.generate();}_createClass(_class,[{key:"generate",value:f
 // Use this to rank/determine which color from this.visuals.palette
 // to swap in for each of them.
 /*
-  *
-  * Split apart the <style> element of an svg into
-  * each of its color declarations.
-  *
-  */},{key:"getStylesForSvg",value:function getStylesForSvg(src){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return style.split(';');} /*
-  * Inject new styles into svg
-  */},{key:"setStylesForSvg",value:function setStylesForSvg(src,styles){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return src.split(style)[0] + styles + src.split(style)[1];} /*
   *
   * Replace the colors in an svg with the ones dictated by the palette.
   *

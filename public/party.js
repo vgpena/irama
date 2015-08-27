@@ -8447,6 +8447,29 @@ module.exports = class {
   }
 
 
+
+
+  /*
+  *
+  * Split apart the <style> element of an svg into
+  * each of its color declarations.
+  * Returns an array of strings.
+  *
+  */
+  getStylesForSvg(src) {
+    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
+    return (style.split(';'));
+  }
+
+  /*
+  * Inject new styles into svg.
+  * Returns a string representing the entire svg.
+  */
+  setStylesForSvg(src, styles) {
+    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
+    return (src.split(style)[0] + styles + src.split(style)[1]);
+  }
+
   /*
   *
   * For multi-color patterns.
@@ -8457,25 +8480,6 @@ module.exports = class {
     // and the number of times each is called for.
     // Use this to rank/determine which color from this.visuals.palette
     // to swap in for each of them.
-  }
-
-  /*
-  *
-  * Split apart the <style> element of an svg into
-  * each of its color declarations.
-  *
-  */
-  getStylesForSvg(src) {
-    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
-    return (style.split(';'));
-  }
-
-  /*
-  * Inject new styles into svg
-  */
-  setStylesForSvg(src, styles) {
-    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
-    return (src.split(style)[0] + styles + src.split(style)[1]);
   }
 
 
