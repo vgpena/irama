@@ -112,10 +112,26 @@ module.exports = class {
   *
   */
   replaceMultipleColors(pattern, colors) {
-    // Keep track of colors used in the pattern
-    // and the number of times each is called for.
-    // Use this to rank/determine which color from this.visuals.palette
-    // to swap in for each of them.
+    /*
+    * Keep track of colors used in the pattern
+    * and the number of times each is called for.
+    * Use this to rank/determine which color from this.visuals.palette
+    * to swap in for each of them.
+    */
+    console.log('---------');
+    console.log(this.visuals);
+    console.log(pattern);
+    console.log(colors);
+
+    // 1. pull out the relevant style declarations
+    let allStyles = this.getStylesForSvg(pattern.src);
+    let relevantStyles = [];
+    for (let i = 0; i < allStyles.length; i++) {
+      if (allStyles[i].indexOf("stroke:") !== -1 || allStyles[i].indexOf("fill:") !== -1) {
+        relevantStyles.push(allStyles[i]);
+      }
+    }
+    console.log(relevantStyles);
   }
 
 
@@ -170,15 +186,12 @@ module.exports = class {
   *
   */
   colorInLine(pattern, colors, height, topOffset) {
-    console.log('---------');
-    console.log(this.visuals);
-    console.log(pattern);
-    console.log(colors);
     let data = "";
     if (pattern.colors.length < 2) {
       data = this.replaceColors(pattern, colors.fg);
     } else {
-      data = this.replaceMultipleColors(pattern, colors);
+      this.replaceMultipleColors(pattern, colors);
+      data = this.replaceColors(pattern, colors.fg);
     }
     data = this.replaceColors(pattern, colors.fg);
     var DOMURL = window.URL || window.webkitURL || window;
