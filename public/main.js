@@ -14,17 +14,24 @@ this.linesSets = 4;this.generate();}_createClass(_class,[{key:"generate",value:f
   *
   */},{key:"getColor",value:function getColor(index){if(index === 0){return this.visuals.palette.light;}else if(index === 1){return this.visuals.palette.dark;}else {return this.visuals.palette.others[index - 2];}} /*
   *
+  * For multi-color patterns.
+  *
+  */},{key:"replaceMultipleColors",value:function replaceMultipleColors(pattern,colors){} // Keep track of colors used in the pattern
+// and the number of times each is called for.
+// Use this to rank/determine which color from this.visuals.palette
+// to swap in for each of them.
+/*
+  *
+  * Split apart the <style> element of an svg into
+  * each of its color declarations.
+  *
+  */},{key:"getStylesForSvg",value:function getStylesForSvg(src){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return style.split(';');} /*
+  * Inject new styles into svg
+  */},{key:"setStylesForSvg",value:function setStylesForSvg(src,styles){var style=src.split("<style type='text/css'>")[1].split("</style")[0];return src.split(style)[0] + styles + src.split(style)[1];} /*
+  *
   * Replace the colors in an svg with the ones dictated by the palette.
   *
-  */},{key:"replaceColors",value:function replaceColors(pattern,color){var src=pattern.src;var style=src.split("<style type='text/css'>")[1].split("</style")[0];var count=(style.match(/fill:#/g) || []).length + (style.match(/stroke:#/g) || []).length; // let newCol = "";
-// if (pattern.colors[0] === 0) {
-//   newCol = this.visuals.palette.others[0];
-// } else if (pattern.colors[0] === 1) {
-//   newCol = this.visuals.palette.light;
-// } else {
-//   newCol = this.visuals.palette.dark;
-// }
-var statements=style.split(';');var newStyles="";for(var _i2=0;_i2 < statements.length;_i2++) {var nextStyle="";if(statements[_i2].indexOf("fill:#") !== -1){nextStyle = statements[_i2].split("#")[0] + color;}else if(statements[_i2].indexOf("stroke:#") !== -1){nextStyle = statements[_i2].split("#")[0] + color;}else {nextStyle = statements[_i2];}newStyles += nextStyle + ";";}var newSrc=src.split(style)[0] + newStyles + src.split(style)[1];return newSrc;} /*
+  */},{key:"replaceColors",value:function replaceColors(pattern,color){var src=pattern.src;var statements=this.getStylesForSvg(src);var newStyles="";for(var _i2=0;_i2 < statements.length;_i2++) {var nextStyle="";if(statements[_i2].indexOf("fill:#") !== -1){nextStyle = statements[_i2].split("#")[0] + color;}else if(statements[_i2].indexOf("stroke:#") !== -1){nextStyle = statements[_i2].split("#")[0] + color;}else {nextStyle = statements[_i2];}newStyles += nextStyle + ";";}var newSrc=this.setStylesForSvg(src,newStyles);return newSrc;} /*
   *
   * Draw pattern image to a temporary canvas
   * that can then be resized and used
@@ -35,7 +42,7 @@ var statements=style.split(';');var newStyles="";for(var _i2=0;_i2 < statements.
   * Color in the line
   * with a bg color and a pattern.
   *
-  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data=this.replaceColors(pattern,colors.fg);var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=height * img.width / img.height;var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // fill with bg color
+  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;console.log('---------');console.log(this.visuals);console.log(pattern);console.log(colors);var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else {data = this.replaceMultipleColors(pattern,colors);}data = this.replaceColors(pattern,colors.fg);var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=height * img.width / img.height;var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // fill with bg color
 _this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(-_this2.elt.width,topOffset,_this2.elt.width * 2,height); // fill with pattern
 _this2.cx.fillStyle = pattern;_this2.cx.fillRect(-_this2.elt.width,topOffset,_this2.elt.width * 2,height);DOMURL.revokeObjectURL(url);};} /*
   *
@@ -71,8 +78,8 @@ var patternPlaceRules=[];for(var _i3=0;_i3 < this.visuals.pattern.components.len
 */var Language=require('./generator.js');var Visuals=require('./visuals.js');var Card=require('./card.js'); /*
 * settings
 */var renderLimit=20; // const mode = "debug";
-var mode="render"; // const langMode = "normal";
-var langMode="rand";if(mode === "render"){renderLimit = 1;} /*
+var mode="render";var langMode="normal"; // const langMode = "rand";
+if(mode === "render"){renderLimit = 1;} /*
 * keeping track of things
 */var allLangs=[];var langsAndVisuals=[]; /*
 *

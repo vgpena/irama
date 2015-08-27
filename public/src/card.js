@@ -82,6 +82,39 @@ module.exports = class {
     }
   }
 
+
+  /*
+  *
+  * For multi-color patterns.
+  *
+  */
+  replaceMultipleColors(pattern, colors) {
+    // Keep track of colors used in the pattern
+    // and the number of times each is called for.
+    // Use this to rank/determine which color from this.visuals.palette
+    // to swap in for each of them.
+  }
+
+  /*
+  *
+  * Split apart the <style> element of an svg into
+  * each of its color declarations.
+  *
+  */
+  getStylesForSvg(src) {
+    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
+    return (style.split(';'));
+  }
+
+  /*
+  * Inject new styles into svg
+  */
+  setStylesForSvg(src, styles) {
+    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
+    return (src.split(style)[0] + styles + src.split(style)[1]);
+  }
+
+
   /*
   *
   * Replace the colors in an svg with the ones dictated by the palette.
@@ -89,17 +122,7 @@ module.exports = class {
   */
   replaceColors(pattern, color) {
     let src = pattern.src;
-    let style = src.split("<style type='text/css'>")[1].split("</style")[0];
-    let count = (style.match(/fill:#/g) || []).length + (style.match(/stroke:#/g) || []).length;
-    // let newCol = "";
-    // if (pattern.colors[0] === 0) {
-    //   newCol = this.visuals.palette.others[0];
-    // } else if (pattern.colors[0] === 1) {
-    //   newCol = this.visuals.palette.light;
-    // } else {
-    //   newCol = this.visuals.palette.dark;
-    // }
-    let statements = style.split(';');
+    let statements = this.getStylesForSvg(src);
     let newStyles = "";
     for (let i = 0; i < statements.length; i++) {
       let nextStyle = "";
@@ -113,7 +136,7 @@ module.exports = class {
       newStyles += nextStyle + ";";
     }
 
-    let newSrc = src.split(style)[0] + newStyles + src.split(style)[1];
+    let newSrc = this.setStylesForSvg(src, newStyles);
     return newSrc;
   }
 
@@ -143,7 +166,17 @@ module.exports = class {
   *
   */
   colorInLine(pattern, colors, height, topOffset) {
-    let data = this.replaceColors(pattern, colors.fg);
+    console.log('---------');
+    console.log(this.visuals);
+    console.log(pattern);
+    console.log(colors);
+    let data = "";
+    if (pattern.colors.length < 2) {
+      data = this.replaceColors(pattern, colors.fg);
+    } else {
+      data = this.replaceMultipleColors(pattern, colors);
+    }
+    data = this.replaceColors(pattern, colors.fg);
     var DOMURL = window.URL || window.webkitURL || window;
 
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
