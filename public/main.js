@@ -87,8 +87,8 @@ var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.len
 */var Language=require('./generator.js');var Visuals=require('./visuals.js');var Card=require('./card.js'); /*
 * settings
 */var renderLimit=20; // const mode = "debug";
-var mode="render"; // const langMode = "normal";
-var langMode="rand";if(mode === "render"){renderLimit = 1;} /*
+var mode="render";var langMode="normal"; // const langMode = "rand";
+if(mode === "render"){renderLimit = 1;} /*
 * keeping track of things
 */var allLangs=[];var langsAndVisuals=[]; /*
 *

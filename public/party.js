@@ -9066,8 +9066,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-// const langMode = "normal";
-const langMode = "rand";
+const langMode = "normal";
+// const langMode = "rand";
 
 if (mode === "render") {
   renderLimit = 1;
