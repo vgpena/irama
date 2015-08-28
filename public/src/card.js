@@ -146,7 +146,7 @@ module.exports = class {
     // we need to make this sortable...
     let stylesAndCountsArr = [];
     for (let style in stylesAndCounts) {
-      stylesAndCountsArr.push([style, stylesAndCounts[style]]);
+        stylesAndCountsArr.push([style, stylesAndCounts[style]]);
     }
     stylesAndCountsArr.sort((a, b) => {
       return b[1] - a[1];
@@ -165,16 +165,10 @@ module.exports = class {
         }
       }
     }
-    console.log('---------');
-    // console.log(this.visuals);
-    console.log(pattern.id);
-    // console.log(colors);
-    console.log(colorsMap);
     // 4. use that map to replace colors in svg source
     let newSrc = pattern.src;
     for (let color in colorsMap) {
       newSrc = newSrc.replace(color, colorsMap[color]);
-      // console.log(newSrc);
     }
     return newSrc;
   }
