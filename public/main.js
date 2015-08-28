@@ -50,9 +50,7 @@ var newSrc=pattern.src;for(var color in colorsMap) {newSrc = newSrc.replace(colo
   * Color in the line
   * with a bg color and a pattern.
   *
-  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else { // this.replaceMultipleColors(pattern, colors);
-data = this.replaceMultipleColors(pattern,colors);} // data = this.replaceColors(pattern, colors.fg);
-var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=height * img.width / img.height;var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // fill with bg color
+  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else {data = this.replaceMultipleColors(pattern,colors);}var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=height * img.width / img.height;var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // fill with bg color
 _this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(-_this2.elt.width,topOffset,_this2.elt.width * 2,height); // fill with pattern
 _this2.cx.fillStyle = pattern;_this2.cx.fillRect(-_this2.elt.width,topOffset,_this2.elt.width * 2,height);DOMURL.revokeObjectURL(url);};} /*
   *

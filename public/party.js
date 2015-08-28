@@ -8593,10 +8593,8 @@ module.exports = class {
     if (pattern.colors.length < 2) {
       data = this.replaceColors(pattern, colors.fg);
     } else {
-      // this.replaceMultipleColors(pattern, colors);
       data = this.replaceMultipleColors(pattern, colors);
     }
-    // data = this.replaceColors(pattern, colors.fg);
     var DOMURL = window.URL || window.webkitURL || window;
 
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
