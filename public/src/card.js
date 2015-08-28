@@ -118,10 +118,6 @@ module.exports = class {
     * Use this to rank/determine which color from this.visuals.palette
     * to swap in for each of them.
     */
-    console.log('---------');
-    console.log(this.visuals);
-    console.log(pattern);
-    console.log(colors);
 
     // 1. pull out the relevant style declarations
     let allStyles = this.getStylesForSvg(pattern.src);
@@ -131,13 +127,62 @@ module.exports = class {
         relevantStyles.push(allStyles[i]);
       }
     }
-    console.log(relevantStyles);
+    // 2. track how many times each color is used.
+    let stylesAndCounts = {};
+    for (let i = 0; i < relevantStyles.length; i++) {
+      let colorStr = "";
+      if (relevantStyles[i].indexOf('fill:') !== -1) {
+        colorStr = relevantStyles[i].split('fill:')[1];
+      } else {
+        colorStr = relevantStyles[i].split('stroke:')[1];
+      }
+      if (colorStr !== "none") {
+        if (!stylesAndCounts[colorStr]) {
+          stylesAndCounts[colorStr] = 0;
+        }
+        stylesAndCounts[colorStr] += 1;
+      }
+    }
+    // we need to make this sortable...
+    let stylesAndCountsArr = [];
+    for (let style in stylesAndCounts) {
+      stylesAndCountsArr.push([style, stylesAndCounts[style]]);
+    }
+    stylesAndCountsArr.sort((a, b) => {
+      return b[1] - a[1];
+    });
+    // 3. pick new colors to map the old colors to
+    let colorsMap = {};
+    for (let i = 0; i < stylesAndCountsArr.length; i++) {
+      let curr = stylesAndCountsArr[i][0];
+      if (i === 0) {
+        colorsMap[curr] = colors.fg;
+      } else {
+        if (!colors.other || colors.other.length === 0) {
+          colorsMap[curr] = colors.fg;
+        } else {
+          colorsMap[curr] = colors.other[(i - 1)%colors.other.length];
+        }
+      }
+    }
+    console.log('---------');
+    // console.log(this.visuals);
+    console.log(pattern.id);
+    // console.log(colors);
+    console.log(colorsMap);
+    // 4. use that map to replace colors in svg source
+    let newSrc = pattern.src;
+    for (let color in colorsMap) {
+      newSrc = newSrc.replace(color, colorsMap[color]);
+      // console.log(newSrc);
+    }
+    return newSrc;
   }
 
 
   /*
   *
-  * Replace the colors in an svg with the ones dictated by the palette.
+  * Replace all colors in an svg with another color.
   *
   */
   replaceColors(pattern, color) {
@@ -190,10 +235,10 @@ module.exports = class {
     if (pattern.colors.length < 2) {
       data = this.replaceColors(pattern, colors.fg);
     } else {
-      this.replaceMultipleColors(pattern, colors);
-      data = this.replaceColors(pattern, colors.fg);
+      // this.replaceMultipleColors(pattern, colors);
+      data = this.replaceMultipleColors(pattern, colors);
     }
-    data = this.replaceColors(pattern, colors.fg);
+    // data = this.replaceColors(pattern, colors.fg);
     var DOMURL = window.URL || window.webkitURL || window;
 
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
