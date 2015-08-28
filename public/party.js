@@ -8617,12 +8617,12 @@ module.exports = class {
 
       // fill with bg color
       this.cx.fillStyle = colors.bg;
-      this.cx.fillRect(0, topOffset, this.elt.width*4, height);
+      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
       // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       // fill with pattern
       this.cx.fillStyle = pattern;
-      this.cx.fillRect(0, topOffset, this.elt.width*4, height);
+      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
       // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       DOMURL.revokeObjectURL(url);
@@ -8674,7 +8674,7 @@ module.exports = class {
 
 
   finish() {
-    this.cx.translate(this.elt.width*-1, this.elt.height*-2);
+    this.cx.translate(this.elt.width*-4, this.elt.height*-4);
     this.rotateCanvas();
   }
 
@@ -8699,7 +8699,7 @@ module.exports = class {
     }
 
     if (patternPlaceRules.length === 1) {
-      for (let j = 0; j <= this.linesSets*2; j++) {
+      for (let j = 0; j <= this.linesSets*8; j++) {
         for (let i = 0; i < this.visuals.pattern.components.length; i++) {
           if (typeof this.visuals.pattern.components === "undefined") {
             console.warn("Components is undefined");
@@ -9079,8 +9079,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-const langMode = "normal";
-// const langMode = "rand";
+// const langMode = "normal";
+const langMode = "rand";
 
 if (mode === "render") {
   renderLimit = 1;

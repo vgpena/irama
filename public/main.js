@@ -52,9 +52,9 @@ var newSrc=pattern.src;for(var color in colorsMap) {newSrc = newSrc.replace(colo
   *
   */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else {data = this.replaceMultipleColors(pattern,colors);}var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=Math.ceil(parseFloat(height * img.width) / img.height);console.log('----------');console.log(img.width);console.log(img.height);console.log(newWidth);console.log(height);console.log(topOffset);var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
 // fill with bg color
-_this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 4,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+_this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 // fill with pattern
-_this2.cx.fillStyle = pattern;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 4,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+_this2.cx.fillStyle = pattern;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 DOMURL.revokeObjectURL(url);};} /*
   *
   * Create space for a line, and prompt it being filled in
@@ -66,14 +66,14 @@ var topOffset=height * index;var colors=this.getColorsForPattern(pattern.colors)
   * Rotate canvas a specified amount and direction,
   * based on the properties of the lang.
   *
-  */},{key:"rotateCanvas",value:function rotateCanvas(){this.cx.save();this.cx.translate(this.elt.width / 2,this.elt.height / 2);var coefficient=this.lang.direction === "right"?-1:1;var deg=parseInt(this.lang.angle);this.cx.rotate(deg * coefficient * Math.PI / 180);this.cx.save();}},{key:"finish",value:function finish(){this.cx.translate(this.elt.width * -1,this.elt.height * -2);this.rotateCanvas();} /*
+  */},{key:"rotateCanvas",value:function rotateCanvas(){this.cx.save();this.cx.translate(this.elt.width / 2,this.elt.height / 2);var coefficient=this.lang.direction === "right"?-1:1;var deg=parseInt(this.lang.angle);this.cx.rotate(deg * coefficient * Math.PI / 180);this.cx.save();}},{key:"finish",value:function finish(){this.cx.translate(this.elt.width * -4,this.elt.height * -4);this.rotateCanvas();} /*
   *
   * Generate the lines on a card.
   *
   */},{key:"generateLines",value:function generateLines(){ // this.rotateCanvas();
 // if every component's placing rule is PlaceNext,
 // we can make a line out of each pattern.
-var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.length;_i6++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i6].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i6].rule);}}if(patternPlaceRules.length === 1){for(var j=0;j <= this.linesSets * 2;j++) {for(var _i7=0;_i7 < this.visuals.pattern.components.length;_i7++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i7],j * this.visuals.pattern.components.length + _i7,this.visuals.pattern.components.length * this.linesSets);}}}this.finish(); // this.cx.restore();
+var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.length;_i6++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i6].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i6].rule);}}if(patternPlaceRules.length === 1){for(var j=0;j <= this.linesSets * 8;j++) {for(var _i7=0;_i7 < this.visuals.pattern.components.length;_i7++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i7],j * this.visuals.pattern.components.length + _i7,this.visuals.pattern.components.length * this.linesSets);}}}this.finish(); // this.cx.restore();
 }else { // if there are any placeNextTriangles,
 //we combine them into groups of 2
 }} /*
@@ -92,8 +92,8 @@ var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.len
 */var Language=require('./generator.js');var Visuals=require('./visuals.js');var Card=require('./card.js'); /*
 * settings
 */var renderLimit=20; // const mode = "debug";
-var mode="render";var langMode="normal"; // const langMode = "rand";
-if(mode === "render"){renderLimit = 1;} /*
+var mode="render"; // const langMode = "normal";
+var langMode="rand";if(mode === "render"){renderLimit = 1;} /*
 * keeping track of things
 */var allLangs=[];var langsAndVisuals=[]; /*
 *
