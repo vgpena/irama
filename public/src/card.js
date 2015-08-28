@@ -239,17 +239,27 @@ module.exports = class {
     img.src = url;
 
     img.onload = () => {
-      let newWidth = height*img.width/img.height;
+      let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
+
+      console.log('----------');
+      console.log(img.width);
+      console.log(img.height);
+      console.log(newWidth);
+      console.log(height);
+      console.log(topOffset);
 
       let pattern = this.cx.createPattern(this.createPattern(img, newWidth, height), 'repeat');
+      // let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
 
       // fill with bg color
       this.cx.fillStyle = colors.bg;
-      this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+      this.cx.fillRect(0, topOffset, this.elt.width*4, height);
+      // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       // fill with pattern
       this.cx.fillStyle = pattern;
-      this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
+      this.cx.fillRect(0, topOffset, this.elt.width*4, height);
+      // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       DOMURL.revokeObjectURL(url);
     }
@@ -263,7 +273,8 @@ module.exports = class {
   */
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
-    let topOffset = height*index - this.elt.height;
+    // let topOffset = height*index - this.elt.height;
+    let topOffset = height*index;
 
     let colors = this.getColorsForPattern(pattern.colors);
 
@@ -275,7 +286,6 @@ module.exports = class {
 
     if (pattern.src) {
       this.colorInLine(pattern, colors, height, topOffset);
-
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
@@ -298,13 +308,21 @@ module.exports = class {
     this.cx.save();
   }
 
+
+  finish() {
+    this.cx.translate(this.elt.width*-1, this.elt.height*-2);
+    this.rotateCanvas();
+  }
+
+
+
   /*
   *
   * Generate the lines on a card.
   *
   */
   generateLines() {
-    this.rotateCanvas();
+    // this.rotateCanvas();
 
     // if every component's placing rule is PlaceNext,
     // we can make a line out of each pattern.
@@ -326,7 +344,8 @@ module.exports = class {
           }
         }
       }
-      this.cx.restore();
+      this.finish();
+      // this.cx.restore();
     } else {
       // if there are any placeNextTriangles,
       //we combine them into groups of 2
