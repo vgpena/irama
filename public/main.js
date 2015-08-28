@@ -178,10 +178,7 @@ var allComponents=typeof patterns[this.lang.type] === "undefined"?null:patterns[
     */if(allComponents[0].subtype){ // make lists
 var componentsWithSubtypes={};var subtypesList=[];for(var _i21=0;_i21 < allComponents.length;_i21++) {if(!componentsWithSubtypes[allComponents[_i21].subtype]){componentsWithSubtypes[allComponents[_i21].subtype] = [];}componentsWithSubtypes[allComponents[_i21].subtype].push(allComponents[_i21]);subtypesList.push(allComponents[_i21].subtype);} // choose which list to use
 var rand=Math.floor(Math.random() * subtypesList.length);var subtype=subtypesList[rand]; // the ol switcheroo
-allComponents = componentsWithSubtypes[subtype];}var componentIndices=[];var components=[]; // FIXME: with so few components currently entered,
-// it is possible for a language to require
-// more components than are in the menagerie.
-if(parseInt(this.lang.numComponents) > allComponents.length){var _i22=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i22]);_i22 = (_i22 + 1) % numNeeded;}this.visuals.pattern.components = components;;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i23=0;_i23 < componentIndices.length;_i23++) {components.push(allComponents[componentIndices[_i23]]);}this.visuals.pattern.components = components;callback();} /*
+allComponents = componentsWithSubtypes[subtype];}var componentIndices=[];var components=[];if(parseInt(this.lang.numComponents) > allComponents.length){var _i22=0;var numNeeded=parseInt(this.lang.numComponents);while(components.length < numNeeded) {components.push(allComponents[_i22]);_i22 = (_i22 + 1) % numNeeded;}this.visuals.pattern.components = components;}while(componentIndices.length < parseInt(this.lang.numComponents)) {var randIndex=Math.floor(Math.random() * allComponents.length);if(componentIndices.indexOf(randIndex) === -1){componentIndices.push(randIndex);}}for(var _i23=0;_i23 < componentIndices.length;_i23++) {components.push(allComponents[componentIndices[_i23]]);}this.visuals.pattern.components = components;callback();} /*
   *
   * Randomly choose as many accent colors as we need
   *

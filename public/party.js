@@ -9529,9 +9529,6 @@ module.exports = class {
     let componentIndices = [];
     let components = [];
 
-    // FIXME: with so few components currently entered,
-    // it is possible for a language to require
-    // more components than are in the menagerie.
     if (parseInt(this.lang.numComponents) > allComponents.length) {
       let i = 0;
       const numNeeded = parseInt(this.lang.numComponents);
@@ -9540,7 +9537,7 @@ module.exports = class {
         i = (i+1)%numNeeded;
       }
 
-      this.visuals.pattern.components = components;;
+      this.visuals.pattern.components = components;
     }
 
     while (componentIndices.length < parseInt(this.lang.numComponents)) {
