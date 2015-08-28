@@ -240,26 +240,15 @@ module.exports = class {
 
     img.onload = () => {
       let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
-
-      console.log('----------');
-      console.log(img.width);
-      console.log(img.height);
-      console.log(newWidth);
-      console.log(height);
-      console.log(topOffset);
-
       let pattern = this.cx.createPattern(this.createPattern(img, newWidth, height), 'repeat');
-      // let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
 
       // fill with bg color
       this.cx.fillStyle = colors.bg;
       this.cx.fillRect(0, topOffset, this.elt.width*8, height);
-      // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       // fill with pattern
       this.cx.fillStyle = pattern;
       this.cx.fillRect(0, topOffset, this.elt.width*8, height);
-      // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
 
       DOMURL.revokeObjectURL(url);
     }
@@ -273,7 +262,6 @@ module.exports = class {
   */
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
-    // let topOffset = height*index - this.elt.height;
     let topOffset = height*index;
 
     let colors = this.getColorsForPattern(pattern.colors);
@@ -345,7 +333,6 @@ module.exports = class {
         }
       }
       this.finish();
-      // this.cx.restore();
     } else {
       // if there are any placeNextTriangles,
       //we combine them into groups of 2

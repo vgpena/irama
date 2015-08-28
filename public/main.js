@@ -50,18 +50,14 @@ var newSrc=pattern.src;for(var color in colorsMap) {newSrc = newSrc.replace(colo
   * Color in the line
   * with a bg color and a pattern.
   *
-  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else {data = this.replaceMultipleColors(pattern,colors);}var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=Math.ceil(parseFloat(height * img.width) / img.height);console.log('----------');console.log(img.width);console.log(img.height);console.log(newWidth);console.log(height);console.log(topOffset);var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
-// fill with bg color
-_this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
-// fill with pattern
-_this2.cx.fillStyle = pattern;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height); // this.cx.fillRect(-this.elt.width, topOffset, this.elt.width*2, height);
-DOMURL.revokeObjectURL(url);};} /*
+  */},{key:"colorInLine",value:function colorInLine(pattern,colors,height,topOffset){var _this2=this;var data="";if(pattern.colors.length < 2){data = this.replaceColors(pattern,colors.fg);}else {data = this.replaceMultipleColors(pattern,colors);}var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var newWidth=Math.ceil(parseFloat(height * img.width) / img.height);var pattern=_this2.cx.createPattern(_this2.createPattern(img,newWidth,height),'repeat'); // fill with bg color
+_this2.cx.fillStyle = colors.bg;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height); // fill with pattern
+_this2.cx.fillStyle = pattern;_this2.cx.fillRect(0,topOffset,_this2.elt.width * 8,height);DOMURL.revokeObjectURL(url);};} /*
   *
   * Create space for a line, and prompt it being filled in
   * if there is a pattern for it.
   *
-  */},{key:"generateLine",value:function generateLine(pattern,index,totalLines){var height=Math.floor(this.elt.height / totalLines); // let topOffset = height*index - this.elt.height;
-var topOffset=height * index;var colors=this.getColorsForPattern(pattern.colors);this.lines.push({'index':index,'pattern':pattern,'colors':colors});if(pattern.src){this.colorInLine(pattern,colors,height,topOffset);}else {console.debug('no src for pattern ' + pattern.id);}} /*
+  */},{key:"generateLine",value:function generateLine(pattern,index,totalLines){var height=Math.floor(this.elt.height / totalLines);var topOffset=height * index;var colors=this.getColorsForPattern(pattern.colors);this.lines.push({'index':index,'pattern':pattern,'colors':colors});if(pattern.src){this.colorInLine(pattern,colors,height,topOffset);}else {console.debug('no src for pattern ' + pattern.id);}} /*
   *
   * Rotate canvas a specified amount and direction,
   * based on the properties of the lang.
@@ -73,8 +69,7 @@ var topOffset=height * index;var colors=this.getColorsForPattern(pattern.colors)
   */},{key:"generateLines",value:function generateLines(){ // this.rotateCanvas();
 // if every component's placing rule is PlaceNext,
 // we can make a line out of each pattern.
-var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.length;_i6++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i6].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i6].rule);}}if(patternPlaceRules.length === 1){for(var j=0;j <= this.linesSets * 8;j++) {for(var _i7=0;_i7 < this.visuals.pattern.components.length;_i7++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i7],j * this.visuals.pattern.components.length + _i7,this.visuals.pattern.components.length * this.linesSets);}}}this.finish(); // this.cx.restore();
-}else { // if there are any placeNextTriangles,
+var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.length;_i6++) {if(patternPlaceRules.indexOf(this.visuals.pattern.components[_i6].rule) === -1){patternPlaceRules.push(this.visuals.pattern.components[_i6].rule);}}if(patternPlaceRules.length === 1){for(var j=0;j <= this.linesSets * 8;j++) {for(var _i7=0;_i7 < this.visuals.pattern.components.length;_i7++) {if(typeof this.visuals.pattern.components === "undefined"){console.warn("Components is undefined");}else {this.generateLine(this.visuals.pattern.components[_i7],j * this.visuals.pattern.components.length + _i7,this.visuals.pattern.components.length * this.linesSets);}}}this.finish();}else { // if there are any placeNextTriangles,
 //we combine them into groups of 2
 }} /*
   * Get the DOM element we'll be writing to & save to itself
