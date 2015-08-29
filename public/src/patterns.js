@@ -4,6 +4,7 @@ module.exports = class {
   constructor(data) {
     this.grid = this.generatePatterns("grid", data);
     this.lines = this.generatePatterns("lines", data);
+    this.free = this.generatePatterns("free", data);
   }
 
   generatePatterns(type, data) {

@@ -8404,6 +8404,19 @@ module.exports={
         }
       ]
     }
+  ],
+  "free": [
+    {
+      "background": 1,
+      "components": [
+        {
+          "id": "free0101",
+          "colors": [0],
+          "ground": "background",
+          "src": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12.5 26.5' enable-background='new 0 0 12.5 26.5'><style type='text/css'>.st0{fill:none;} .st1{fill:#BAB63B;}</style><path class='st0' d='M12.5 5.2H1.8c1 0 1.8.8 1.8 1.8s-.9 1.7-1.8 1.7S0 7.9 0 7v12.5c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8-.8 1.8-1.8 1.8h10.8V5.2zM8 15c-1 0-1.8-.8-1.8-1.8S7 11.5 8 11.5s1.8.8 1.8 1.8S9 15 8 15zM0 19.5v1.8h1.8c-1-.1-1.8-.9-1.8-1.8zM1.8 5.2H0V7c0-1 .8-1.8 1.8-1.8z'/><circle class='st1' cx='1.8' cy='7' r='1.8'/><circle class='st1' cx='1.8' cy='19.5' r='1.8'/><circle class='st1' cx='8' cy='13.2' r='1.8'/></svg>"
+        }
+      ]
+    }
   ]
 }
 
@@ -9403,6 +9416,7 @@ module.exports = class {
   constructor(data) {
     this.grid = this.generatePatterns("grid", data);
     this.lines = this.generatePatterns("lines", data);
+    this.free = this.generatePatterns("free", data);
   }
 
   generatePatterns(type, data) {
