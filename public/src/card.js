@@ -147,7 +147,7 @@ module.exports = class {
     // we need to make this sortable...
     let stylesAndCountsArr = [];
     for (let style in stylesAndCounts) {
-        stylesAndCountsArr.push([style, stylesAndCounts[style]]);
+      stylesAndCountsArr.push([style, stylesAndCounts[style]]);
     }
     stylesAndCountsArr.sort((a, b) => {
       return b[1] - a[1];
@@ -156,15 +156,20 @@ module.exports = class {
     let colorsMap = {};
     for (let i = 0; i < stylesAndCountsArr.length; i++) {
       let curr = stylesAndCountsArr[i][0];
-      if (i === 0) {
-        colorsMap[curr] = colors.fg;
+      if (Array.isArray(colors)) {
+        colorsMap[curr] = colors[i%colors.length];
       } else {
-        if (!colors.other || colors.other.length === 0) {
+        if (i === 0) {
           colorsMap[curr] = colors.fg;
         } else {
-          colorsMap[curr] = colors.other[(i - 1)%colors.other.length];
+          if (!colors.other || colors.other.length === 0) {
+            colorsMap[curr] = colors.fg;
+          } else {
+            colorsMap[curr] = colors.other[(i - 1)%colors.other.length];
+          }
         }
       }
+
     }
     // 4. use that map to replace colors in svg source
     let newSrc = pattern.src;
@@ -377,13 +382,20 @@ module.exports = class {
     let bgPattern = null;
     let i = 0;
     while (!bgFound) {
-      if (this.visuals.pattern.components[i].ground === "background") {
-        bgPattern = this.visuals.pattern.components[i];
+      let randPatternIndex = Math.floor(Math.random() * this.visuals.pattern.components.length);
+      if (this.visuals.pattern.components[randPatternIndex].ground === "background") {
+        bgPattern = this.visuals.pattern.components[randPatternIndex];
         bgFound = true;
-      } else {
-        i++;
       }
     }
+      // if (this.visuals.pattern.components[i].ground === "background") {
+      //   bgPattern = this.visuals.pattern.components[i];
+      //   bgFound = true;bgPattern = this.visuals.pattern.components[i];
+      // bgFound = true;
+      // } else {
+      //   i++;
+      // }
+    // }
 
     console.log(bgPattern);
     // 2. replace colors.
