@@ -424,6 +424,69 @@ module.exports = class {
     callback();
   }
 
+
+  /*
+  *
+  * For placing the motifs in the foreground of
+  * Free cards.
+  *
+  */
+  placeFreeFg(callback) {
+    // Let's assume one foreground pattern for now.
+    // 1. get foreground pattern.
+    console.log(this.visuals);
+    let fgFound = false;
+    let fgPattern = null;
+    let i = 0;
+    while (!fgFound) {
+      let currPat = this.visuals.pattern.components[i];
+      if (currPat.ground === "foreground") {
+        fgPattern = currPat;
+        fgFound = true;
+      } else {
+        i++;
+      }
+    }
+    console.log(fgPattern);
+    // 2. replace colors.
+    let patColors = [];
+    for (let i = 0; i < fgPattern.colors.length; i++) {
+      patColors.push(this.getColor(fgPattern.colors[i]));
+    }
+    if (patColors.length === 1) {
+      fgPattern.src = this.replaceColors(fgPattern, patColors[0]);
+    } else {
+      fgPattern.src = this.replaceMultipleColors(fgPattern, patColors);
+    }
+    // 3. resize.
+    let data = fgPattern.src;
+
+    // 3. create a pattern, resizing if we need to.
+    var DOMURL = window.URL || window.webkitURL || window;
+
+    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svg);
+    var img = new Image();
+    img.src = url;
+
+    img.onload = () => {
+      // let dims = this.normalRandomizeBgSize(img.width, img.height);
+      let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
+
+      // fill with pattern
+      this.cx.fillStyle = pattern;
+
+      // 4. fill entire cx with this pattern.
+      this.cx.fillRect(0, 0, this.elt.width*8, this.elt.height*8);
+
+      DOMURL.revokeObjectURL(url);
+    }
+    // 4. place.
+
+    callback();
+  }
+
+
   /*
   *
   * Generate a free set of patterns:
@@ -433,7 +496,9 @@ module.exports = class {
   */
   generateFree() {
     this.fillFreeBg(() => {
-      // console.log('ready to place foreground');
+      this.placeFreeFg(() => {
+        console.log('ready to finish');
+      });
     });
   }
 
