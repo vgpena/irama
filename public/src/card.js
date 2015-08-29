@@ -271,7 +271,6 @@ module.exports = class {
 
     let isHalfHeight = pattern.height === "half" ? true : false;
     if (isHalfHeight) {
-      console.log('half');
       height = Math.ceil(height/2);
     }
 
@@ -327,13 +326,14 @@ module.exports = class {
 
     if (patternPlaceRules.length === 1) {
       for (let j = 0; j <= this.linesSets*8; j++) {
-        for (let i = 0; i < this.visuals.pattern.components.length; i++) {
-          if (typeof this.visuals.pattern.components === "undefined") {
-            console.warn("Components is undefined");
-          } else {
+        if (typeof this.visuals.pattern.components === "undefined") {
+          console.warn("Components is undefined");
+        } else {
+          for (let i = 0; i < this.visuals.pattern.components.length; i++) {
             this.generateLine(this.visuals.pattern.components[i], j*this.visuals.pattern.components.length + i, this.visuals.pattern.components.length*this.linesSets);
           }
         }
+
       }
       this.finish();
     } else {
@@ -380,8 +380,12 @@ module.exports = class {
     this.cx.fillStyle = bgColor;
     this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
 
+    console.log(this.lang.type);
+
     if (this.lang.type === "lines") {
       this.generateLines();
+    } else if (this.lang.type === "free") {
+      console.log('BE FREE');
     }
 
     this.contents = this.elt;

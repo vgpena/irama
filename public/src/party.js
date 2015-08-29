@@ -18,8 +18,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-const langMode = "normal";
-// const langMode = "rand";
+// const langMode = "normal";
+const langMode = "rand";
 
 if (mode === "render") {
   renderLimit = 1;
@@ -287,6 +287,8 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
+  console.log('-------');
+  console.log(chooseFromRand);
 }
 
 for (let i = 0; i <= renderLimit; i++){

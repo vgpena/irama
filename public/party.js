@@ -8694,7 +8694,6 @@ module.exports = class {
 
     let isHalfHeight = pattern.height === "half" ? true : false;
     if (isHalfHeight) {
-      console.log('half');
       height = Math.ceil(height/2);
     }
 
@@ -8750,13 +8749,14 @@ module.exports = class {
 
     if (patternPlaceRules.length === 1) {
       for (let j = 0; j <= this.linesSets*8; j++) {
-        for (let i = 0; i < this.visuals.pattern.components.length; i++) {
-          if (typeof this.visuals.pattern.components === "undefined") {
-            console.warn("Components is undefined");
-          } else {
+        if (typeof this.visuals.pattern.components === "undefined") {
+          console.warn("Components is undefined");
+        } else {
+          for (let i = 0; i < this.visuals.pattern.components.length; i++) {
             this.generateLine(this.visuals.pattern.components[i], j*this.visuals.pattern.components.length + i, this.visuals.pattern.components.length*this.linesSets);
           }
         }
+
       }
       this.finish();
     } else {
@@ -8803,8 +8803,12 @@ module.exports = class {
     this.cx.fillStyle = bgColor;
     this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
 
+    console.log(this.lang.type);
+
     if (this.lang.type === "lines") {
       this.generateLines();
+    } else if (this.lang.type === "free") {
+      console.log('BE FREE');
     }
 
     this.contents = this.elt;
@@ -8830,6 +8834,8 @@ module.exports = class {
     this.howManyBorders = this.genericGet(options, "howManyBorders");
     this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
     this.numComponents = this.genericGet(options, "numComponents");
+
+    console.log(this.name);
 
     return this;
   }
@@ -9128,8 +9134,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-const langMode = "normal";
-// const langMode = "rand";
+// const langMode = "normal";
+const langMode = "rand";
 
 if (mode === "render") {
   renderLimit = 1;
@@ -9397,6 +9403,8 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
+  console.log('-------');
+  console.log(chooseFromRand);
 }
 
 for (let i = 0; i <= renderLimit; i++){
@@ -9435,6 +9443,12 @@ module.exports = class {
 
         patterns.push(newComponent);
       }
+    }
+
+    if (type === "free") {
+      console.log('=====');
+      console.log(patterns);
+      console.log('=====');
     }
 
     return patterns;
@@ -9478,8 +9492,11 @@ module.exports = class {
 
   generateVisuals() {
     this.generatePalette( () => {
+      console.log('palette generated');
       this.getPatternType( () => {
+        console.log('pattern type gotten');
         this.getComponents( () => {
+          console.log('components gotten');
           this.getBackgroundColor();
         });
       });
@@ -9541,10 +9558,15 @@ module.exports = class {
   *
   */
   getComponents(callback) {
-    // TODO: don't have any Free patterns entered yet.
+    console.log('getComponents with language type: ' + this.lang.type);
+
     let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
+    console.log(allComponents.length);
+
+
     if (allComponents === null) {
+      // console.log('nope');
       this.visuals.pattern.components = [];
       callback();
       return;
@@ -9580,21 +9602,24 @@ module.exports = class {
     let components = [];
 
     if (parseInt(this.lang.numComponents) > allComponents.length) {
+      console.log('not enough components in menagerie :(');
       let i = 0;
       const numNeeded = parseInt(this.lang.numComponents);
       while (components.length < numNeeded) {
         components.push(allComponents[i]);
-        i = (i+1)%numNeeded;
+        i = (i+1)%allComponents.length;
       }
 
+      console.log(components);
+
       this.visuals.pattern.components = components;
-    }
+    } else {
+      while (componentIndices.length < parseInt(this.lang.numComponents)) {
+        let randIndex = Math.floor(Math.random() * allComponents.length);
 
-    while (componentIndices.length < parseInt(this.lang.numComponents)) {
-      let randIndex = Math.floor(Math.random() * allComponents.length);
-
-      if (componentIndices.indexOf(randIndex) === -1) {
-        componentIndices.push(randIndex);
+        if (componentIndices.indexOf(randIndex) === -1) {
+          componentIndices.push(randIndex);
+        }
       }
     }
 

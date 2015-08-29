@@ -25,6 +25,12 @@ module.exports = class {
       }
     }
 
+    if (type === "free") {
+      console.log('=====');
+      console.log(patterns);
+      console.log('=====');
+    }
+
     return patterns;
   }
 }
