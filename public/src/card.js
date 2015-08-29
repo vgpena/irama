@@ -209,6 +209,12 @@ module.exports = class {
   *
   */
   createPattern(image, width, height) {
+    if (typeof width === "undefined" || !width) {
+      width = image.width;
+    }
+    if (typeof height === "undefined" || !height) {
+      height = image.height;
+    }
     let tempCan = document.createElement("canvas");
     let tCx = tempCan.getContext("2d");
     tempCan.width = width;
@@ -312,8 +318,6 @@ module.exports = class {
   *
   */
   generateLines() {
-    // this.rotateCanvas();
-
     // if every component's placing rule is PlaceNext,
     // we can make a line out of each pattern.
     let patternPlaceRules = [];
@@ -343,8 +347,81 @@ module.exports = class {
   }
 
 
+  /*
+  *
+  * Within a min/max, randomize bg sizes.
+  *
+  */
+  normalRandomizeBgSize(width, height) {
+    const minHeight = this.elt.height/(this.linesSets * 4);
+    const maxHeight = this.elt.height/(this.linesSets);
+    const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
+    const newWidth = Math.floor(width * randHeight / height);
+
+    return {
+      'width': newWidth,
+      'height': randHeight
+    }
+  }
+
+  /*
+  *
+  * For filling in the background
+  * of Free cards with a single pattern.
+  *
+  */
   fillFreeBg(callback) {
-    console.log('fill bg');
+    console.log(this.visuals);
+    // 1. choose bg pattern.
+    let bgFound = false;
+    let bgPattern = null;
+    let i = 0;
+    while (!bgFound) {
+      if (this.visuals.pattern.components[i].ground === "background") {
+        bgPattern = this.visuals.pattern.components[i];
+        bgFound = true;
+      } else {
+        i++;
+      }
+    }
+
+    console.log(bgPattern);
+    // 2. replace colors.
+    let patColors = [];
+    for (let i = 0; i < bgPattern.colors.length; i++) {
+      patColors.push(this.getColor(bgPattern.colors[i]));
+    }
+    console.log(patColors);
+    if (patColors.length === 1) {
+      bgPattern.src = this.replaceColors(bgPattern, patColors[0]);
+    } else {
+      bgPattern.src = this.replaceMultipleColors(bgPattern, patColors);
+    }
+    console.log('replaced!');
+    let data = bgPattern.src;
+
+    // 3. create a pattern, resizing if we need to.
+    var DOMURL = window.URL || window.webkitURL || window;
+
+    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svg);
+    var img = new Image();
+    img.src = url;
+
+    img.onload = () => {
+      // let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
+      // let newHeight = height;
+      let dims = this.normalRandomizeBgSize(img.width, img.height);
+      let pattern = this.cx.createPattern(this.createPattern(img, dims.width, dims.height), 'repeat');
+
+      // fill with pattern
+      this.cx.fillStyle = pattern;
+
+      // 4. fill entire cx with this pattern.
+      this.cx.fillRect(0, 0, this.elt.width*8, this.elt.height*8);
+
+      DOMURL.revokeObjectURL(url);
+    }
 
     callback();
   }
@@ -358,7 +435,7 @@ module.exports = class {
   */
   generateFree() {
     this.fillFreeBg(() => {
-      console.log('ready to place foreground');
+      // console.log('ready to place foreground');
     });
   }
 

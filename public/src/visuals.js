@@ -157,6 +157,9 @@ module.exports = class {
       components.push(allComponents[componentIndices[i]]);
     }
 
+
+    // TODO: Make sure that in Free, there is at least one bg and at least one fg pattern.
+
     this.visuals.pattern.components = components;
 
     callback();
