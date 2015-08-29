@@ -343,6 +343,26 @@ module.exports = class {
   }
 
 
+  fillFreeBg(callback) {
+    console.log('fill bg');
+
+    callback();
+  }
+
+  /*
+  *
+  * Generate a free set of patterns:
+  * 1. start with a bg pattern
+  * 2. Add a fg pattern (up to two -- if there are two, alternate placing them)
+  *
+  */
+  generateFree() {
+    this.fillFreeBg(() => {
+      console.log('ready to place foreground');
+    });
+  }
+
+
   /*
   * Get the DOM element we'll be writing to & save to itself
   */
@@ -383,7 +403,7 @@ module.exports = class {
     if (this.lang.type === "lines") {
       this.generateLines();
     } else if (this.lang.type === "free") {
-      console.log('BE FREE');
+      this.generateFree();
     }
 
     this.contents = this.elt;
