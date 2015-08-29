@@ -9131,7 +9131,10 @@ let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
 // const langMode = "normal";
-const langMode = "rand";
+// const langMode = "rand";
+const langMode = "chooseByNumber";
+
+const langIndex = 264;
 
 if (mode === "render") {
   renderLimit = 1;
@@ -9399,6 +9402,8 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
+} else if (langMode === "chooseByNumber") {
+  chooseFrom = [chooseFrom[langIndex]];
 }
 
 for (let i = 0; i <= renderLimit; i++){
