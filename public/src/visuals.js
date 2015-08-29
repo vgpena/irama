@@ -158,7 +158,42 @@ module.exports = class {
     }
 
 
-    // TODO: Make sure that in Free, there is at least one bg and at least one fg pattern.
+    // Free cards need at least one bg pattern and one fg pattern.
+    // Check to see if we've already got this.
+    if (this.lang.type === "free") {
+      let hasBgPattern = false;
+      let hasFgPattern = false;
+      for (let i = 0; i < components.length; i++) {
+        if (components[i].ground === "background") {
+          hasBgPattern = true;
+        } else {
+          hasFgPattern = true;
+        }
+      }
+      // if we're missing one of these, we need to add it.
+      // randomly look through the menagerie until
+      // we find one of the type we need.
+      if (!hasBgPattern) {
+        let found = false;
+        while (!found) {
+          let randComponent = allComponents[Math.floor(Math.random() * allComponents.length)];
+          if (randComponent.ground === "background") {
+            components.push(randComponent);
+            found = true;
+          }
+        }
+      }
+      if (!hasFgPattern) {
+        let found = false;
+        while (!found) {
+          let randComponent = allComponents[Math.floor(Math.random() * allComponents.length)];
+          if (randComponent.ground === "foreground") {
+            components.push(randComponent);
+            found = true;
+          }
+        }
+      }
+    }
 
     this.visuals.pattern.components = components;
 
