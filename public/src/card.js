@@ -346,10 +346,10 @@ module.exports = class {
   getElement(callback) {
     let card = document.createElement("canvas");
     card.classList.add("card");
-    card.width = 1200;
-    card.height = 1600;
-    card.style.width = 600 + 'px';
-    card.style.height = 800 + 'px';
+    card.width = 825;
+    card.height = 1125;
+    card.style.width = card.width/2 + 'px';
+    card.style.height = card.height/2 + 'px';
     this.elt = card;
 
     callback();
