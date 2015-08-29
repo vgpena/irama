@@ -8378,12 +8378,14 @@ module.exports={
         },
         {
           "id": "lines0704",
+          "height": "half",
           "rule": "placeNext",
           "colors": [1, 2],
           "src": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 98.3 100.7' enable-background='new 0 0 98.3 100.7'><style type='text/css'>.st0{fill:#15BA5C;} .st1{fill:#166FB7;}</style><path class='st0' d='M88.6 78.5c-1.7 0-3.4-.7-4.6-2.1L41 26.1c-2.2-2.5-1.9-6.3.7-8.5 2.5-2.2 6.3-1.9 8.5.7l31.5 36.9-2.1-40.7c-.2-3.3 2.4-6.1 5.7-6.3 3.3-.2 6.1 2.4 6.3 5.7l3 58.3c.1 2.6-1.4 4.9-3.8 5.9-.7.3-1.5.4-2.2.4z'/><path class='st1' d='M81.6 87.5c-.6 0-1.2-.3-1.5-.7L27.3 22.3c-.7-.9-.6-2.1.3-2.8.9-.7 2.1-.6 2.8.3l52.7 64.5c.7.9.6 2.1-.3 2.8-.3.2-.8.4-1.2.4z'/><path class='st0' d='M22.6 92.5c-3.2 0-5.8-2.5-6-5.7l-3-58.3c-.1-1.5.4-2.9 1.3-4 .3-.3.5-.6.9-.9.8-.7 1.8-1.2 3-1.3.3 0 .7-.1 1-.1 1.2 0 2.3.4 3.2 1 .3.2.6.5.9.8.1.1.2.3.4.4l43 50.3c2.2 2.5 1.9 6.3-.7 8.5-2.5 2.2-6.3 1.9-8.5-.7l-31.6-37 2.1 40.7v.3c0 3.2-2.5 5.8-5.7 6h-.3z'/><path class='st1' d='M9.3 89.4c-1.1 0-1.9-.8-2-1.9L3.8 18.3c-.1-1.1.8-2 1.9-2.1 1.1 0 2 .8 2.1 1.9l3.6 69.3c.1 1.1-.8 2-1.9 2.1-.1-.1-.1-.1-.2-.1zM75.6 42.9c-.6 0-1.2-.3-1.5-.7L56.3 20.5c-.7-.9-.6-2.1.3-2.8.9-.7 2.1-.6 2.8.3l17.7 21.7c.7.9.6 2.1-.3 2.8-.3.2-.8.4-1.2.4z'/></svg>"
         },
         {
           "id": "lines0705",
+          "height": "half",
           "rule": "placeNext",
           "colors": [2],
           "src": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160.5 130' enable-background='new 0 0 160.5 130'><style type='text/css'>.st0{fill:none;} .st1{fill:#12B252;}</style><path class='st0' d='M160.5 105.9c-1.4 0-2.5-1.1-2.5-2.5V87.8c0-1.4 1.1-2.5 2.5-2.5v-6.4c-7.7 0-14-6.3-14-14s6.3-14 14-14v-6.4c-1.4 0-2.5-1.1-2.5-2.5V26.4c0-1.4 1.1-2.5 2.5-2.5V12.2H0v11.6c1.4 0 2.5 1.1 2.5 2.5V42c0 1.4-1.1 2.5-2.5 2.5v6.4c7.7 0 14 6.3 14 14s-6.3 14-14 14v6.4c1.4 0 2.5 1.1 2.5 2.5v15.7c0 1.4-1.1 2.5-2.5 2.5v11.6h160.5v-11.7zm-22.4-27.4c-3.1 3.3-7.1 6.3-11.9 9-12.3 6.9-28.7 10.7-46 10.7s-33.7-3.8-46-10.7c-4.8-2.7-8.8-5.7-11.9-9-1.5-1.6-.4-4.2 1.8-4.2.7 0 1.3.3 1.8.8 10 10.7 30.6 18 54.3 18 23.7 0 44.2-7.3 54.3-18 .5-.5 1.1-.8 1.8-.8 2.2 0 3.3 2.6 1.8 4.2zM23.8 64.9c0-1.4 1.1-2.5 2.5-2.5h107.9c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5H26.3c-1.4 0-2.5-1.1-2.5-2.5zm112.5-9.4c-.7 0-1.3-.3-1.8-.8-10-10.7-30.6-18-54.3-18-23.7 0-44.2 7.3-54.3 18-.5.5-1.1.8-1.8.8-2.2 0-3.3-2.6-1.8-4.2 3.1-3.3 7.1-6.3 11.9-9 12.3-6.9 28.7-10.7 46-10.7s33.7 3.8 46 10.7c4.8 2.7 8.8 5.7 11.9 9 1.5 1.6.4 4.2-1.8 4.2zM0 0h160.5v7.2H0zM151.5 64.9c0 5 4 9 9 9v-18c-5 0-9 4-9 9zM9 64.9c0-5-4-9-9-9v18c5 0 9-4 9-9zM0 122.6h160.5v7.4H0z'/><path class='st1' d='M14 64.9c0-7.7-6.3-14-14-14v5c5 0 9 4 9 9s-4 9-9 9v5c7.7 0 14-6.3 14-14zM2.5 42V26.4c0-1.4-1.1-2.5-2.5-2.5v20.7c1.4-.1 2.5-1.2 2.5-2.6zM2.5 103.4V87.8c0-1.4-1.1-2.5-2.5-2.5V106c1.4-.1 2.5-1.2 2.5-2.6zM26.3 67.4h107.9c1.4 0 2.5-1.1 2.5-2.5s-1.1-2.5-2.5-2.5H26.3c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5zM126.2 42.3c-12.3-6.9-28.7-10.7-46-10.7s-33.7 3.8-46 10.7c-4.8 2.7-8.8 5.7-11.9 9-1.5 1.6-.4 4.2 1.8 4.2.7 0 1.3-.3 1.8-.8 10-10.7 30.6-18 54.3-18 23.7 0 44.2 7.3 54.3 18 .5.5 1.1.8 1.8.8 2.2 0 3.3-2.6 1.8-4.2-3.1-3.3-7.1-6.3-11.9-9zM136.3 74.3c-.7 0-1.3.3-1.8.8-10 10.7-30.6 18-54.3 18-23.7 0-44.2-7.3-54.3-18-.5-.5-1.1-.8-1.8-.8-2.2 0-3.3 2.6-1.8 4.2 3.1 3.3 7.1 6.3 11.9 9 12.3 6.9 28.7 10.7 46 10.7s33.7-3.8 46-10.7c4.8-2.7 8.8-5.7 11.9-9 1.5-1.6.4-4.2-1.8-4.2zM146.5 64.9c0 7.7 6.3 14 14 14v-5c-5 0-9-4-9-9s4-9 9-9v-5c-7.8 0-14 6.3-14 14zM158 26.4V42c0 1.4 1.1 2.5 2.5 2.5V23.9c-1.4 0-2.5 1.1-2.5 2.5zM158 87.8v15.7c0 1.4 1.1 2.5 2.5 2.5V85.3c-1.4 0-2.5 1.1-2.5 2.5zM0 7.2h160.5v5H0zM0 117.6h160.5v5H0z'/></svg>"
@@ -8415,9 +8417,10 @@ module.exports = class {
     this.elt = null;
     this.cx = null;
     this.contents = null;
-    this.lines = [];
+    this.lines = {};
     // because it looks nice.
     this.linesSets = 4;
+    this.currTopOffset = 0;
 
     this.generate();
   }
@@ -8632,7 +8635,7 @@ module.exports = class {
   * with a bg color and a pattern.
   *
   */
-  colorInLine(pattern, colors, height, topOffset) {
+  colorInLine(pattern, colors, height) {
     let data = "";
     if (pattern.colors.length < 2) {
       data = this.replaceColors(pattern, colors.fg);
@@ -8648,15 +8651,19 @@ module.exports = class {
 
     img.onload = () => {
       let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
-      let pattern = this.cx.createPattern(this.createPattern(img, newWidth, height), 'repeat');
+      let newHeight = height;
+      let pattern = this.cx.createPattern(this.createPattern(img, newWidth, newHeight), 'repeat-x');
 
       // fill with bg color
       this.cx.fillStyle = colors.bg;
-      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
+      this.cx.fillRect(0, 0, this.elt.width*8, height);
 
       // fill with pattern
       this.cx.fillStyle = pattern;
-      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
+      this.cx.fillRect(0, 0, this.elt.width*8, height);
+
+      this.cx.translate(0, height);
+
 
       DOMURL.revokeObjectURL(url);
     }
@@ -8670,18 +8677,16 @@ module.exports = class {
   */
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
-    let topOffset = height*index;
-
     let colors = this.getColorsForPattern(pattern.colors);
 
-    this.lines.push({
-      'index': index,
-      'pattern': pattern,
-      'colors': colors
-    });
+    let isHalfHeight = pattern.height === "half" ? true : false;
+    if (isHalfHeight) {
+      console.log('half');
+      height = Math.ceil(height/2);
+    }
 
     if (pattern.src) {
-      this.colorInLine(pattern, colors, height, topOffset);
+      this.colorInLine(pattern, colors, height);
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
@@ -9110,8 +9115,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-// const langMode = "normal";
-const langMode = "rand";
+const langMode = "normal";
+// const langMode = "rand";
 
 if (mode === "render") {
   renderLimit = 1;

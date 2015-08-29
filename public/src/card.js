@@ -7,9 +7,10 @@ module.exports = class {
     this.elt = null;
     this.cx = null;
     this.contents = null;
-    this.lines = [];
+    this.lines = {};
     // because it looks nice.
     this.linesSets = 4;
+    this.currTopOffset = 0;
 
     this.generate();
   }
@@ -224,7 +225,7 @@ module.exports = class {
   * with a bg color and a pattern.
   *
   */
-  colorInLine(pattern, colors, height, topOffset) {
+  colorInLine(pattern, colors, height) {
     let data = "";
     if (pattern.colors.length < 2) {
       data = this.replaceColors(pattern, colors.fg);
@@ -240,15 +241,19 @@ module.exports = class {
 
     img.onload = () => {
       let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
-      let pattern = this.cx.createPattern(this.createPattern(img, newWidth, height), 'repeat');
+      let newHeight = height;
+      let pattern = this.cx.createPattern(this.createPattern(img, newWidth, newHeight), 'repeat-x');
 
       // fill with bg color
       this.cx.fillStyle = colors.bg;
-      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
+      this.cx.fillRect(0, 0, this.elt.width*8, height);
 
       // fill with pattern
       this.cx.fillStyle = pattern;
-      this.cx.fillRect(0, topOffset, this.elt.width*8, height);
+      this.cx.fillRect(0, 0, this.elt.width*8, height);
+
+      this.cx.translate(0, height);
+
 
       DOMURL.revokeObjectURL(url);
     }
@@ -262,18 +267,16 @@ module.exports = class {
   */
   generateLine(pattern, index, totalLines) {
     let height = Math.floor(this.elt.height/totalLines);
-    let topOffset = height*index;
-
     let colors = this.getColorsForPattern(pattern.colors);
 
-    this.lines.push({
-      'index': index,
-      'pattern': pattern,
-      'colors': colors
-    });
+    let isHalfHeight = pattern.height === "half" ? true : false;
+    if (isHalfHeight) {
+      console.log('half');
+      height = Math.ceil(height/2);
+    }
 
     if (pattern.src) {
-      this.colorInLine(pattern, colors, height, topOffset);
+      this.colorInLine(pattern, colors, height);
     } else {
       console.debug('no src for pattern ' + pattern.id);
     }
