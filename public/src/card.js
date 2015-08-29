@@ -359,7 +359,7 @@ module.exports = class {
   */
   normalRandomizeBgSize(width, height) {
     const minHeight = this.elt.height/(this.linesSets * 4);
-    const maxHeight = this.elt.height/(this.linesSets);
+    const maxHeight = this.elt.height/(this.linesSets * 1.5);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
