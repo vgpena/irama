@@ -80,19 +80,9 @@ var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.len
   * of Free cards with a single pattern.
   *
   */},{key:"fillFreeBg",value:function fillFreeBg(callback){var _this3=this;console.log(this.visuals); // 1. choose bg pattern.
-var bgFound=false;var bgPattern=null;var i=0;while(!bgFound) {var randPatternIndex=Math.floor(Math.random() * this.visuals.pattern.components.length);if(this.visuals.pattern.components[randPatternIndex].ground === "background"){bgPattern = this.visuals.pattern.components[randPatternIndex];bgFound = true;}} // if (this.visuals.pattern.components[i].ground === "background") {
-//   bgPattern = this.visuals.pattern.components[i];
-//   bgFound = true;bgPattern = this.visuals.pattern.components[i];
-// bgFound = true;
-// } else {
-//   i++;
-// }
-// }
-console.log(bgPattern); // 2. replace colors.
-var patColors=[];for(var _i8=0;_i8 < bgPattern.colors.length;_i8++) {patColors.push(this.getColor(bgPattern.colors[_i8]));}console.log(patColors);if(patColors.length === 1){bgPattern.src = this.replaceColors(bgPattern,patColors[0]);}else {bgPattern.src = this.replaceMultipleColors(bgPattern,patColors);}console.log('replaced!');var data=bgPattern.src; // 3. create a pattern, resizing if we need to.
-var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){ // let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
-// let newHeight = height;
-var dims=_this3.normalRandomizeBgSize(img.width,img.height);var pattern=_this3.cx.createPattern(_this3.createPattern(img,dims.width,dims.height),'repeat'); // fill with pattern
+var bgFound=false;var bgPattern=null;var i=0;while(!bgFound) {var randPatternIndex=Math.floor(Math.random() * this.visuals.pattern.components.length);if(this.visuals.pattern.components[randPatternIndex].ground === "background"){bgPattern = this.visuals.pattern.components[randPatternIndex];bgFound = true;}} // 2. replace colors.
+var patColors=[];for(var _i8=0;_i8 < bgPattern.colors.length;_i8++) {patColors.push(this.getColor(bgPattern.colors[_i8]));}if(patColors.length === 1){bgPattern.src = this.replaceColors(bgPattern,patColors[0]);}else {bgPattern.src = this.replaceMultipleColors(bgPattern,patColors);}var data=bgPattern.src; // 3. create a pattern, resizing if we need to.
+var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var dims=_this3.normalRandomizeBgSize(img.width,img.height);var pattern=_this3.cx.createPattern(_this3.createPattern(img,dims.width,dims.height),'repeat'); // fill with pattern
 _this3.cx.fillStyle = pattern; // 4. fill entire cx with this pattern.
 _this3.cx.fillRect(0,0,_this3.elt.width * 8,_this3.elt.height * 8);DOMURL.revokeObjectURL(url);};callback();} /*
   *

@@ -388,28 +388,16 @@ module.exports = class {
         bgFound = true;
       }
     }
-      // if (this.visuals.pattern.components[i].ground === "background") {
-      //   bgPattern = this.visuals.pattern.components[i];
-      //   bgFound = true;bgPattern = this.visuals.pattern.components[i];
-      // bgFound = true;
-      // } else {
-      //   i++;
-      // }
-    // }
-
-    console.log(bgPattern);
     // 2. replace colors.
     let patColors = [];
     for (let i = 0; i < bgPattern.colors.length; i++) {
       patColors.push(this.getColor(bgPattern.colors[i]));
     }
-    console.log(patColors);
     if (patColors.length === 1) {
       bgPattern.src = this.replaceColors(bgPattern, patColors[0]);
     } else {
       bgPattern.src = this.replaceMultipleColors(bgPattern, patColors);
     }
-    console.log('replaced!');
     let data = bgPattern.src;
 
     // 3. create a pattern, resizing if we need to.
@@ -421,8 +409,6 @@ module.exports = class {
     img.src = url;
 
     img.onload = () => {
-      // let newWidth = Math.ceil(parseFloat(height*img.width)/img.height);
-      // let newHeight = height;
       let dims = this.normalRandomizeBgSize(img.width, img.height);
       let pattern = this.cx.createPattern(this.createPattern(img, dims.width, dims.height), 'repeat');
 
