@@ -13,7 +13,7 @@ module.exports = class {
     this.currTopOffset = 0;
 
     this.maxFreeFgRepetitions = 24;
-    this.maxFreePlacementFailures = 6;
+    this.maxFreePlacementFailures = 40;
 
     this.generate();
   }
@@ -513,12 +513,15 @@ module.exports = class {
       // 0. setup
       let currFgRepetitions = 0;
       let currFgPlacementFailures = 0;
+      let takenAreas = [];
 
       // 1. resize
       let dims = this.normalRandomizeFgSize(img.width, img.height);
 
 
-      while (currFgRepetitions < this.maxFreeFgRepetitions) {
+      while (currFgRepetitions < this.maxFreeFgRepetitions && currFgPlacementFailures < this.maxFreePlacementFailures) {
+        let areaIsTaken = false;
+
         // 2. rotate
         this.cx.save();
         this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
@@ -532,11 +535,55 @@ module.exports = class {
 
         console.log(randX, randY);
 
-        this.cx.drawImage(img, randX,randY, dims.width, dims.height);
+        if (takenAreas.length > 0) {
+          const topLeft = [randX, randY];
+          const topRight = [randX + dims.width, randY];
+          const bottomLeft = [randX, randY + dims.height];
+          const bottomRight = [randX + dims.width, randY + dims.height];
+          const corners = [topLeft, topRight, bottomLeft, bottomRight];
+          for (let i = 0; i < takenAreas.length; i++) {
+            /* for every taken area,
+            * test every corner of the rectangle we want to draw.
+            * if any corner has x and y values
+            * between the x and y values of the corners
+            * of the current taken area,
+            * then we cannot draw the currently suggested rectangle.
+            */
+            let curr = takenAreas[i];
+            let takenLeft = curr.x;
+            let takenTop = curr.y;
+            let takenRight = curr.x + curr.width;
+            let takenBottom = curr.y + curr.height;
 
-        this.cx.restore();
+            for (let j = 0; j < corners.length; j++) {
+              let currCorner = corners[j];
 
-        currFgRepetitions++;
+              if ((currCorner[0] >= takenLeft) && (currCorner[0] <= takenRight)) {
+                if ((currCorner[1] >= takenTop) && (currCorner[1] <= takenBottom)) {
+                  areaIsTaken = true;
+                }
+              }
+            }
+          }
+        }
+
+        // if we're good, draw the image.
+        if (!areaIsTaken) {
+          console.log('draw');
+          this.cx.drawImage(img, randX,randY, dims.width, dims.height);
+          this.cx.restore();
+          takenAreas.push({
+            'x': randX,
+            'y': randY,
+            'width': dims.width,
+            'height': dims.height
+          });
+          currFgRepetitions++;
+        } else {
+          console.log('failed to draw :(');
+          currFgPlacementFailures++;
+        }
+
       }
 
     }
