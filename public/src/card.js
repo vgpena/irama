@@ -380,8 +380,6 @@ module.exports = class {
     this.cx.fillStyle = bgColor;
     this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
 
-    console.log(this.lang.type);
-
     if (this.lang.type === "lines") {
       this.generateLines();
     } else if (this.lang.type === "free") {

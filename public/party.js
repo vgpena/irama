@@ -8803,8 +8803,6 @@ module.exports = class {
     this.cx.fillStyle = bgColor;
     this.cx.fillRect(0, 0, this.elt.width, this.elt.height);
 
-    console.log(this.lang.type);
-
     if (this.lang.type === "lines") {
       this.generateLines();
     } else if (this.lang.type === "free") {
@@ -8834,8 +8832,6 @@ module.exports = class {
     this.howManyBorders = this.genericGet(options, "howManyBorders");
     this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
     this.numComponents = this.genericGet(options, "numComponents");
-
-    console.log(this.name);
 
     return this;
   }
@@ -9403,8 +9399,6 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
-  console.log('-------');
-  console.log(chooseFromRand);
 }
 
 for (let i = 0; i <= renderLimit; i++){
@@ -9443,12 +9437,6 @@ module.exports = class {
 
         patterns.push(newComponent);
       }
-    }
-
-    if (type === "free") {
-      console.log('=====');
-      console.log(patterns);
-      console.log('=====');
     }
 
     return patterns;
@@ -9492,11 +9480,8 @@ module.exports = class {
 
   generateVisuals() {
     this.generatePalette( () => {
-      console.log('palette generated');
       this.getPatternType( () => {
-        console.log('pattern type gotten');
         this.getComponents( () => {
-          console.log('components gotten');
           this.getBackgroundColor();
         });
       });
@@ -9558,15 +9543,9 @@ module.exports = class {
   *
   */
   getComponents(callback) {
-    console.log('getComponents with language type: ' + this.lang.type);
-
     let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
-    console.log(allComponents.length);
-
-
     if (allComponents === null) {
-      // console.log('nope');
       this.visuals.pattern.components = [];
       callback();
       return;
@@ -9602,15 +9581,12 @@ module.exports = class {
     let components = [];
 
     if (parseInt(this.lang.numComponents) > allComponents.length) {
-      console.log('not enough components in menagerie :(');
       let i = 0;
       const numNeeded = parseInt(this.lang.numComponents);
       while (components.length < numNeeded) {
         components.push(allComponents[i]);
         i = (i+1)%allComponents.length;
       }
-
-      console.log(components);
 
       this.visuals.pattern.components = components;
     } else {

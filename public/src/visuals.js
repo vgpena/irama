@@ -34,11 +34,8 @@ module.exports = class {
 
   generateVisuals() {
     this.generatePalette( () => {
-      console.log('palette generated');
       this.getPatternType( () => {
-        console.log('pattern type gotten');
         this.getComponents( () => {
-          console.log('components gotten');
           this.getBackgroundColor();
         });
       });
@@ -100,15 +97,9 @@ module.exports = class {
   *
   */
   getComponents(callback) {
-    console.log('getComponents with language type: ' + this.lang.type);
-
     let allComponents = typeof patterns[this.lang.type] === "undefined" ? null : patterns[this.lang.type];
 
-    console.log(allComponents.length);
-
-
     if (allComponents === null) {
-      // console.log('nope');
       this.visuals.pattern.components = [];
       callback();
       return;
@@ -144,15 +135,12 @@ module.exports = class {
     let components = [];
 
     if (parseInt(this.lang.numComponents) > allComponents.length) {
-      console.log('not enough components in menagerie :(');
       let i = 0;
       const numNeeded = parseInt(this.lang.numComponents);
       while (components.length < numNeeded) {
         components.push(allComponents[i]);
         i = (i+1)%allComponents.length;
       }
-
-      console.log(components);
 
       this.visuals.pattern.components = components;
     } else {

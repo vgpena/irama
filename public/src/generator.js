@@ -17,8 +17,6 @@ module.exports = class {
     this.whichSidesBorders = this.genericGet(options, "whichSidesBorders");
     this.numComponents = this.genericGet(options, "numComponents");
 
-    console.log(this.name);
-
     return this;
   }
 

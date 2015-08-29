@@ -287,8 +287,6 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
-  console.log('-------');
-  console.log(chooseFromRand);
 }
 
 for (let i = 0; i <= renderLimit; i++){
