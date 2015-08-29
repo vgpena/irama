@@ -78,7 +78,7 @@ var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.len
   *
   * Within a min/max, randomize fg sizes.
   *
-  */},{key:"normalRandomizeFgSize",value:function normalRandomizeFgSize(width,height){var minHeight=this.elt.height / this.linesSets;var maxHeight=this.elt.height / (this.linesSets / 4);var randHeight=Math.floor(Math.random() * maxHeight) + minHeight;var newWidth=Math.floor(width * randHeight / height);return {'width':newWidth,'height':randHeight};} /*
+  */},{key:"normalRandomizeFgSize",value:function normalRandomizeFgSize(width,height){var minHeight=this.elt.height / this.linesSets;var maxHeight=this.elt.height / (this.linesSets / 2);var randHeight=Math.floor(Math.random() * maxHeight) + minHeight;var newWidth=Math.floor(width * randHeight / height);return {'width':newWidth,'height':randHeight};} /*
   *
   * For filling in the background
   * of Free cards with a single pattern.
@@ -115,14 +115,9 @@ var data=fgPattern.src;var DOMURL=window.URL || window.webkitURL || window;var s
       * READY, KIDS??
       *
       */ // 0. setup
-var currFgRepetitions=0;var currFgPlacementFailures=0;var dims=_this4.normalRandomizeFgSize(img.width,img.height);while(currFgRepetitions < _this4.maxFreeFgRepetitions) { // 1. resize
-// img.width = dims.width;
-// img.height = dims.height;
-//
-// console.log(img);
-// 2. rotate
-_this4.cx.save(); // this.cx.translate(this.cx.width/2,this.cx.height/2);
-_this4.cx.rotate(Math.floor(Math.random() * 360) * Math.PI / 180); // 3a. pick coords
+var currFgRepetitions=0;var currFgPlacementFailures=0; // 1. resize
+var dims=_this4.normalRandomizeFgSize(img.width,img.height);while(currFgRepetitions < _this4.maxFreeFgRepetitions) { // 2. rotate
+_this4.cx.save();_this4.cx.rotate(Math.floor(Math.random() * 360) * Math.PI / 180); // 3a. pick coords
 var maxX=_this4.elt.width;var maxY=_this4.elt.height;var randX=Math.floor(Math.random() * maxX);var randY=Math.floor(Math.random() * maxY);console.log(randX,randY);_this4.cx.drawImage(img,randX,randY,dims.width,dims.height);_this4.cx.restore();currFgRepetitions++;}};callback();} /*
   *
   * Generate a free set of patterns:

@@ -380,7 +380,7 @@ module.exports = class {
   */
   normalRandomizeFgSize(width, height) {
     const minHeight = this.elt.height/this.linesSets;
-    const maxHeight = this.elt.height/(this.linesSets / 4);
+    const maxHeight = this.elt.height/(this.linesSets / 2);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
@@ -514,19 +514,13 @@ module.exports = class {
       let currFgRepetitions = 0;
       let currFgPlacementFailures = 0;
 
+      // 1. resize
       let dims = this.normalRandomizeFgSize(img.width, img.height);
 
 
       while (currFgRepetitions < this.maxFreeFgRepetitions) {
-        // 1. resize
-        // img.width = dims.width;
-        // img.height = dims.height;
-        //
-        // console.log(img);
-
         // 2. rotate
         this.cx.save();
-        // this.cx.translate(this.cx.width/2,this.cx.height/2);
         this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
 
         // 3a. pick coords
