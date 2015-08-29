@@ -13,7 +13,7 @@ module.exports = class {
     this.currTopOffset = 0;
 
     this.maxFreeFgRepetitions = 24;
-    this.maxFreePlacementFailures = 40;
+    this.maxFreePlacementFailures = 5000;
 
     this.generate();
   }
@@ -379,8 +379,8 @@ module.exports = class {
   *
   */
   normalRandomizeFgSize(width, height) {
-    const minHeight = this.elt.height/this.linesSets;
-    const maxHeight = this.elt.height/(this.linesSets / 2);
+    const minHeight = this.elt.height/(this.linesSets * 3);
+    const maxHeight = this.elt.height/(this.linesSets);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
@@ -522,18 +522,23 @@ module.exports = class {
       while (currFgRepetitions < this.maxFreeFgRepetitions && currFgPlacementFailures < this.maxFreePlacementFailures) {
         let areaIsTaken = false;
 
+        // console.log(takenAreas);
+
+
         // 2. rotate
         this.cx.save();
         this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
 
         // 3a. pick coords
-        const maxX = this.elt.width;
-        const maxY = this.elt.height;
+        const maxX = this.elt.width*2;
+        const maxY = this.elt.height*2;
+        const minX = maxX*-1;
+        const minY = maxY*-1;
 
-        let randX = Math.floor(Math.random() * maxX);
-        let randY = Math.floor(Math.random() * maxY);
+        let randX = Math.floor(Math.random() * maxX) + minX;
+        let randY = Math.floor(Math.random() * maxY) + minY;
 
-        console.log(randX, randY);
+        // console.log(randX, randY);
 
         if (takenAreas.length > 0) {
           const topLeft = [randX, randY];
@@ -569,7 +574,7 @@ module.exports = class {
 
         // if we're good, draw the image.
         if (!areaIsTaken) {
-          console.log('draw');
+          // console.log('draw');
           this.cx.drawImage(img, randX,randY, dims.width, dims.height);
           this.cx.restore();
           takenAreas.push({
@@ -580,7 +585,7 @@ module.exports = class {
           });
           currFgRepetitions++;
         } else {
-          console.log('failed to draw :(');
+          // console.log('failed to draw :(');
           currFgPlacementFailures++;
         }
 
