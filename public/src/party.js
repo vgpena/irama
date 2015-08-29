@@ -22,7 +22,12 @@ const mode = "render";
 // const langMode = "rand";
 const langMode = "chooseByNumber";
 
-const langIndex = 264;
+// FREE INDICES
+// const langIndex = 264;
+const langIndex = 139;
+
+
+
 
 if (mode === "render") {
   renderLimit = 1;
@@ -290,6 +295,7 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
+  console.log(chooseFromRand);
 } else if (langMode === "chooseByNumber") {
   chooseFrom = [chooseFrom[langIndex]];
 }

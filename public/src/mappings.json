@@ -18,11 +18,6 @@
       "3 Average": "left",
       "4 Moderately high": "left",
       "5 High": "left",
-    },
-    "iff": {
-      "key": "type",
-      "value": "lines",
-      "tValue": true
     }
   },
   "angle": {
@@ -32,11 +27,6 @@
       "1 Simple": 90,
       "2 Moderately complex": 30,
       "3 Complex": 45,
-    },
-    "iff": {
-      "key": "type",
-      "value": "lines",
-      "tValue": true
     }
   },
   "wavyLines": {

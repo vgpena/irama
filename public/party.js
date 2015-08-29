@@ -8764,14 +8764,15 @@ module.exports = class {
   *
   */
   rotateCanvas() {
-    this.cx.save();
+    this.cx.restore();
     this.cx.translate(this.elt.width/2,this.elt.height/2);
 
+    console.log(this.lang);
+    console.log(this.cx);
     let coefficient = this.lang.direction === "right" ? -1 : 1;
     let deg = parseInt(this.lang.angle);
 
     this.cx.rotate(deg*coefficient*Math.PI/180);
-    this.cx.save();
   }
 
 
@@ -8860,7 +8861,7 @@ module.exports = class {
   *
   */
   fillFreeBg(callback) {
-    console.log(this.visuals);
+    // console.log(this.visuals);
     // 1. choose bg pattern.
     let bgFound = false;
     let bgPattern = null;
@@ -8918,7 +8919,7 @@ module.exports = class {
   placeFreeFg(callback) {
     // Let's assume one foreground pattern for now.
     // 1. get foreground pattern.
-    console.log(this.visuals);
+    // console.log(this.visuals);
     let fgFound = false;
     let fgPattern = null;
     let i = 0;
@@ -8931,7 +8932,7 @@ module.exports = class {
         i++;
       }
     }
-    console.log(fgPattern);
+    // console.log(fgPattern);
     // 2. replace colors.
     let patColors = [];
     for (let i = 0; i < fgPattern.colors.length; i++) {
@@ -8981,7 +8982,7 @@ module.exports = class {
       let dims = this.normalRandomizeFgSize(img.width, img.height);
 
 
-      while (currFgRepetitions < this.maxFreeFgRepetitions && currFgPlacementFailures < this.maxFreePlacementFailures) {
+      while (currFgRepetitions <= this.maxFreeFgRepetitions && currFgPlacementFailures <= this.maxFreePlacementFailures) {
         let areaIsTaken = false;
 
         // console.log(takenAreas);
@@ -8989,13 +8990,12 @@ module.exports = class {
 
         // 2. rotate
         this.cx.save();
-        this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
 
         // 3a. pick coords
         const maxX = this.elt.width*2;
         const maxY = this.elt.height*2;
-        const minX = maxX*-1;
-        const minY = maxY*-1;
+        const minX = maxX/-2;
+        const minY = maxY/-2;
 
         let randX = Math.floor(Math.random() * maxX) + minX;
         let randY = Math.floor(Math.random() * maxY) + minY;
@@ -9037,7 +9037,9 @@ module.exports = class {
         // if we're good, draw the image.
         if (!areaIsTaken) {
           // console.log('draw');
-          this.cx.drawImage(img, randX,randY, dims.width, dims.height);
+          this.cx.translate(randX + (dims.width/2), randY + (dims.height/2));
+          this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
+          this.cx.drawImage(img, randX, randY, dims.width, dims.height);
           this.cx.restore();
           takenAreas.push({
             'x': randX,
@@ -9050,12 +9052,12 @@ module.exports = class {
           // console.log('failed to draw :(');
           currFgPlacementFailures++;
         }
-
+        this.cx.restore();
       }
-
+      if (currFgRepetitions === this.maxFreeFgRepetitions + 1 || currFgPlacementFailures === this.maxFreePlacementFailures + 1) {
+        callback();
+      }
     }
-
-    callback();
   }
 
 
@@ -9069,7 +9071,7 @@ module.exports = class {
   generateFree() {
     this.fillFreeBg(() => {
       this.placeFreeFg(() => {
-        console.log('ready to finish');
+        this.finish();
       });
     });
   }
@@ -9225,11 +9227,6 @@ module.exports={
       "3 Average": "left",
       "4 Moderately high": "left",
       "5 High": "left",
-    },
-    "iff": {
-      "key": "type",
-      "value": "lines",
-      "tValue": true
     }
   },
   "angle": {
@@ -9239,11 +9236,6 @@ module.exports={
       "1 Simple": 90,
       "2 Moderately complex": 30,
       "3 Complex": 45,
-    },
-    "iff": {
-      "key": "type",
-      "value": "lines",
-      "tValue": true
     }
   },
   "wavyLines": {
@@ -9443,7 +9435,12 @@ const mode = "render";
 // const langMode = "rand";
 const langMode = "chooseByNumber";
 
-const langIndex = 264;
+// FREE INDICES
+// const langIndex = 264;
+const langIndex = 139;
+
+
+
 
 if (mode === "render") {
   renderLimit = 1;
@@ -9711,6 +9708,7 @@ if (langMode === "rand") {
   for (let i = 0; i < chooseFromRand.length; i++) {
     chooseFrom.push(data[chooseFromRand[i]]);
   }
+  console.log(chooseFromRand);
 } else if (langMode === "chooseByNumber") {
   chooseFrom = [chooseFrom[langIndex]];
 }
