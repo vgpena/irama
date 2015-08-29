@@ -8474,6 +8474,9 @@ module.exports = class {
     this.linesSets = 4;
     this.currTopOffset = 0;
 
+    this.maxFreeFgRepetitions = 24;
+    this.maxFreePlacementFailures = 6;
+
     this.generate();
   }
 
@@ -8831,6 +8834,25 @@ module.exports = class {
     }
   }
 
+
+  /*
+  *
+  * Within a min/max, randomize fg sizes.
+  *
+  */
+  normalRandomizeFgSize(width, height) {
+    const minHeight = this.elt.height/this.linesSets;
+    const maxHeight = this.elt.height/(this.linesSets / 4);
+    const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
+    const newWidth = Math.floor(width * randHeight / height);
+
+    return {
+      'width': newWidth,
+      'height': randHeight
+    }
+  }
+
+
   /*
   *
   * For filling in the background
@@ -8920,10 +8942,9 @@ module.exports = class {
     } else {
       fgPattern.src = this.replaceMultipleColors(fgPattern, patColors);
     }
-    // 3. resize.
-    let data = fgPattern.src;
 
-    // 3. create a pattern, resizing if we need to.
+    // 3. turn into an image.
+    let data = fgPattern.src;
     var DOMURL = window.URL || window.webkitURL || window;
 
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
@@ -8932,18 +8953,61 @@ module.exports = class {
     img.src = url;
 
     img.onload = () => {
-      // let dims = this.normalRandomizeBgSize(img.width, img.height);
-      let pattern = this.cx.createPattern(this.createPattern(img, img.width, img.height), 'repeat');
+      /*
+      *
+      * Okay, so placing the image will be kind of cray.
+      * We have a maximum number of foreground repetitions
+      * set in this object. Until we've reached this max number,
+      * OR tried to place a pattern and failed max number of times,
+      * we need to:
+      * 1. randomly resize the image within bounds.
+      * 2. randomly rotate the image.
+      * 3. pick random coordinates (inside canvas bounds) to be origin of image.
+      * 4. IF the bounding box of this potential image falls within a "taken" area,
+      *   we repeat step 3 until we either fail too much or find coords that work.
+      * 5. We draw this image to the canvas,
+      * 6. and save this image's bounding box as a "taken" area.
+      *
+      * READY, KIDS??
+      *
+      */
 
-      // fill with pattern
-      this.cx.fillStyle = pattern;
+      // 0. setup
+      let currFgRepetitions = 0;
+      let currFgPlacementFailures = 0;
 
-      // 4. fill entire cx with this pattern.
-      this.cx.fillRect(0, 0, this.elt.width*8, this.elt.height*8);
+      let dims = this.normalRandomizeFgSize(img.width, img.height);
 
-      DOMURL.revokeObjectURL(url);
+
+      while (currFgRepetitions < this.maxFreeFgRepetitions) {
+        // 1. resize
+        // img.width = dims.width;
+        // img.height = dims.height;
+        //
+        // console.log(img);
+
+        // 2. rotate
+        this.cx.save();
+        // this.cx.translate(this.cx.width/2,this.cx.height/2);
+        this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
+
+        // 3a. pick coords
+        const maxX = this.elt.width;
+        const maxY = this.elt.height;
+
+        let randX = Math.floor(Math.random() * maxX);
+        let randY = Math.floor(Math.random() * maxY);
+
+        console.log(randX, randY);
+
+        this.cx.drawImage(img, randX,randY, dims.width, dims.height);
+
+        this.cx.restore();
+
+        currFgRepetitions++;
+      }
+
     }
-    // 4. place.
 
     callback();
   }
