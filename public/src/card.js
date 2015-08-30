@@ -556,107 +556,6 @@ module.exports = class {
       this.cx.translate((Math.random()*regionSide + regionSide*1.2)*1, (Math.random()*regionSide + regionSide*1.2)*1);
 
       callback();
-
-      if (false) {
-        /*
-        *
-        * Okay, so placing the image will be kind of cray.
-        * We have a maximum number of foreground repetitions
-        * set in this object. Until we've reached this max number,
-        * OR tried to place a pattern and failed max number of times,
-        * we need to:
-        * 1. randomly resize the image within bounds.
-        * 2. pick random coordinates (inside canvas bounds) to be origin of image.
-        * 3. IF the bounding box of this potential image falls within a "taken" area,
-        *   we repeat step 3 until we either fail too much or find coords that work.
-        * 4. randomly rotate the image.
-        * 5. We draw this image to the canvas,
-        * 6. and save this image's bounding box as a "taken" area.
-        *
-        * READY, KIDS??
-        *
-        */
-
-        // 0. setup
-        let currFgRepetitions = 0;
-        let currFgPlacementFailures = 0;
-        let takenAreas = [];
-
-        // 1. resize
-        let dims = this.normalRandomizeFgSize(img.width, img.height);
-
-
-        while (currFgRepetitions <= this.maxFreeFgRepetitions && currFgPlacementFailures <= this.maxFreePlacementFailures) {
-          let areaIsTaken = false;
-          // 2. pick coords
-          const maxX = this.elt.width*2;
-          const maxY = this.elt.height*2;
-          const minX = maxX/-2;
-          const minY = maxY/-2;
-
-          let randX = Math.floor(Math.random() * maxX) + minX;
-          let randY = Math.floor(Math.random() * maxY) + minY;
-
-          // 3. check that we can draw here
-          if (takenAreas.length > 0) {
-            const topLeft = [randX, randY];
-            const topRight = [randX + dims.width, randY];
-            const bottomLeft = [randX, randY + dims.height];
-            const bottomRight = [randX + dims.width, randY + dims.height];
-            const corners = [topLeft, topRight, bottomLeft, bottomRight];
-            for (let i = 0; i < takenAreas.length; i++) {
-              /* for every taken area,
-              * test every corner of the rectangle we want to draw.
-              * if any corner has x and y values
-              * between the x and y values of the corners
-              * of the current taken area,
-              * then we cannot draw the currently suggested rectangle.
-              */
-              let curr = takenAreas[i];
-              let takenLeft = curr.x;
-              let takenTop = curr.y;
-              let takenRight = curr.x + curr.width;
-              let takenBottom = curr.y + curr.height;
-
-              for (let j = 0; j < corners.length; j++) {
-                let currCorner = corners[j];
-
-                if ((currCorner[0] >= takenLeft) && (currCorner[0] <= takenRight)) {
-                  if ((currCorner[1] >= takenTop) && (currCorner[1] <= takenBottom)) {
-                    areaIsTaken = true;
-                  }
-                }
-              }
-            }
-          }
-
-          // if we're good,
-          if (!areaIsTaken) {
-            this.cx.save();
-            // 4. randomly rotate image
-            this.cx.translate(randX + (dims.width/2), randY + (dims.height/2));
-            this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
-
-            // 5. draw image
-            this.cx.drawImage(img, dims.width/-2, dims.height/-2, dims.width, dims.height);
-
-            // 6. record where we drew it, so that we can't draw over it
-            takenAreas.push({
-              'x': randX - dims.width/2,
-              'y': randY - dims.height/2,
-              'width': dims.width*2,
-              'height': dims.height*2
-            });
-            currFgRepetitions++;
-            this.cx.restore();
-          } else {
-            currFgPlacementFailures++;
-          }
-        }
-        if (currFgRepetitions === this.maxFreeFgRepetitions + 1 || currFgPlacementFailures === this.maxFreePlacementFailures + 1) {
-          callback();
-        }
-      }
     }
   }
 
@@ -672,7 +571,6 @@ module.exports = class {
     this.fillFreeBg(() => {
       this.placeFreeFg(() => {
         this.cx.translate(this.elt.width*2 - Math.random()*this.elt.width*2, this.elt.height*2 - Math.random()*this.elt.height*2);
-        // console.debug('finished');
       });
     });
   }
