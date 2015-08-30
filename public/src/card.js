@@ -362,8 +362,8 @@ module.exports = class {
   *
   */
   normalRandomizeBgSize(width, height) {
-    const minHeight = this.elt.height/(this.linesSets * 4);
-    const maxHeight = this.elt.height/(this.linesSets * 1.5);
+    const minHeight = this.elt.height/(this.linesSets * 12);
+    const maxHeight = this.elt.height/(this.linesSets * 8);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
@@ -380,8 +380,8 @@ module.exports = class {
   *
   */
   normalRandomizeFgSize(width, height) {
-    const minHeight = this.elt.height/(this.linesSets * 3);
-    const maxHeight = this.elt.height/(this.linesSets);
+    const minHeight = this.elt.height/(this.linesSets * 2);
+    const maxHeight = this.elt.height/(this.linesSets / 2);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
@@ -433,6 +433,10 @@ module.exports = class {
 
     img.onload = () => {
       let dims = this.normalRandomizeBgSize(img.width, img.height);
+      if (bgPattern.scale && bgPattern.scale > 1) {
+        dims.width = dims.width*bgPattern.scale;
+        dims.height = dims.height*bgPattern.scale;
+      }
       let pattern = this.cx.createPattern(this.createPattern(img, dims.width, dims.height), 'repeat');
 
       // fill with pattern
@@ -577,13 +581,13 @@ module.exports = class {
           // console.log('draw');
           this.cx.translate(randX + (dims.width/2), randY + (dims.height/2));
           this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
-          this.cx.drawImage(img, randX, randY, dims.width, dims.height);
+          this.cx.drawImage(img, dims.width/-2, dims.height/-2, dims.width, dims.height);
           this.cx.restore();
           takenAreas.push({
-            'x': randX,
-            'y': randY,
-            'width': dims.width,
-            'height': dims.height
+            'x': randX - dims.width/2,
+            'y': randY - dims.height/2,
+            'width': dims.width*2,
+            'height': dims.height*2
           });
           currFgRepetitions++;
         } else {
