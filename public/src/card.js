@@ -461,6 +461,59 @@ module.exports = class {
   }
 
 
+  fillFreeFg(imgs, callback) {
+    let regionSide = 0;
+    let dims = this.normalRandomizeFgSize(imgs[0].width, imgs[0].height);
+
+    let width = Math.floor(dims.width);
+    let height = Math.floor(dims.height);
+
+    regionSide = width*1.5;
+    let widthToFill = this.elt.width*4;
+    let heightToFill = this.elt.height*4;
+
+    let regionsVert = Math.ceil(heightToFill/regionSide);
+    let regionsHoriz = Math.ceil(widthToFill/regionSide);
+
+    let bufferDist = 0;
+
+    this.cx.restore();
+
+    for (let i = 0; i < regionsVert; i++) {
+      let offset = regionSide - Math.floor(Math.random() * regionSide*2);
+      for (let j = 0; j < regionsHoriz; j++) {
+        let x0 = j * regionSide + offset;
+        let y0 = i * regionSide;
+
+        let xMin = Math.floor(x0 + bufferDist);
+        let xMax = Math.floor(x0 + regionSide - bufferDist - width);
+
+        let yMin = Math.floor(y0 + bufferDist);
+        let yMax = Math.floor(y0 + regionSide - bufferDist - height);
+
+        let x1 = Math.floor(Math.random() * (xMax - xMin)) + xMin;
+        let y1 = Math.floor(Math.random() * (yMax - yMin)) + yMin;
+
+        let phi = Math.floor(Math.random()*360)*Math.PI/180;
+        // console.log(imgs[(i + j)%imgs.length]);
+        let pattern = this.cx.createPattern(this.createPattern(imgs[(i + j)%imgs.length], regionSide, regionSide, phi), 'no-repeat');
+
+        this.cx.save();
+        this.cx.translate(x0, y0);
+
+        this.cx.fillStyle = pattern;
+        this.cx.fillRect(0, 0, regionSide, regionSide);
+
+        this.cx.restore();
+      }
+    }
+
+    this.cx.translate((Math.random()*regionSide + regionSide*1.2)*1, (Math.random()*regionSide + regionSide*1.2)*1);
+
+    callback();
+  }
+
+
   /*
   *
   * For placing the motifs in the foreground of
@@ -471,92 +524,71 @@ module.exports = class {
     // callback();
     // return;
 
-    // Let's assume one foreground pattern for now.
-    // 1. get foreground pattern.
+    // 1. get foreground pattern(s).
     let fgFound = false;
-    let fgPattern = null;
-    let i = 0;
-    while (!fgFound) {
-      let currPat = this.visuals.pattern.components[i];
-      if (currPat.ground === "foreground") {
-        fgPattern = currPat;
-        fgFound = true;
-      } else {
-        i++;
+    let fgPatterns = [];
+    // let i = 0;
+    // console.log(this.visuals.pattern.components);
+    // while (!fgFound) {
+    //   let currPat = this.visuals.pattern.components[i];
+    //   if (currPat.ground === "foreground") {
+    //     fgPattern = currPat;
+    //     fgFound = true;
+    //   } else {
+    //     i++;
+    //   }
+    // }
+    for (let i = 0; i < this.visuals.pattern.components.length; i++) {
+      if (this.visuals.pattern.components[i].ground === "foreground") {
+        fgPatterns.push(this.visuals.pattern.components[i]);
       }
     }
-    // 2. replace colors.
-    let patColors = [];
-    for (let i = 0; i < fgPattern.colors.length; i++) {
-      patColors.push(this.getColor(fgPattern.colors[i]));
-    }
-    if (patColors.length === 1) {
-      fgPattern.src = this.replaceColors(fgPattern, patColors[0]);
-    } else {
-      fgPattern.src = this.replaceMultipleColors(fgPattern, patColors);
-    }
+    console.log(fgPatterns.length);
+    let imgs = [];
+    let loadedImgs = 0;
+    for (let i = 0; i < fgPatterns.length; i++) {
+      // 2. replace colors.
+      let patColors = [];
+      for (let j = 0; j < fgPatterns[i].colors.length; j++) {
+        patColors.push(this.getColor(fgPatterns[i].colors[j]));
+      }
+      if (patColors.length === 1) {
+        fgPatterns[i].src = this.replaceColors(fgPatterns[i], patColors[0]);
+      } else {
+        fgPatterns[i].src = this.replaceMultipleColors(fgPatterns[i], patColors);
+      }
+      // 3. turn into an image.
+      let data = fgPatterns[i].src;
+      var DOMURL = window.URL || window.webkitURL || window;
 
-    // 3. turn into an image.
-    let data = fgPattern.src;
-    var DOMURL = window.URL || window.webkitURL || window;
-
-    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-    var url = DOMURL.createObjectURL(svg);
-    var img = new Image();
-    img.src = url;
-
-    let regionSide = 0;
-
-    img.onload = () => {
-      let dims = this.normalRandomizeFgSize(img.width, img.height);
-
-      let width = Math.floor(dims.width);
-      let height = Math.floor(dims.height);
-
-      regionSide = width*1.5;
-      let widthToFill = this.elt.width*4;
-      let heightToFill = this.elt.height*4;
-
-      let regionsVert = Math.ceil(heightToFill/regionSide);
-      let regionsHoriz = Math.ceil(widthToFill/regionSide);
-
-      let bufferDist = 0;
-      // let bufferDist = regionSide/8;
-
-      this.cx.restore();
-
-      for (let i = 0; i < regionsVert; i++) {
-        let offset = regionSide - Math.floor(Math.random() * regionSide*2);
-        for (let j = 0; j < regionsHoriz; j++) {
-          let x0 = j * regionSide + offset;
-          let y0 = i * regionSide;
-
-          let xMin = Math.floor(x0 + bufferDist);
-          let xMax = Math.floor(x0 + regionSide - bufferDist - width);
-
-          let yMin = Math.floor(y0 + bufferDist);
-          let yMax = Math.floor(y0 + regionSide - bufferDist - height);
-
-          let x1 = Math.floor(Math.random() * (xMax - xMin)) + xMin;
-          let y1 = Math.floor(Math.random() * (yMax - yMin)) + yMin;
-
-          let phi = Math.floor(Math.random()*360)*Math.PI/180;
-          let pattern = this.cx.createPattern(this.createPattern(img, regionSide, regionSide, phi), 'no-repeat');
-
-          this.cx.save();
-          this.cx.translate(x0, y0);
-
-          this.cx.fillStyle = pattern;
-          this.cx.fillRect(0, 0, regionSide, regionSide);
-
-          this.cx.restore();
+      var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+      var url = DOMURL.createObjectURL(svg);
+      var img = new Image();
+      img.src = url;
+      imgs.push(img);
+      img.onload = () => {
+        console.log('another image loaded');
+        ++loadedImgs;
+        console.log(loadedImgs);
+        console.log(imgs.length);
+        if (loadedImgs === imgs.length) {
+          this.fillFreeFg(imgs, callback);
         }
       }
-
-      this.cx.translate((Math.random()*regionSide + regionSide*1.2)*1, (Math.random()*regionSide + regionSide*1.2)*1);
-
-      callback();
     }
+
+    // let regionSide = 0;
+    // // let loadedImgs = 0;
+    //
+    // if (false) {
+    //   // ++loadedImgs;
+    //   img.onload = () => {
+    //     console.log(loadedImgs);
+    //     if (-1 === imgs.length) {
+    //
+    //     }
+    //   }
+    // }
   }
 
 
