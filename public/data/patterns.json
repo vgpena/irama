@@ -38,38 +38,6 @@
   ],
   "lines": [
     {
-      "subtype": "dagger",
-      "background": 2,
-      "components": [
-        {
-          "id": "lines0101",
-          "rule": "placeNext",
-          "colors": [0, 1]
-        },
-        {
-          "id": "lines0102",
-          "rule": "placeNext",
-          "colors": [1]
-        }
-      ]
-    },
-    {
-      "subtype": "dagger",
-      "background": 2,
-      "components": [
-        {
-          "id": "lines0301",
-          "rule": "placeNext",
-          "colors": [0, 2]
-        },
-        {
-          "id": "lines0302",
-          "rule": "placeNext",
-          "colors": [2]
-        }
-      ]
-    },
-    {
       "subtype": "normal",
       "background": 1,
       "components": [

@@ -666,11 +666,12 @@ module.exports = class {
 
     if (this.lang.type === "lines") {
       this.generateLines();
-    } else if (this.lang.type === "free") {
+    } else if (this.lang.type === "free"){
       this.rotateCanvas(() => {
         this.generateFree()
       });
-
+    } else {
+      console.log('grid');
     }
 
     this.contents = this.elt;

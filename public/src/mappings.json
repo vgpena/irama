@@ -2,7 +2,7 @@
   "type": {
     "mapVal": "87A Order of Adjective and Noun",
     "vals": {
-      "1 Adjective-Noun": "grid",
+      "1 Adjective-Noun": "free",
       "2 Noun-Adjective": "lines",
       "3 No dominant order": "free",
       "4 Only internally-headed relative clauses": "lines",

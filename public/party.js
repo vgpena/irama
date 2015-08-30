@@ -8228,38 +8228,6 @@ module.exports={
   ],
   "lines": [
     {
-      "subtype": "dagger",
-      "background": 2,
-      "components": [
-        {
-          "id": "lines0101",
-          "rule": "placeNext",
-          "colors": [0, 1]
-        },
-        {
-          "id": "lines0102",
-          "rule": "placeNext",
-          "colors": [1]
-        }
-      ]
-    },
-    {
-      "subtype": "dagger",
-      "background": 2,
-      "components": [
-        {
-          "id": "lines0301",
-          "rule": "placeNext",
-          "colors": [0, 2]
-        },
-        {
-          "id": "lines0302",
-          "rule": "placeNext",
-          "colors": [2]
-        }
-      ]
-    },
-    {
       "subtype": "normal",
       "background": 1,
       "components": [
@@ -9135,11 +9103,12 @@ module.exports = class {
 
     if (this.lang.type === "lines") {
       this.generateLines();
-    } else if (this.lang.type === "free") {
+    } else if (this.lang.type === "free"){
       this.rotateCanvas(() => {
         this.generateFree()
       });
-
+    } else {
+      console.log('grid');
     }
 
     this.contents = this.elt;
@@ -9233,7 +9202,7 @@ module.exports={
   "type": {
     "mapVal": "87A Order of Adjective and Noun",
     "vals": {
-      "1 Adjective-Noun": "grid",
+      "1 Adjective-Noun": "free",
       "2 Noun-Adjective": "lines",
       "3 No dominant order": "free",
       "4 Only internally-headed relative clauses": "lines",
@@ -9453,8 +9422,8 @@ const Card = require('./card.js');
 let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
-const langMode = "normal";
-// const langMode = "rand";
+// const langMode = "normal";
+const langMode = "rand";
 // const langMode = "chooseByNumber";
 
 // FREE INDICES
