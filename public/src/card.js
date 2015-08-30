@@ -227,22 +227,14 @@ module.exports = class {
     let tCx = tempCan.getContext("2d");
     tempCan.width = width;
     tempCan.height = height;
-    // tCx.save();
     if (typeof phi !== "undefined" && phi) {
-      console.log('======');
-      console.log(width);
-      console.log(height);
-      console.log('======');
-      // tCx.save();
       tCx.translate(width/2, height/2);
       tCx.rotate(phi);
       tCx.translate(width/-2, height/-2);
       tCx.drawImage(image, width*.2, height*.2, width*.6, height*.6);
-      // tCx.restore();
     } else {
       tCx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height);
     }
-    // tCx.restore();
 
     return tempCan;
   }
@@ -513,13 +505,15 @@ module.exports = class {
     var img = new Image();
     img.src = url;
 
+    let regionSide = 0;
+
     img.onload = () => {
       let dims = this.normalRandomizeFgSize(img.width, img.height);
 
       let width = Math.floor(dims.width);
       let height = Math.floor(dims.height);
 
-      let regionSide = width*1.2;
+      regionSide = width*1.5;
       let widthToFill = this.elt.width*4;
       let heightToFill = this.elt.height*4;
 
@@ -544,11 +538,6 @@ module.exports = class {
           let x1 = Math.floor(Math.random() * (xMax - xMin)) + xMin;
           let y1 = Math.floor(Math.random() * (yMax - yMin)) + yMin;
 
-          console.log('------------');
-          console.log(regionSide, j, i);
-          console.log(x1);
-          console.log(y1);
-
           let phi = Math.floor(Math.random()*360)*Math.PI/180;
           let pattern = this.cx.createPattern(this.createPattern(img, regionSide, regionSide, phi), 'no-repeat');
 
@@ -558,17 +547,12 @@ module.exports = class {
           this.cx.fillStyle = pattern;
           this.cx.fillRect(0, 0, regionSide, regionSide);
 
-          // this.cx.strokeStyle = "blue";
-          // this.cx.strokeRect(0, 0, regionSide, regionSide);
           this.cx.restore();
-          // this.cx.fillStyle = "rgba(255, 255, 255, .2)";
-          // this.cx.fillRect(0, 0, regionSide, regionSide);
-          // this.cx.translate(regionSide, 0);
         }
-        // this.cx.translate(0, regionSide);
       }
 
-      // this.cx.translate(regionSide*-1.5, regionSide*-1.5);
+      console.log(regionSide);
+      this.cx.translate(Math.random()*regionSide + regionSide, Math.random()*regionSide + regionSide);
 
       callback();
 
