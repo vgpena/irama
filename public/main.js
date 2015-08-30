@@ -89,41 +89,15 @@ var patColors=[];for(var _i8=0;_i8 < bgPattern.colors.length;_i8++) {patColors.p
 var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var dims=_this4.normalRandomizeBgSize(img.width,img.height);if(bgPattern.scale && bgPattern.scale > 1){dims.width = dims.width * bgPattern.scale;dims.height = dims.height * bgPattern.scale;}var pattern=_this4.cx.createPattern(_this4.createPattern(img,dims.width,dims.height),'repeat'); // fill with pattern
 _this4.cx.fillStyle = pattern; // 4. fill entire cx with this pattern.
 _this4.cx.fillRect(_this4.elt.width * -2,_this4.elt.height * -2,_this4.elt.width * 4,_this4.elt.height * 4);DOMURL.revokeObjectURL(url);}; // this.cx.save();
-callback();}},{key:"fillFreeFg",value:function fillFreeFg(imgs,callback){var regionSide=0;var dims=this.normalRandomizeFgSize(imgs[0].width,imgs[0].height);var width=Math.floor(dims.width);var height=Math.floor(dims.height);regionSide = width * 1.5;var widthToFill=this.elt.width * 4;var heightToFill=this.elt.height * 4;var regionsVert=Math.ceil(heightToFill / regionSide);var regionsHoriz=Math.ceil(widthToFill / regionSide);var bufferDist=0;this.cx.restore();for(var _i9=0;_i9 < regionsVert;_i9++) {var offset=regionSide - Math.floor(Math.random() * regionSide * 2);for(var j=0;j < regionsHoriz;j++) {var x0=j * regionSide + offset;var y0=_i9 * regionSide;var xMin=Math.floor(x0 + bufferDist);var xMax=Math.floor(x0 + regionSide - bufferDist - width);var yMin=Math.floor(y0 + bufferDist);var yMax=Math.floor(y0 + regionSide - bufferDist - height);var x1=Math.floor(Math.random() * (xMax - xMin)) + xMin;var y1=Math.floor(Math.random() * (yMax - yMin)) + yMin;var phi=Math.floor(Math.random() * 360) * Math.PI / 180; // console.log(imgs[(i + j)%imgs.length]);
-var pattern=this.cx.createPattern(this.createPattern(imgs[(_i9 + j) % imgs.length],regionSide,regionSide,phi),'no-repeat');this.cx.save();this.cx.translate(x0,y0);this.cx.fillStyle = pattern;this.cx.fillRect(0,0,regionSide,regionSide);this.cx.restore();}}this.cx.translate((Math.random() * regionSide + regionSide * 1.2) * 1,(Math.random() * regionSide + regionSide * 1.2) * 1);callback();} /*
+callback();}},{key:"fillFreeFg",value:function fillFreeFg(imgs,callback){var regionSide=0;var dims=this.normalRandomizeFgSize(imgs[0].width,imgs[0].height);var width=Math.floor(dims.width);var height=Math.floor(dims.height);regionSide = width * 1.5;var widthToFill=this.elt.width * 4;var heightToFill=this.elt.height * 4;var regionsVert=Math.ceil(heightToFill / regionSide);var regionsHoriz=Math.ceil(widthToFill / regionSide);var bufferDist=0;this.cx.restore();for(var _i9=0;_i9 < regionsVert;_i9++) {var offset=regionSide - Math.floor(Math.random() * regionSide * 2);for(var j=0;j < regionsHoriz;j++) {var x0=j * regionSide + offset;var y0=_i9 * regionSide;var xMin=Math.floor(x0 + bufferDist);var xMax=Math.floor(x0 + regionSide - bufferDist - width);var yMin=Math.floor(y0 + bufferDist);var yMax=Math.floor(y0 + regionSide - bufferDist - height);var x1=Math.floor(Math.random() * (xMax - xMin)) + xMin;var y1=Math.floor(Math.random() * (yMax - yMin)) + yMin;var phi=Math.floor(Math.random() * 360) * Math.PI / 180;var pattern=this.cx.createPattern(this.createPattern(imgs[(_i9 + j) % imgs.length],regionSide,regionSide,phi),'no-repeat');this.cx.save();this.cx.translate(x0,y0);this.cx.fillStyle = pattern;this.cx.fillRect(0,0,regionSide,regionSide);this.cx.restore();}}this.cx.translate((Math.random() * regionSide + regionSide * 1.2) * 1,(Math.random() * regionSide + regionSide * 1.2) * 1);callback();} /*
   *
   * For placing the motifs in the foreground of
   * Free cards.
   *
-  */},{key:"placeFreeFg",value:function placeFreeFg(callback){var _this5=this; // callback();
-// return;
-// 1. get foreground pattern(s).
-var fgFound=false;var fgPatterns=[]; // let i = 0;
-// console.log(this.visuals.pattern.components);
-// while (!fgFound) {
-//   let currPat = this.visuals.pattern.components[i];
-//   if (currPat.ground === "foreground") {
-//     fgPattern = currPat;
-//     fgFound = true;
-//   } else {
-//     i++;
-//   }
-// }
-for(var _i10=0;_i10 < this.visuals.pattern.components.length;_i10++) {if(this.visuals.pattern.components[_i10].ground === "foreground"){fgPatterns.push(this.visuals.pattern.components[_i10]);}}console.log(fgPatterns.length);var imgs=[];var loadedImgs=0;for(var _i11=0;_i11 < fgPatterns.length;_i11++) { // 2. replace colors.
+  */},{key:"placeFreeFg",value:function placeFreeFg(callback){var _this5=this; // 1. get foreground pattern(s).
+var fgFound=false;var fgPatterns=[];for(var _i10=0;_i10 < this.visuals.pattern.components.length;_i10++) {if(this.visuals.pattern.components[_i10].ground === "foreground"){fgPatterns.push(this.visuals.pattern.components[_i10]);}}var imgs=[];var loadedImgs=0;for(var _i11=0;_i11 < fgPatterns.length;_i11++) { // 2. replace colors.
 var patColors=[];for(var j=0;j < fgPatterns[_i11].colors.length;j++) {patColors.push(this.getColor(fgPatterns[_i11].colors[j]));}if(patColors.length === 1){fgPatterns[_i11].src = this.replaceColors(fgPatterns[_i11],patColors[0]);}else {fgPatterns[_i11].src = this.replaceMultipleColors(fgPatterns[_i11],patColors);} // 3. turn into an image.
-var data=fgPatterns[_i11].src;var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;imgs.push(img);img.onload = function(){console.log('another image loaded');++loadedImgs;console.log(loadedImgs);console.log(imgs.length);if(loadedImgs === imgs.length){_this5.fillFreeFg(imgs,callback);}};} // let regionSide = 0;
-// // let loadedImgs = 0;
-//
-// if (false) {
-//   // ++loadedImgs;
-//   img.onload = () => {
-//     console.log(loadedImgs);
-//     if (-1 === imgs.length) {
-//
-//     }
-//   }
-// }
-} /*
+var data=fgPatterns[_i11].src;var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;imgs.push(img);img.onload = function(){++loadedImgs;if(loadedImgs === imgs.length){_this5.fillFreeFg(imgs,callback);}};}} /*
   *
   * Generate a free set of patterns:
   * 1. start with a bg pattern

@@ -495,7 +495,6 @@ module.exports = class {
         let y1 = Math.floor(Math.random() * (yMax - yMin)) + yMin;
 
         let phi = Math.floor(Math.random()*360)*Math.PI/180;
-        // console.log(imgs[(i + j)%imgs.length]);
         let pattern = this.cx.createPattern(this.createPattern(imgs[(i + j)%imgs.length], regionSide, regionSide, phi), 'no-repeat');
 
         this.cx.save();
@@ -521,29 +520,14 @@ module.exports = class {
   *
   */
   placeFreeFg(callback) {
-    // callback();
-    // return;
-
     // 1. get foreground pattern(s).
     let fgFound = false;
     let fgPatterns = [];
-    // let i = 0;
-    // console.log(this.visuals.pattern.components);
-    // while (!fgFound) {
-    //   let currPat = this.visuals.pattern.components[i];
-    //   if (currPat.ground === "foreground") {
-    //     fgPattern = currPat;
-    //     fgFound = true;
-    //   } else {
-    //     i++;
-    //   }
-    // }
     for (let i = 0; i < this.visuals.pattern.components.length; i++) {
       if (this.visuals.pattern.components[i].ground === "foreground") {
         fgPatterns.push(this.visuals.pattern.components[i]);
       }
     }
-    console.log(fgPatterns.length);
     let imgs = [];
     let loadedImgs = 0;
     for (let i = 0; i < fgPatterns.length; i++) {
@@ -567,28 +551,12 @@ module.exports = class {
       img.src = url;
       imgs.push(img);
       img.onload = () => {
-        console.log('another image loaded');
         ++loadedImgs;
-        console.log(loadedImgs);
-        console.log(imgs.length);
         if (loadedImgs === imgs.length) {
           this.fillFreeFg(imgs, callback);
         }
       }
     }
-
-    // let regionSide = 0;
-    // // let loadedImgs = 0;
-    //
-    // if (false) {
-    //   // ++loadedImgs;
-    //   img.onload = () => {
-    //     console.log(loadedImgs);
-    //     if (-1 === imgs.length) {
-    //
-    //     }
-    //   }
-    // }
   }
 
 
