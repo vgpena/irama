@@ -301,8 +301,10 @@ module.exports = class {
   * based on the properties of the lang.
   *
   */
-  rotateCanvas() {
+  rotateCanvas(callback) {
     this.cx.restore();
+    console.log(this.elt.width);
+    console.log(this.elt.height);
     this.cx.translate(this.elt.width/2,this.elt.height/2);
 
     console.log(this.lang);
@@ -310,13 +312,21 @@ module.exports = class {
     let coefficient = this.lang.direction === "right" ? -1 : 1;
     let deg = parseInt(this.lang.angle);
 
+    console.log(deg*coefficient*Math.PI/180);
+
     this.cx.rotate(deg*coefficient*Math.PI/180);
+    // this.cx.fillStyle = "red";
+    // this.cx.fillRect(0, 0, this.elt.width*4, this.elt.height*4);
+
+    callback();
   }
 
 
   finish() {
-    this.cx.translate(this.elt.width*-4, this.elt.height*-4);
-    this.rotateCanvas();
+    this.rotateCanvas(() => {
+      this.cx.restore();
+      this.cx.translate(this.elt.width*-4, this.elt.height*-4);
+    });
   }
 
 
@@ -442,11 +452,12 @@ module.exports = class {
       this.cx.fillStyle = pattern;
 
       // 4. fill entire cx with this pattern.
-      this.cx.fillRect(0, 0, this.elt.width*8, this.elt.height*8);
+      this.cx.fillRect(this.elt.width*-2, this.elt.height*-2, this.elt.width*4, this.elt.height*4);
 
       DOMURL.revokeObjectURL(url);
     }
 
+    // this.cx.save();
     callback();
   }
 
@@ -458,6 +469,9 @@ module.exports = class {
   *
   */
   placeFreeFg(callback) {
+    // callback();
+    // return;
+
     // Let's assume one foreground pattern for now.
     // 1. get foreground pattern.
     let fgFound = false;
@@ -523,8 +537,6 @@ module.exports = class {
 
       while (currFgRepetitions <= this.maxFreeFgRepetitions && currFgPlacementFailures <= this.maxFreePlacementFailures) {
         let areaIsTaken = false;
-        this.cx.save();
-
         // 2. pick coords
         const maxX = this.elt.width*2;
         const maxY = this.elt.height*2;
@@ -569,13 +581,13 @@ module.exports = class {
 
         // if we're good,
         if (!areaIsTaken) {
+          this.cx.save();
           // 4. randomly rotate image
           this.cx.translate(randX + (dims.width/2), randY + (dims.height/2));
           this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
 
           // 5. draw image
           this.cx.drawImage(img, dims.width/-2, dims.height/-2, dims.width, dims.height);
-          this.cx.restore();
 
           // 6. record where we drew it, so that we can't draw over it
           takenAreas.push({
@@ -585,10 +597,10 @@ module.exports = class {
             'height': dims.height*2
           });
           currFgRepetitions++;
+          this.cx.restore();
         } else {
           currFgPlacementFailures++;
         }
-        this.cx.restore();
       }
       if (currFgRepetitions === this.maxFreeFgRepetitions + 1 || currFgPlacementFailures === this.maxFreePlacementFailures + 1) {
         callback();
@@ -607,7 +619,8 @@ module.exports = class {
   generateFree() {
     this.fillFreeBg(() => {
       this.placeFreeFg(() => {
-        this.finish();
+        console.log(':|');
+        // this.finish();
       });
     });
   }
@@ -634,6 +647,7 @@ module.exports = class {
   getContext(callback) {
     let cx = this.elt.getContext('2d');
     this.cx = cx;
+    this.cx.save();
 
     callback();
   }
@@ -653,7 +667,10 @@ module.exports = class {
     if (this.lang.type === "lines") {
       this.generateLines();
     } else if (this.lang.type === "free") {
-      this.generateFree();
+      this.rotateCanvas(() => {
+        this.generateFree()
+      });
+
     }
 
     this.contents = this.elt;
