@@ -8989,17 +8989,20 @@ module.exports = class {
           let phi = Math.floor(Math.random()*360)*Math.PI/180;
           let pattern = this.cx.createPattern(this.createPattern(img, regionSide, regionSide, phi), 'no-repeat');
 
+          this.cx.save();
+          this.cx.translate(x0, y0);
 
           this.cx.fillStyle = pattern;
           this.cx.fillRect(0, 0, regionSide, regionSide);
 
-          this.cx.strokeStyle = "blue";
-          this.cx.strokeRect(0, 0, regionSide, regionSide);
+          // this.cx.strokeStyle = "blue";
+          // this.cx.strokeRect(0, 0, regionSide, regionSide);
+          this.cx.restore();
           // this.cx.fillStyle = "rgba(255, 255, 255, .2)";
           // this.cx.fillRect(0, 0, regionSide, regionSide);
-          this.cx.translate(regionSide, 0);
+          // this.cx.translate(regionSide, 0);
         }
-        this.cx.translate(0, regionSide);
+        // this.cx.translate(0, regionSide);
       }
 
       // this.cx.translate(regionSide*-1.5, regionSide*-1.5);
