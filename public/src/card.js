@@ -389,8 +389,8 @@ module.exports = class {
   *
   */
   normalRandomizeFgSize(width, height) {
-    const minHeight = this.elt.height/(this.linesSets);
-    const maxHeight = this.elt.height/(this.linesSets / 2);
+    const minHeight = this.elt.height/(this.linesSets * 1.25 );
+    const maxHeight = this.elt.height/(this.linesSets / 3);
     const randHeight = Math.floor(Math.random() * maxHeight) + minHeight;
     const newWidth = Math.floor(width * randHeight / height);
 
@@ -520,14 +520,16 @@ module.exports = class {
       let regionsVert = Math.ceil(heightToFill/regionSide);
       let regionsHoriz = Math.ceil(widthToFill/regionSide);
 
-      let bufferDist = regionSide/8;
+      let bufferDist = 0;
+      // let bufferDist = regionSide/8;
 
       this.cx.restore();
 
       for (let i = 0; i < regionsVert; i++) {
+        let offset = regionSide - Math.floor(Math.random() * regionSide*2);
         for (let j = 0; j < regionsHoriz; j++) {
-          let x0 = j*regionSide;
-          let y0 = i*regionSide;
+          let x0 = j * regionSide + offset;
+          let y0 = i * regionSide;
 
           let xMin = Math.floor(x0 + bufferDist);
           let xMax = Math.floor(x0 + regionSide - bufferDist - width);
@@ -551,8 +553,7 @@ module.exports = class {
         }
       }
 
-      console.log(regionSide);
-      this.cx.translate(Math.random()*regionSide + regionSide, Math.random()*regionSide + regionSide);
+      this.cx.translate((Math.random()*regionSide + regionSide*1.2)*1, (Math.random()*regionSide + regionSide*1.2)*1);
 
       callback();
 
@@ -670,8 +671,8 @@ module.exports = class {
   generateFree() {
     this.fillFreeBg(() => {
       this.placeFreeFg(() => {
-        this.cx.translate(this.elt.width*-1, this.elt.height*-1);
-        console.debug('finished');
+        this.cx.translate(this.elt.width*2 - Math.random()*this.elt.width*2, this.elt.height*2 - Math.random()*this.elt.height*2);
+        // console.debug('finished');
       });
     });
   }
@@ -722,8 +723,6 @@ module.exports = class {
       this.rotateCanvas(() => {
         this.generateFree()
       });
-    } else {
-      // console.log('grid');
     }
 
     this.contents = this.elt;

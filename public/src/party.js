@@ -19,8 +19,8 @@ let renderLimit = 20;
 // const mode = "debug";
 const mode = "render";
 // const langMode = "normal";
-// const langMode = "rand";
-const langMode = "chooseByNumber";
+const langMode = "rand";
+// const langMode = "chooseByNumber";
 
 // FREE INDICES
 // const langIndex = 264;
