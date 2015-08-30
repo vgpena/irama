@@ -83,8 +83,7 @@ var patternPlaceRules=[];for(var _i6=0;_i6 < this.visuals.pattern.components.len
   * For filling in the background
   * of Free cards with a single pattern.
   *
-  */},{key:"fillFreeBg",value:function fillFreeBg(callback){var _this3=this; // console.log(this.visuals);
-// 1. choose bg pattern.
+  */},{key:"fillFreeBg",value:function fillFreeBg(callback){var _this3=this; // 1. choose bg pattern.
 var bgFound=false;var bgPattern=null;var i=0;while(!bgFound) {var randPatternIndex=Math.floor(Math.random() * this.visuals.pattern.components.length);if(this.visuals.pattern.components[randPatternIndex].ground === "background"){bgPattern = this.visuals.pattern.components[randPatternIndex];bgFound = true;}} // 2. replace colors.
 var patColors=[];for(var _i8=0;_i8 < bgPattern.colors.length;_i8++) {patColors.push(this.getColor(bgPattern.colors[_i8]));}if(patColors.length === 1){bgPattern.src = this.replaceColors(bgPattern,patColors[0]);}else {bgPattern.src = this.replaceMultipleColors(bgPattern,patColors);}var data=bgPattern.src; // 3. create a pattern, resizing if we need to.
 var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){var dims=_this3.normalRandomizeBgSize(img.width,img.height);if(bgPattern.scale && bgPattern.scale > 1){dims.width = dims.width * bgPattern.scale;dims.height = dims.height * bgPattern.scale;}var pattern=_this3.cx.createPattern(_this3.createPattern(img,dims.width,dims.height),'repeat'); // fill with pattern
@@ -96,9 +95,7 @@ _this3.cx.fillRect(0,0,_this3.elt.width * 8,_this3.elt.height * 8);DOMURL.revoke
   *
   */},{key:"placeFreeFg",value:function placeFreeFg(callback){var _this4=this; // Let's assume one foreground pattern for now.
 // 1. get foreground pattern.
-// console.log(this.visuals);
-var fgFound=false;var fgPattern=null;var i=0;while(!fgFound) {var currPat=this.visuals.pattern.components[i];if(currPat.ground === "foreground"){fgPattern = currPat;fgFound = true;}else {i++;}} // console.log(fgPattern);
-// 2. replace colors.
+var fgFound=false;var fgPattern=null;var i=0;while(!fgFound) {var currPat=this.visuals.pattern.components[i];if(currPat.ground === "foreground"){fgPattern = currPat;fgFound = true;}else {i++;}} // 2. replace colors.
 var patColors=[];for(var _i9=0;_i9 < fgPattern.colors.length;_i9++) {patColors.push(this.getColor(fgPattern.colors[_i9]));}if(patColors.length === 1){fgPattern.src = this.replaceColors(fgPattern,patColors[0]);}else {fgPattern.src = this.replaceMultipleColors(fgPattern,patColors);} // 3. turn into an image.
 var data=fgPattern.src;var DOMURL=window.URL || window.webkitURL || window;var svg=new Blob([data],{type:'image/svg+xml;charset=utf-8'});var url=DOMURL.createObjectURL(svg);var img=new Image();img.src = url;img.onload = function(){ /*
       *
@@ -108,10 +105,10 @@ var data=fgPattern.src;var DOMURL=window.URL || window.webkitURL || window;var s
       * OR tried to place a pattern and failed max number of times,
       * we need to:
       * 1. randomly resize the image within bounds.
-      * 2. randomly rotate the image.
-      * 3. pick random coordinates (inside canvas bounds) to be origin of image.
-      * 4. IF the bounding box of this potential image falls within a "taken" area,
+      * 2. pick random coordinates (inside canvas bounds) to be origin of image.
+      * 3. IF the bounding box of this potential image falls within a "taken" area,
       *   we repeat step 3 until we either fail too much or find coords that work.
+      * 4. randomly rotate the image.
       * 5. We draw this image to the canvas,
       * 6. and save this image's bounding box as a "taken" area.
       *
@@ -119,20 +116,19 @@ var data=fgPattern.src;var DOMURL=window.URL || window.webkitURL || window;var s
       *
       */ // 0. setup
 var currFgRepetitions=0;var currFgPlacementFailures=0;var takenAreas=[]; // 1. resize
-var dims=_this4.normalRandomizeFgSize(img.width,img.height);while(currFgRepetitions <= _this4.maxFreeFgRepetitions && currFgPlacementFailures <= _this4.maxFreePlacementFailures) {var areaIsTaken=false; // console.log(takenAreas);
-// 2. rotate
-_this4.cx.save(); // 3a. pick coords
-var maxX=_this4.elt.width * 2;var maxY=_this4.elt.height * 2;var minX=maxX / -2;var minY=maxY / -2;var randX=Math.floor(Math.random() * maxX) + minX;var randY=Math.floor(Math.random() * maxY) + minY; // console.log(randX, randY);
+var dims=_this4.normalRandomizeFgSize(img.width,img.height);while(currFgRepetitions <= _this4.maxFreeFgRepetitions && currFgPlacementFailures <= _this4.maxFreePlacementFailures) {var areaIsTaken=false;_this4.cx.save(); // 2. pick coords
+var maxX=_this4.elt.width * 2;var maxY=_this4.elt.height * 2;var minX=maxX / -2;var minY=maxY / -2;var randX=Math.floor(Math.random() * maxX) + minX;var randY=Math.floor(Math.random() * maxY) + minY; // 3. check that we can draw here
 if(takenAreas.length > 0){var topLeft=[randX,randY];var topRight=[randX + dims.width,randY];var bottomLeft=[randX,randY + dims.height];var bottomRight=[randX + dims.width,randY + dims.height];var corners=[topLeft,topRight,bottomLeft,bottomRight];for(var _i10=0;_i10 < takenAreas.length;_i10++) { /* for every taken area,
             * test every corner of the rectangle we want to draw.
             * if any corner has x and y values
             * between the x and y values of the corners
             * of the current taken area,
             * then we cannot draw the currently suggested rectangle.
-            */var curr=takenAreas[_i10];var takenLeft=curr.x;var takenTop=curr.y;var takenRight=curr.x + curr.width;var takenBottom=curr.y + curr.height;for(var j=0;j < corners.length;j++) {var currCorner=corners[j];if(currCorner[0] >= takenLeft && currCorner[0] <= takenRight){if(currCorner[1] >= takenTop && currCorner[1] <= takenBottom){areaIsTaken = true;}}}}} // if we're good, draw the image.
-if(!areaIsTaken){ // console.log('draw');
-_this4.cx.translate(randX + dims.width / 2,randY + dims.height / 2);_this4.cx.rotate(Math.floor(Math.random() * 360) * Math.PI / 180);_this4.cx.drawImage(img,dims.width / -2,dims.height / -2,dims.width,dims.height);_this4.cx.restore();takenAreas.push({'x':randX - dims.width / 2,'y':randY - dims.height / 2,'width':dims.width * 2,'height':dims.height * 2});currFgRepetitions++;}else { // console.log('failed to draw :(');
-currFgPlacementFailures++;}_this4.cx.restore();}if(currFgRepetitions === _this4.maxFreeFgRepetitions + 1 || currFgPlacementFailures === _this4.maxFreePlacementFailures + 1){callback();}};} /*
+            */var curr=takenAreas[_i10];var takenLeft=curr.x;var takenTop=curr.y;var takenRight=curr.x + curr.width;var takenBottom=curr.y + curr.height;for(var j=0;j < corners.length;j++) {var currCorner=corners[j];if(currCorner[0] >= takenLeft && currCorner[0] <= takenRight){if(currCorner[1] >= takenTop && currCorner[1] <= takenBottom){areaIsTaken = true;}}}}} // if we're good,
+if(!areaIsTaken){ // 4. randomly rotate image
+_this4.cx.translate(randX + dims.width / 2,randY + dims.height / 2);_this4.cx.rotate(Math.floor(Math.random() * 360) * Math.PI / 180); // 5. draw image
+_this4.cx.drawImage(img,dims.width / -2,dims.height / -2,dims.width,dims.height);_this4.cx.restore(); // 6. record where we drew it, so that we can't draw over it
+takenAreas.push({'x':randX - dims.width / 2,'y':randY - dims.height / 2,'width':dims.width * 2,'height':dims.height * 2});currFgRepetitions++;}else {currFgPlacementFailures++;}_this4.cx.restore();}if(currFgRepetitions === _this4.maxFreeFgRepetitions + 1 || currFgPlacementFailures === _this4.maxFreePlacementFailures + 1){callback();}};} /*
   *
   * Generate a free set of patterns:
   * 1. start with a bg pattern

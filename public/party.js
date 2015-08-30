@@ -8868,7 +8868,6 @@ module.exports = class {
   *
   */
   fillFreeBg(callback) {
-    // console.log(this.visuals);
     // 1. choose bg pattern.
     let bgFound = false;
     let bgPattern = null;
@@ -8930,7 +8929,6 @@ module.exports = class {
   placeFreeFg(callback) {
     // Let's assume one foreground pattern for now.
     // 1. get foreground pattern.
-    // console.log(this.visuals);
     let fgFound = false;
     let fgPattern = null;
     let i = 0;
@@ -8943,7 +8941,6 @@ module.exports = class {
         i++;
       }
     }
-    // console.log(fgPattern);
     // 2. replace colors.
     let patColors = [];
     for (let i = 0; i < fgPattern.colors.length; i++) {
@@ -8973,10 +8970,10 @@ module.exports = class {
       * OR tried to place a pattern and failed max number of times,
       * we need to:
       * 1. randomly resize the image within bounds.
-      * 2. randomly rotate the image.
-      * 3. pick random coordinates (inside canvas bounds) to be origin of image.
-      * 4. IF the bounding box of this potential image falls within a "taken" area,
+      * 2. pick random coordinates (inside canvas bounds) to be origin of image.
+      * 3. IF the bounding box of this potential image falls within a "taken" area,
       *   we repeat step 3 until we either fail too much or find coords that work.
+      * 4. randomly rotate the image.
       * 5. We draw this image to the canvas,
       * 6. and save this image's bounding box as a "taken" area.
       *
@@ -8995,14 +8992,9 @@ module.exports = class {
 
       while (currFgRepetitions <= this.maxFreeFgRepetitions && currFgPlacementFailures <= this.maxFreePlacementFailures) {
         let areaIsTaken = false;
-
-        // console.log(takenAreas);
-
-
-        // 2. rotate
         this.cx.save();
 
-        // 3a. pick coords
+        // 2. pick coords
         const maxX = this.elt.width*2;
         const maxY = this.elt.height*2;
         const minX = maxX/-2;
@@ -9011,8 +9003,7 @@ module.exports = class {
         let randX = Math.floor(Math.random() * maxX) + minX;
         let randY = Math.floor(Math.random() * maxY) + minY;
 
-        // console.log(randX, randY);
-
+        // 3. check that we can draw here
         if (takenAreas.length > 0) {
           const topLeft = [randX, randY];
           const topRight = [randX + dims.width, randY];
@@ -9045,13 +9036,17 @@ module.exports = class {
           }
         }
 
-        // if we're good, draw the image.
+        // if we're good,
         if (!areaIsTaken) {
-          // console.log('draw');
+          // 4. randomly rotate image
           this.cx.translate(randX + (dims.width/2), randY + (dims.height/2));
           this.cx.rotate(Math.floor(Math.random()*360)*Math.PI/180);
+
+          // 5. draw image
           this.cx.drawImage(img, dims.width/-2, dims.height/-2, dims.width, dims.height);
           this.cx.restore();
+
+          // 6. record where we drew it, so that we can't draw over it
           takenAreas.push({
             'x': randX - dims.width/2,
             'y': randY - dims.height/2,
@@ -9060,7 +9055,6 @@ module.exports = class {
           });
           currFgRepetitions++;
         } else {
-          // console.log('failed to draw :(');
           currFgPlacementFailures++;
         }
         this.cx.restore();
