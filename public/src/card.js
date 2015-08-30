@@ -229,9 +229,16 @@ module.exports = class {
     tempCan.height = height;
     // tCx.save();
     if (typeof phi !== "undefined" && phi) {
-      // tCx.translate(width/2, height/2);
-      // tCx.rotate(phi);
-      tCx.drawImage(image, 0, 0, image.width, image.height, width*.2, height*.2, width*.6, height*.6);
+      console.log('======');
+      console.log(width);
+      console.log(height);
+      console.log('======');
+      // tCx.save();
+      tCx.translate(width/2, height/2);
+      tCx.rotate(phi);
+      tCx.translate(width/-2, height/-2);
+      tCx.drawImage(image, width*.2, height*.2, width*.6, height*.6);
+      // tCx.restore();
     } else {
       tCx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height);
     }
@@ -509,8 +516,8 @@ module.exports = class {
     img.onload = () => {
       let dims = this.normalRandomizeFgSize(img.width, img.height);
 
-      let width = dims.width;
-      let height = dims.height;
+      let width = Math.floor(dims.width);
+      let height = Math.floor(dims.height);
 
       let regionSide = width*1.2;
       let widthToFill = this.elt.width*4;
@@ -528,11 +535,11 @@ module.exports = class {
           let x0 = j*regionSide;
           let y0 = i*regionSide;
 
-          let xMin = x0 + bufferDist;
-          let xMax = x0 + regionSide - bufferDist - width;
+          let xMin = Math.floor(x0 + bufferDist);
+          let xMax = Math.floor(x0 + regionSide - bufferDist - width);
 
-          let yMin = y0 + bufferDist;
-          let yMax = y0 + regionSide - bufferDist - height;
+          let yMin = Math.floor(y0 + bufferDist);
+          let yMax = Math.floor(y0 + regionSide - bufferDist - height);
 
           let x1 = Math.floor(Math.random() * (xMax - xMin)) + xMin;
           let y1 = Math.floor(Math.random() * (yMax - yMin)) + yMin;
@@ -543,18 +550,22 @@ module.exports = class {
           console.log(y1);
 
           let phi = Math.floor(Math.random()*360)*Math.PI/180;
-          let pattern = this.cx.createPattern(this.createPattern(img, width, height, phi), 'repeat');
+          let pattern = this.cx.createPattern(this.createPattern(img, regionSide, regionSide, phi), 'no-repeat');
+
 
           this.cx.fillStyle = pattern;
           this.cx.fillRect(0, 0, regionSide, regionSide);
-          this.cx.fillStyle = "rgba(255, 255, 255, .2)";
-          this.cx.fillRect(0, 0, regionSide, regionSide);
+
+          this.cx.strokeStyle = "blue";
+          this.cx.strokeRect(0, 0, regionSide, regionSide);
+          // this.cx.fillStyle = "rgba(255, 255, 255, .2)";
+          // this.cx.fillRect(0, 0, regionSide, regionSide);
           this.cx.translate(regionSide, 0);
         }
         this.cx.translate(0, regionSide);
       }
 
-      this.cx.translate(regionSide*-1.5, regionSide*-1.5);
+      // this.cx.translate(regionSide*-1.5, regionSide*-1.5);
 
       callback();
 
